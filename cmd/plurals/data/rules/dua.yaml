@@ -1,0 +1,106 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4"
+    percent: "#,##0\_%"
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: d/M/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": di
+        "2": "\u014Bg\u0254n"
+        "3": "s\u0254\u014B"
+        "4": "di\u0253"
+        "5": emi
+        "6": "es\u0254"
+        "7": mad
+        "8": "di\u014B"
+        "9": "ny\u025Bt"
+        "10": may
+        "11": tin
+        "12": "el\xE1"
+      narrow:
+        "1": d
+        "2": "\u014B"
+        "3": s
+        "4": d
+        "5": e
+        "6": e
+        "7": m
+        "8": d
+        "9": "n"
+        "10": m
+        "11": t
+        "12": e
+      wide:
+        "1": "dim\u0254\u0301di"
+        "2": "\u014Bg\u0254nd\u025B"
+        "3": "s\u0254\u014B\u025B"
+        "4": "di\u0253\xE1\u0253\xE1"
+        "5": emiasele
+        "6": "es\u0254p\u025Bs\u0254p\u025B"
+        "7": "madi\u0253\u025B\u0301d\xED\u0253\u025B\u0301"
+        "8": "di\u014Bgindi"
+        "9": "ny\u025Bt\u025Bki"
+        "10": "may\xE9s\u025B\u0301"
+        "11": "tin\xEDn\xED"
+        "12": "el\xE1\u014Bg\u025B\u0301"
+    days:
+      abbreviated:
+        sun: "\xE9t"
+        mon: "m\u0254\u0301s"
+        tue: kwa
+        wed: muk
+        thu: "\u014Bgi"
+        fri: "\u0257\xF3n"
+        sat: esa
+      narrow:
+        sun: e
+        mon: m
+        tue: k
+        wed: m
+        thu: "\u014B"
+        fri: "\u0257"
+        sat: e
+      short:
+        sun: "\xE9t"
+        mon: "m\u0254\u0301s"
+        tue: kwa
+        wed: muk
+        thu: "\u014Bgi"
+        fri: "\u0257\xF3n"
+        sat: esa
+      wide:
+        sun: "\xE9ti"
+        mon: "m\u0254\u0301s\xFA"
+        tue: "kwas\xFA"
+        wed: "muk\u0254\u0301s\xFA"
+        thu: "\u014Bgis\xFA"
+        fri: "\u0257\xF3n\u025Bs\xFA"
+        sat: "esa\u0253as\xFA"
+    periods:
+      abbreviated:
+        am: "idi\u0253a"
+        pm: "eby\xE1mu"
+      narrow:
+        am: "idi\u0253a"
+        pm: "eby\xE1mu"
+      wide:
+        am: "idi\u0253a"
+        pm: "eby\xE1mu"

@@ -1,0 +1,92 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4"
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: d/M/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": "\u014B1"
+        "2": "\u014B2"
+        "3": "\u014B3"
+        "4": "\u014B4"
+        "5": "\u014B5"
+        "6": "\u014B6"
+        "7": "\u014B7"
+        "8": "\u014B8"
+        "9": "\u014B9"
+        "10": "\u014B10"
+        "11": "\u014B11"
+        "12": "\u014B12"
+      wide:
+        "1": "\u014Bw\xED\xED a nt\u0254\u0301nt\u0254"
+        "2": "\u014Bw\xED\xED ak\u01DD b\u025B\u0301\u025B"
+        "3": "\u014Bw\xED\xED ak\u01DD r\xE1\xE1"
+        "4": "\u014Bw\xED\xED ak\u01DD nin"
+        "5": "\u014Bw\xED\xED ak\u01DD t\xE1an"
+        "6": "\u014Bw\xED\xED ak\u01DD t\xE1af\u0254k"
+        "7": "\u014Bw\xED\xED ak\u01DD t\xE1ab\u025B\u025B"
+        "8": "\u014Bw\xED\xED ak\u01DD t\xE1araa"
+        "9": "\u014Bw\xED\xED ak\u01DD t\xE1anin"
+        "10": "\u014Bw\xED\xED ak\u01DD nt\u025Bk"
+        "11": "\u014Bw\xED\xED ak\u01DD nt\u025Bk di b\u0254\u0301k"
+        "12": "\u014Bw\xED\xED ak\u01DD nt\u025Bk di b\u025B\u0301\u025B"
+    days:
+      abbreviated:
+        sun: "s\u0254\u0301n"
+        mon: "l\u01DDn"
+        tue: maa
+        wed: "m\u025Bk"
+        thu: "j\u01DD\u01DD"
+        fri: "j\xFAm"
+        sat: sam
+      narrow:
+        sun: s
+        mon: l
+        tue: m
+        wed: m
+        thu: j
+        fri: j
+        sat: s
+      short:
+        sun: "s\u0254\u0301n"
+        mon: "l\u01DDn"
+        tue: maa
+        wed: "m\u025Bk"
+        thu: "j\u01DD\u01DD"
+        fri: "j\xFAm"
+        sat: sam
+      wide:
+        sun: "s\u0254\u0301nd\u01DD"
+        mon: "l\u01DDnd\xED"
+        tue: "maad\xED"
+        wed: "m\u025Bkr\u025Bd\xED"
+        thu: "j\u01DD\u01DDd\xED"
+        fri: "j\xFAmb\xE1"
+        sat: "samd\xED"
+    periods:
+      abbreviated:
+        am: "s\xE1r\xFAw\xE1"
+        pm: "c\u025B\u025B\u0301nko"
+      narrow:
+        am: "s\xE1r\xFAw\xE1"
+        pm: "c\u025B\u025B\u0301nko"
+      wide:
+        am: "s\xE1r\xFAw\xE1"
+        pm: "c\u025B\u025B\u0301nko"

@@ -1,0 +1,9 @@
+direction: LTR
+numbers:
+  formats:
+    currency: "#,##0.00\_\xA4"
+datetime:
+  formats:
+    date:
+      medium: d-MMM-y
+      short: d/MM/yy

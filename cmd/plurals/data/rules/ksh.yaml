@@ -1,0 +1,109 @@
+plural: 3H
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4"
+    percent: "#,##0\_%"
+datetime:
+  formats:
+    date:
+      full: "EEEE, 'd\xE4' d. MMMM y"
+      long: d. MMMM y
+      medium: d. MMM. y
+      short: d. M. y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": Jan
+        "2": "F\xE4b"
+        "3": "M\xE4z"
+        "4": Apr
+        "5": "M\xE4i"
+        "6": Jun
+        "7": Jul
+        "8": Ouj
+        "9": "S\xE4p"
+        "10": Okt
+        "11": Nov
+        "12": Dez
+      narrow:
+        "1": J
+        "2": F
+        "3": M
+        "4": A
+        "5": M
+        "6": J
+        "7": J
+        "8": A
+        "9": S
+        "10": O
+        "11": "N"
+        "12": D
+      wide:
+        "1": Jannewa
+        "2": "F\xE4browa"
+        "3": "M\xE4\xE4z"
+        "4": Aprell
+        "5": "M\xE4i"
+        "6": Juuni
+        "7": Juuli
+        "8": "Oujo\xDF"
+        "9": "Sept\xE4mber"
+        "10": Oktoober
+        "11": "Nov\xE4mber"
+        "12": "Dez\xE4mber"
+    days:
+      abbreviated:
+        sun: Su.
+        mon: Mo.
+        tue: Di.
+        wed: Me.
+        thu: Du.
+        fri: Fr.
+        sat: Sa.
+      narrow:
+        sun: S
+        mon: M
+        tue: D
+        wed: M
+        thu: D
+        fri: F
+        sat: S
+      short:
+        sun: Su
+        mon: Mo
+        tue: Di
+        wed: Me
+        thu: Du
+        fri: Fr
+        sat: Sa
+      wide:
+        sun: Sunndaach
+        mon: Moondaach
+        tue: Dinnsdaach
+        wed: Metwoch
+        thu: Dunnersdaach
+        fri: Friidaach
+        sat: Samsdaach
+    periods:
+      abbreviated:
+        am: v.m.
+        pm: n.m.
+      narrow:
+        am: v.m.
+        pm: n.m.
+      wide:
+        am: "Uhr v\xF6rmiddaachs"
+        pm: Uhr nommendaachs

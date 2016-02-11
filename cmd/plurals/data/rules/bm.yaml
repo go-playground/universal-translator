@@ -1,0 +1,91 @@
+plural: "1"
+direction: LTR
+numbers:
+  formats:
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM, y
+      short: d/M/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": zan
+        "2": feb
+        "3": mar
+        "4": awi
+        "5": "m\u025B"
+        "6": zuw
+        "7": zul
+        "8": uti
+        "9": "s\u025Bt"
+        "10": "\u0254ku"
+        "11": now
+        "12": des
+      narrow:
+        "1": Z
+        "2": F
+        "3": M
+        "4": A
+        "5": M
+        "6": Z
+        "7": Z
+        "8": U
+        "9": S
+        "10": "\u0186"
+        "11": "N"
+        "12": D
+      wide:
+        "1": zanwuye
+        "2": feburuye
+        "3": marisi
+        "4": awirili
+        "5": "m\u025B"
+        "6": "zuw\u025Bn"
+        "7": zuluye
+        "8": uti
+        "9": "s\u025Btanburu"
+        "10": "\u0254kut\u0254buru"
+        "11": nowanburu
+        "12": desanburu
+    days:
+      abbreviated:
+        sun: kar
+        mon: "nt\u025B"
+        tue: tar
+        wed: ara
+        thu: ala
+        fri: jum
+        sat: sib
+      narrow:
+        sun: K
+        mon: "N"
+        tue: T
+        wed: A
+        thu: A
+        fri: J
+        sat: S
+      short:
+        sun: kar
+        mon: "nt\u025B"
+        tue: tar
+        wed: ara
+        thu: ala
+        fri: jum
+        sat: sib
+      wide:
+        sun: kari
+        mon: "nt\u025Bn\u025B"
+        tue: tarata
+        wed: araba
+        thu: alamisa
+        fri: juma
+        sat: sibiri

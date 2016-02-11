@@ -1,0 +1,145 @@
+plural: 2A
+direction: LTR
+numbers:
+  formats:
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+currencies:
+  AUD:
+    symbol: AU$
+  BRL:
+    symbol: R$
+  CAD:
+    symbol: CA$
+  CNY:
+    symbol: "CN\xA5"
+  EUR:
+    symbol: "\u20AC"
+  GBP:
+    symbol: "\xA3"
+  GHS:
+    symbol: "GH\u20B5"
+  HKD:
+    symbol: HK$
+  ILS:
+    symbol: "\u20AA"
+  INR:
+    symbol: "\u20B9"
+  JPY:
+    symbol: "JP\xA5"
+  KRW:
+    symbol: "\u20A9"
+  MXN:
+    symbol: MX$
+  NZD:
+    symbol: NZ$
+  THB:
+    symbol: "\u0E3F"
+  TWD:
+    symbol: NT$
+  USD:
+    symbol: US$
+  VND:
+    symbol: "\u20AB"
+  XCD:
+    symbol: EC$
+datetime:
+  formats:
+    date:
+      full: EEEE, MMMM d 'lia' y
+      long: MMMM d 'lia' y
+      medium: MMM d 'lia', y
+      short: M/d/yy
+    time:
+      full: a h:mm:ss zzzz
+      long: a 'ga' h:mm:ss z
+      medium: a 'ga' h:mm:ss
+      short: a 'ga' h:mm
+    datetime:
+      full: '{0} {1}'
+      long: '{0} {1}'
+      medium: '{0} {1}'
+      short: '{0} {1}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": dzv
+        "2": dzd
+        "3": ted
+        "4": "af\u0254"
+        "5": dam
+        "6": mas
+        "7": sia
+        "8": dea
+        "9": any
+        "10": kel
+        "11": ade
+        "12": dzm
+      narrow:
+        "1": d
+        "2": d
+        "3": t
+        "4": a
+        "5": d
+        "6": m
+        "7": s
+        "8": d
+        "9": a
+        "10": k
+        "11": a
+        "12": d
+      wide:
+        "1": dzove
+        "2": dzodze
+        "3": tedoxe
+        "4": "af\u0254f\u0129e"
+        "5": dama
+        "6": masa
+        "7": "siaml\u0254m"
+        "8": deasiamime
+        "9": "any\u0254ny\u0254"
+        "10": kele
+        "11": "ade\u025Bmekp\u0254xe"
+        "12": dzome
+    days:
+      abbreviated:
+        sun: "k\u0254s"
+        mon: dzo
+        tue: bla
+        wed: "ku\u0256"
+        thu: yaw
+        fri: "fi\u0256"
+        sat: mem
+      narrow:
+        sun: k
+        mon: d
+        tue: b
+        wed: k
+        thu: "y"
+        fri: f
+        sat: m
+      short:
+        sun: "k\u0254s"
+        mon: dzo
+        tue: bla
+        wed: "ku\u0256"
+        thu: yaw
+        fri: "fi\u0256"
+        sat: mem
+      wide:
+        sun: "k\u0254si\u0256a"
+        mon: "dzo\u0256a"
+        tue: "bla\u0256a"
+        wed: "ku\u0256a"
+        thu: "yawo\u0256a"
+        fri: "fi\u0256a"
+        sat: "memle\u0256a"
+    periods:
+      abbreviated:
+        am: "\u014Bdi"
+        pm: "\u0263etr\u0254"
+      narrow:
+        am: "\u014B"
+        pm: "\u0263"
+      wide:
+        am: "\u014Bdi"
+        pm: "\u0263etr\u0254"

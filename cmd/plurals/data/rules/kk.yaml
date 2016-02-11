@@ -1,0 +1,78 @@
+plural: 2A
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+  formats:
+    currency: "#,##0.00\_\xA4"
+currencies:
+  KZT:
+    symbol: "\u20B8"
+  RUB:
+    symbol: "\u0440\u0443\u0431."
+datetime:
+  formats:
+    date:
+      full: "EEEE, d MMMM y '\u0436'."
+      long: "d MMMM y '\u0436'."
+      medium: dd.MM.y
+      short: dd.MM.yy
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": "\u049B\u0430\u04A3."
+        "2": "\u0430\u049B\u043F."
+        "3": "\u043D\u0430\u0443."
+        "4": "\u0441\u04D9\u0443."
+        "5": "\u043C\u0430\u043C."
+        "6": "\u043C\u0430\u0443."
+        "7": "\u0448\u0456\u043B."
+        "8": "\u0442\u0430\u043C."
+        "9": "\u049B\u044B\u0440."
+        "10": "\u049B\u0430\u0437."
+        "11": "\u049B\u0430\u0440."
+        "12": "\u0436\u0435\u043B\u0442."
+      wide:
+        "1": "\u049B\u0430\u04A3\u0442\u0430\u0440"
+        "2": "\u0430\u049B\u043F\u0430\u043D"
+        "3": "\u043D\u0430\u0443\u0440\u044B\u0437"
+        "4": "\u0441\u04D9\u0443\u0456\u0440"
+        "5": "\u043C\u0430\u043C\u044B\u0440"
+        "6": "\u043C\u0430\u0443\u0441\u044B\u043C"
+        "7": "\u0448\u0456\u043B\u0434\u0435"
+        "8": "\u0442\u0430\u043C\u044B\u0437"
+        "9": "\u049B\u044B\u0440\u043A\u04AF\u0439\u0435\u043A"
+        "10": "\u049B\u0430\u0437\u0430\u043D"
+        "11": "\u049B\u0430\u0440\u0430\u0448\u0430"
+        "12": "\u0436\u0435\u043B\u0442\u043E\u049B\u0441\u0430\u043D"
+    days:
+      abbreviated:
+        sun: "\u0436\u0441."
+        mon: "\u0434\u0441."
+        tue: "\u0441\u0441."
+        wed: "\u0441\u0440."
+        thu: "\u0431\u0441."
+        fri: "\u0436\u043C."
+        sat: "\u0441\u04BB."
+      short:
+        sun: "\u0436\u0441."
+        mon: "\u0434\u0441."
+        tue: "\u0441\u0441."
+        wed: "\u0441\u0440."
+        thu: "\u0431\u0441."
+        fri: "\u0436\u043C."
+        sat: "\u0441\u04BB."
+      wide:
+        sun: "\u0436\u0435\u043A\u0441\u0435\u043D\u0456"
+        mon: "\u0434\u0443\u0439\u0441\u0435\u043D\u0431\u0456"
+        tue: "\u0441\u0435\u0439\u0441\u0435\u043D\u0431\u0456"
+        wed: "\u0441\u04D9\u0440\u0435\u043D\u0431\u0456"
+        thu: "\u0431\u0435\u0439\u0441\u0435\u043D\u0431\u0456"
+        fri: "\u0436\u04B1\u043C\u0430"
+        sat: "\u0441\u0435\u043D\u0431\u0456"

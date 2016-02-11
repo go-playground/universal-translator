@@ -1,0 +1,199 @@
+plural: 6A
+direction: RTL
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##0.###;#,##0.###-'
+    currency: "\xA4\_#,##0.00;\xA4\_#,##0.00-"
+    percent: '#,##0%'
+currencies:
+  AED:
+    symbol: "\u062F.\u0625.\u200F"
+  AUD:
+    symbol: AU$
+  BHD:
+    symbol: "\u062F.\u0628.\u200F"
+  BRL:
+    symbol: R$
+  CAD:
+    symbol: CA$
+  CNY:
+    symbol: "\u064A.\u0635"
+  DZD:
+    symbol: "\u062F.\u062C.\u200F"
+  EGP:
+    symbol: "\u062C.\u0645.\u200F"
+  EUR:
+    symbol: "\u20AC"
+  GBP:
+    symbol: "\xA3"
+  HKD:
+    symbol: HK$
+  ILS:
+    symbol: "\u20AA"
+  INR:
+    symbol: "\u0631.\u0647.\u200F"
+  IQD:
+    symbol: "\u062F.\u0639.\u200F"
+  JOD:
+    symbol: "\u062F.\u0623.\u200F"
+  JPY:
+    symbol: "JP\xA5"
+  KMF:
+    symbol: "\u0641.\u062C.\u0642.\u200F"
+  KRW:
+    symbol: "\u20A9"
+  KWD:
+    symbol: "\u062F.\u0643.\u200F"
+  LBP:
+    symbol: "\u0644.\u0644.\u200F"
+  LYD:
+    symbol: "\u062F.\u0644.\u200F"
+  MAD:
+    symbol: "\u062F.\u0645.\u200F"
+  MRO:
+    symbol: "\u0623.\u0645.\u200F"
+  MXN:
+    symbol: MX$
+  NZD:
+    symbol: NZ$
+  OMR:
+    symbol: "\u0631.\u0639.\u200F"
+  QAR:
+    symbol: "\u0631.\u0642.\u200F"
+  SAR:
+    symbol: "\u0631.\u0633.\u200F"
+  SDD:
+    symbol: "\u062F.\u0633.\u200F"
+  SDP:
+    symbol: "\u062C.\u0633.\u200F"
+  SYP:
+    symbol: "\u0644.\u0633.\u200F"
+  THB:
+    symbol: "\u0E3F"
+  TND:
+    symbol: "\u062F.\u062A.\u200F"
+  TWD:
+    symbol: NT$
+  USD:
+    symbol: US$
+  VND:
+    symbol: "\u20AB"
+  XAF:
+    symbol: FCFA
+  XCD:
+    symbol: EC$
+  XOF:
+    symbol: CFA
+  XPF:
+    symbol: CFPF
+  XXX:
+    symbol: '***'
+  YER:
+    symbol: "\u0631.\u064A.\u200F"
+datetime:
+  formats:
+    date:
+      full: "EEEE\u060C d MMMM\u060C y"
+      long: "d MMMM\u060C y"
+      medium: "dd\u200F/MM\u200F/y"
+      short: "d\u200F/M\u200F/y"
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+    datetime:
+      full: '{1} {0}'
+      long: '{1} {0}'
+      medium: '{1} {0}'
+      short: '{1} {0}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": "\u064A\u0646\u0627\u064A\u0631"
+        "2": "\u0641\u0628\u0631\u0627\u064A\u0631"
+        "3": "\u0645\u0627\u0631\u0633"
+        "4": "\u0623\u0628\u0631\u064A\u0644"
+        "5": "\u0645\u0627\u064A\u0648"
+        "6": "\u064A\u0648\u0646\u064A\u0648"
+        "7": "\u064A\u0648\u0644\u064A\u0648"
+        "8": "\u0623\u063A\u0633\u0637\u0633"
+        "9": "\u0633\u0628\u062A\u0645\u0628\u0631"
+        "10": "\u0623\u0643\u062A\u0648\u0628\u0631"
+        "11": "\u0646\u0648\u0641\u0645\u0628\u0631"
+        "12": "\u062F\u064A\u0633\u0645\u0628\u0631"
+      narrow:
+        "1": "\u064A"
+        "2": "\u0641"
+        "3": "\u0645"
+        "4": "\u0623"
+        "5": "\u0648"
+        "6": "\u0646"
+        "7": "\u0644"
+        "8": "\u063A"
+        "9": "\u0633"
+        "10": "\u0643"
+        "11": "\u0628"
+        "12": "\u062F"
+      wide:
+        "1": "\u064A\u0646\u0627\u064A\u0631"
+        "2": "\u0641\u0628\u0631\u0627\u064A\u0631"
+        "3": "\u0645\u0627\u0631\u0633"
+        "4": "\u0623\u0628\u0631\u064A\u0644"
+        "5": "\u0645\u0627\u064A\u0648"
+        "6": "\u064A\u0648\u0646\u064A\u0648"
+        "7": "\u064A\u0648\u0644\u064A\u0648"
+        "8": "\u0623\u063A\u0633\u0637\u0633"
+        "9": "\u0633\u0628\u062A\u0645\u0628\u0631"
+        "10": "\u0623\u0643\u062A\u0648\u0628\u0631"
+        "11": "\u0646\u0648\u0641\u0645\u0628\u0631"
+        "12": "\u062F\u064A\u0633\u0645\u0628\u0631"
+    days:
+      abbreviated:
+        sun: "\u0627\u0644\u0623\u062D\u062F"
+        mon: "\u0627\u0644\u0627\u062B\u0646\u064A\u0646"
+        tue: "\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621"
+        wed: "\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621"
+        thu: "\u0627\u0644\u062E\u0645\u064A\u0633"
+        fri: "\u0627\u0644\u062C\u0645\u0639\u0629"
+        sat: "\u0627\u0644\u0633\u0628\u062A"
+      narrow:
+        sun: "\u062D"
+        mon: "\u0646"
+        tue: "\u062B"
+        wed: "\u0631"
+        thu: "\u062E"
+        fri: "\u062C"
+        sat: "\u0633"
+      short:
+        sun: "\u0627\u0644\u0623\u062D\u062F"
+        mon: "\u0627\u0644\u0627\u062B\u0646\u064A\u0646"
+        tue: "\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621"
+        wed: "\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621"
+        thu: "\u0627\u0644\u062E\u0645\u064A\u0633"
+        fri: "\u0627\u0644\u062C\u0645\u0639\u0629"
+        sat: "\u0627\u0644\u0633\u0628\u062A"
+      wide:
+        sun: "\u0627\u0644\u0623\u062D\u062F"
+        mon: "\u0627\u0644\u0627\u062B\u0646\u064A\u0646"
+        tue: "\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621"
+        wed: "\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621"
+        thu: "\u0627\u0644\u062E\u0645\u064A\u0633"
+        fri: "\u0627\u0644\u062C\u0645\u0639\u0629"
+        sat: "\u0627\u0644\u0633\u0628\u062A"
+    periods:
+      abbreviated:
+        am: "\u0635"
+        pm: "\u0645"
+      narrow:
+        am: "\u0635"
+        pm: "\u0645"
+      wide:
+        am: "\u0635"
+        pm: "\u0645"

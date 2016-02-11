@@ -1,0 +1,93 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4;(#,##0.00\_\xA4)"
+    percent: '#,##0%'
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: d/M/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": o.1
+        "2": o.2
+        "3": o.3
+        "4": o.4
+        "5": o.5
+        "6": o.6
+        "7": o.7
+        "8": o.8
+        "9": o.9
+        "10": o.10
+        "11": o.11
+        "12": o.12
+      wide:
+        "1": "pik\xEDt\xEDk\xEDtie, o\xF3l\xED \xFA kut\xFAan"
+        "2": "si\u025By\u025B\u0301, o\xF3li \xFA k\xE1nd\xED\u025B"
+        "3": "\u0254ns\xFAmb\u0254l, o\xF3li \xFA k\xE1t\xE1t\xFA\u025B"
+        "4": "mesi\u014B, o\xF3li \xFA k\xE9nie"
+        "5": "ensil, o\xF3li \xFA k\xE1t\xE1nu\u025B"
+        "6": "\u0254s\u0254n"
+        "7": efute
+        "8": "pisuy\xFA"
+        "9": "im\u025B\u014B i pu\u0254s"
+        "10": "im\u025B\u014B i put\xFAk,o\xF3li \xFA k\xE1t\xED\u025B"
+        "11": "makandik\u025B"
+        "12": "pil\u0254nd\u0254\u0301"
+    days:
+      abbreviated:
+        sun: sd
+        mon: md
+        tue: mw
+        wed: et
+        thu: kl
+        fri: fl
+        sat: ss
+      narrow:
+        sun: s
+        mon: m
+        tue: m
+        wed: e
+        thu: k
+        fri: f
+        sat: s
+      short:
+        sun: sd
+        mon: md
+        tue: mw
+        wed: et
+        thu: kl
+        fri: fl
+        sat: ss
+      wide:
+        sun: "s\u0254\u0301ndi\u025B"
+        mon: "m\xF3ndie"
+        tue: "mu\xE1ny\xE1\u014Bm\xF3ndie"
+        wed: "met\xFAkp\xED\xE1p\u025B"
+        thu: "k\xFAp\xE9limet\xFAkpiap\u025B"
+        fri: "fel\xE9te"
+        sat: "s\xE9sel\xE9"
+    periods:
+      abbreviated:
+        am: "ki\u025Bm\u025B\u0301\u025Bm"
+        pm: "kis\u025B\u0301nd\u025B"
+      narrow:
+        am: "ki\u025Bm\u025B\u0301\u025Bm"
+        pm: "kis\u025B\u0301nd\u025B"
+      wide:
+        am: "ki\u025Bm\u025B\u0301\u025Bm"
+        pm: "kis\u025B\u0301nd\u025B"

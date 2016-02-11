@@ -1,0 +1,83 @@
+plural: "1"
+direction: LTR
+numbers:
+  formats:
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+currencies:
+  NGN:
+    symbol: "\u20A6"
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": Jen
+        "2": Feb
+        "3": Maa
+        "4": Epr
+        "5": Mee
+        "6": Juu
+        "7": Jul
+        "8": "\u1ECCg\u1ECD"
+        "9": Sep
+        "10": "\u1ECCkt"
+        "11": Nov
+        "12": Dis
+      wide:
+        "1": "Jen\u1EE5war\u1ECB"
+        "2": "Febr\u1EE5war\u1ECB"
+        "3": "Maach\u1ECB"
+        "4": Eprel
+        "5": Mee
+        "6": Juun
+        "7": "Jula\u1ECB"
+        "8": "\u1ECCg\u1ECD\u1ECDst"
+        "9": Septemba
+        "10": "\u1ECCktoba"
+        "11": Novemba
+        "12": Disemba
+    days:
+      abbreviated:
+        sun: "\u1EE4ka"
+        mon: "M\u1ECDn"
+        tue: Tiu
+        wed: Wen
+        thu: "T\u1ECD\u1ECD"
+        fri: "Fra\u1ECB"
+        sat: Sat
+      short:
+        sun: "\u1EE4ka"
+        mon: "M\u1ECDn"
+        tue: Tiu
+        wed: Wen
+        thu: "T\u1ECD\u1ECD"
+        fri: "Fra\u1ECB"
+        sat: Sat
+      wide:
+        sun: "Mb\u1ECDs\u1ECB \u1EE4ka"
+        mon: "M\u1ECDnde"
+        tue: Tiuzdee
+        wed: Wenezdee
+        thu: "T\u1ECD\u1ECDzdee"
+        fri: "Fra\u1ECBdee"
+        sat: "Sat\u1ECDdee"
+    periods:
+      abbreviated:
+        am: A.M.
+        pm: P.M.
+      narrow:
+        am: A.M.
+        pm: P.M.
+      wide:
+        am: A.M.
+        pm: P.M.

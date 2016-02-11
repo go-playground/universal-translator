@@ -1,0 +1,94 @@
+plural: 2B
+direction: LTR
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+  formats:
+    currency: "\xA4#,##0.00"
+currencies:
+  GHS:
+    symbol: "GH\u20B5"
+datetime:
+  formats:
+    date:
+      full: EEEE, y MMMM dd
+      long: y MMMM d
+      medium: y MMM d
+      short: yy/MM/dd
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": "S-\u0186"
+        "2": "K-\u0186"
+        "3": "E-\u0186"
+        "4": E-O
+        "5": E-K
+        "6": O-A
+        "7": A-K
+        "8": "D-\u0186"
+        "9": "F-\u0190"
+        "10": "\u0186-A"
+        "11": "\u0186-O"
+        "12": "M-\u0186"
+      wide:
+        "1": "Sanda-\u0186p\u025Bp\u0254n"
+        "2": "Kwakwar-\u0186gyefuo"
+        "3": "Eb\u0254w-\u0186benem"
+        "4": "Eb\u0254bira-Oforisuo"
+        "5": "Esusow Aketseaba-K\u0254t\u0254nimba"
+        "6": "Obirade-Ay\u025Bwohomumu"
+        "7": "Ay\u025Bwoho-Kitawonsa"
+        "8": "Difuu-\u0186sandaa"
+        "9": "Fankwa-\u0190b\u0254"
+        "10": "\u0186b\u025Bs\u025B-Ahinime"
+        "11": "\u0186ber\u025Bf\u025Bw-Obubuo"
+        "12": "Mumu-\u0186p\u025Bnimba"
+    days:
+      abbreviated:
+        sun: Kwe
+        mon: Dwo
+        tue: Ben
+        wed: Wuk
+        thu: Yaw
+        fri: Fia
+        sat: Mem
+      narrow:
+        sun: K
+        mon: D
+        tue: B
+        wed: W
+        thu: "Y"
+        fri: F
+        sat: M
+      short:
+        sun: Kwe
+        mon: Dwo
+        tue: Ben
+        wed: Wuk
+        thu: Yaw
+        fri: Fia
+        sat: Mem
+      wide:
+        sun: Kwesida
+        mon: Dwowda
+        tue: Benada
+        wed: Wukuda
+        thu: Yawda
+        fri: Fida
+        sat: Memeneda
+    periods:
+      abbreviated:
+        am: AN
+        pm: EW
+      narrow:
+        am: AN
+        pm: EW
+      wide:
+        am: AN
+        pm: EW

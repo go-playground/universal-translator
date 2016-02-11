@@ -1,0 +1,117 @@
+plural: 2A
+direction: LTR
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##,##0.###'
+    currency: "#,##,##0.00\xA4;(#,##,##0.00\xA4)"
+    percent: '#,##,##0%'
+currencies:
+  BDT:
+    symbol: "\u09F3"
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM, y
+      long: d MMMM, y
+      medium: d MMM, y
+      short: d/M/yy
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+    datetime:
+      full: '{1} {0}'
+      long: '{1} {0}'
+      medium: '{1} {0}'
+      short: '{1} {0}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": "\u099C\u09BE\u09A8\u09C1\u09AF\u09BC\u09BE\u09B0\u09C0"
+        "2": "\u09AB\u09C7\u09AC\u09CD\u09B0\u09C1\u09AF\u09BC\u09BE\u09B0\u09C0"
+        "3": "\u09AE\u09BE\u09B0\u09CD\u099A"
+        "4": "\u098F\u09AA\u09CD\u09B0\u09BF\u09B2"
+        "5": "\u09AE\u09C7"
+        "6": "\u099C\u09C1\u09A8"
+        "7": "\u099C\u09C1\u09B2\u09BE\u0987"
+        "8": "\u0986\u0997\u09B8\u09CD\u099F"
+        "9": "\u09B8\u09C7\u09AA\u09CD\u099F\u09C7\u09AE\u09CD\u09AC\u09B0"
+        "10": "\u0985\u0995\u09CD\u099F\u09CB\u09AC\u09B0"
+        "11": "\u09A8\u09AD\u09C7\u09AE\u09CD\u09AC\u09B0"
+        "12": "\u09A1\u09BF\u09B8\u09C7\u09AE\u09CD\u09AC\u09B0"
+      narrow:
+        "1": "\u099C\u09BE"
+        "2": "\u09AB\u09C7"
+        "3": "\u09AE\u09BE"
+        "4": "\u098F"
+        "5": "\u09AE\u09C7"
+        "6": "\u099C\u09C1\u09A8"
+        "7": "\u099C\u09C1"
+        "8": "\u0986"
+        "9": "\u09B8\u09C7"
+        "10": "\u0985"
+        "11": "\u09A8"
+        "12": "\u09A1\u09BF"
+      wide:
+        "1": "\u099C\u09BE\u09A8\u09C1\u09AF\u09BC\u09BE\u09B0\u09C0"
+        "2": "\u09AB\u09C7\u09AC\u09CD\u09B0\u09C1\u09AF\u09BC\u09BE\u09B0\u09C0"
+        "3": "\u09AE\u09BE\u09B0\u09CD\u099A"
+        "4": "\u098F\u09AA\u09CD\u09B0\u09BF\u09B2"
+        "5": "\u09AE\u09C7"
+        "6": "\u099C\u09C1\u09A8"
+        "7": "\u099C\u09C1\u09B2\u09BE\u0987"
+        "8": "\u0986\u0997\u09B8\u09CD\u099F"
+        "9": "\u09B8\u09C7\u09AA\u09CD\u099F\u09C7\u09AE\u09CD\u09AC\u09B0"
+        "10": "\u0985\u0995\u09CD\u099F\u09CB\u09AC\u09B0"
+        "11": "\u09A8\u09AD\u09C7\u09AE\u09CD\u09AC\u09B0"
+        "12": "\u09A1\u09BF\u09B8\u09C7\u09AE\u09CD\u09AC\u09B0"
+    days:
+      abbreviated:
+        sun: "\u09B0\u09AC\u09BF"
+        mon: "\u09B8\u09CB\u09AE"
+        tue: "\u09AE\u0999\u09CD\u0997\u09B2"
+        wed: "\u09AC\u09C1\u09A7"
+        thu: "\u09AC\u09C3\u09B9\u09B8\u09CD\u09AA\u09A4\u09BF"
+        fri: "\u09B6\u09C1\u0995\u09CD\u09B0"
+        sat: "\u09B6\u09A8\u09BF"
+      narrow:
+        sun: "\u09B0"
+        mon: "\u09B8\u09CB"
+        tue: "\u09AE"
+        wed: "\u09AC\u09C1"
+        thu: "\u09AC\u09C3"
+        fri: "\u09B6\u09C1"
+        sat: "\u09B6"
+      short:
+        sun: "\u09B0\u0983"
+        mon: "\u09B8\u09CB\u0983"
+        tue: "\u09AE\u0983"
+        wed: "\u09AC\u09C1\u0983"
+        thu: "\u09AC\u09C3\u0983"
+        fri: "\u09B6\u09C1\u0983"
+        sat: "\u09B6\u09CB\u0983"
+      wide:
+        sun: "\u09B0\u09AC\u09BF\u09AC\u09BE\u09B0"
+        mon: "\u09B8\u09CB\u09AE\u09AC\u09BE\u09B0"
+        tue: "\u09AE\u0999\u09CD\u0997\u09B2\u09AC\u09BE\u09B0"
+        wed: "\u09AC\u09C1\u09A7\u09AC\u09BE\u09B0"
+        thu: "\u09AC\u09C3\u09B9\u09B7\u09CD\u09AA\u09A4\u09BF\u09AC\u09BE\u09B0"
+        fri: "\u09B6\u09C1\u0995\u09CD\u09B0\u09AC\u09BE\u09B0"
+        sat: "\u09B6\u09A8\u09BF\u09AC\u09BE\u09B0"
+    periods:
+      abbreviated:
+        am: "\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09B9\u09CD\u09A3"
+        pm: "\u0985\u09AA\u09B0\u09BE\u09B9\u09CD\u09A3"
+      narrow:
+        am: "\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09B9\u09CD\u09A3"
+        pm: "\u0985\u09AA\u09B0\u09BE\u09B9\u09CD\u09A3"
+      wide:
+        am: "\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09B9\u09CD\u09A3"
+        pm: "\u0985\u09AA\u09B0\u09BE\u09B9\u09CD\u09A3"

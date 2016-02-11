@@ -1,0 +1,104 @@
+plural: "1"
+direction: LTR
+numbers:
+  formats:
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+currencies:
+  KES:
+    symbol: Ksh
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": JEN
+        "2": WKR
+        "3": WGT
+        "4": WKN
+        "5": WTN
+        "6": WTD
+        "7": WMJ
+        "8": WNN
+        "9": WKD
+        "10": WIK
+        "11": WMW
+        "12": DIT
+      narrow:
+        "1": J
+        "2": K
+        "3": G
+        "4": K
+        "5": G
+        "6": G
+        "7": M
+        "8": K
+        "9": K
+        "10": I
+        "11": I
+        "12": D
+      wide:
+        "1": "Njenuar\u0129"
+        "2": "Mwere wa ker\u0129"
+        "3": "Mwere wa gatat\u0169"
+        "4": Mwere wa kana
+        "5": Mwere wa gatano
+        "6": "Mwere wa gatandat\u0169"
+        "7": "Mwere wa m\u0169gwanja"
+        "8": Mwere wa kanana
+        "9": Mwere wa kenda
+        "10": "Mwere wa ik\u0169mi"
+        "11": "Mwere wa ik\u0169mi na \u0169mwe"
+        "12": Ndithemba
+    days:
+      abbreviated:
+        sun: KMA
+        mon: NTT
+        tue: NMN
+        wed: NMT
+        thu: ART
+        fri: NMA
+        sat: NMM
+      narrow:
+        sun: K
+        mon: "N"
+        tue: "N"
+        wed: "N"
+        thu: A
+        fri: "N"
+        sat: "N"
+      short:
+        sun: KMA
+        mon: NTT
+        tue: NMN
+        wed: NMT
+        thu: ART
+        fri: NMA
+        sat: NMM
+      wide:
+        sun: Kiumia
+        mon: "Njumatat\u0169"
+        tue: Njumaine
+        wed: Njumatana
+        thu: Aramithi
+        fri: Njumaa
+        sat: Njumamothi
+    periods:
+      abbreviated:
+        am: Kiroko
+        pm: "Hwa\u0129-in\u0129"
+      narrow:
+        am: Kiroko
+        pm: "Hwa\u0129-in\u0129"
+      wide:
+        am: Kiroko
+        pm: "Hwa\u0129-in\u0129"

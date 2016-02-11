@@ -1,0 +1,104 @@
+plural: "1"
+direction: LTR
+numbers:
+  formats:
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+currencies:
+  KES:
+    symbol: Ksh
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": JAN
+        "2": FEB
+        "3": MAC
+        "4": "\u0128PU"
+        "5": "M\u0128\u0128"
+        "6": NJU
+        "7": NJR
+        "8": AGA
+        "9": SPT
+        "10": OKT
+        "11": NOV
+        "12": DEC
+      narrow:
+        "1": J
+        "2": F
+        "3": M
+        "4": "\u0128"
+        "5": M
+        "6": "N"
+        "7": "N"
+        "8": A
+        "9": S
+        "10": O
+        "11": "N"
+        "12": D
+      wide:
+        "1": "Januar\u0129"
+        "2": "Feburuar\u0129"
+        "3": Machi
+        "4": "\u0128pur\u0169"
+        "5": "M\u0129\u0129"
+        "6": Njuni
+        "7": "Njura\u0129"
+        "8": Agasti
+        "9": Septemba
+        "10": "Okt\u0169ba"
+        "11": Novemba
+        "12": Dicemba
+    days:
+      abbreviated:
+        sun: KIU
+        mon: MRA
+        tue: WAI
+        wed: WET
+        thu: WEN
+        fri: WTN
+        sat: JUM
+      narrow:
+        sun: K
+        mon: M
+        tue: W
+        wed: W
+        thu: W
+        fri: W
+        sat: J
+      short:
+        sun: KIU
+        mon: MRA
+        tue: WAI
+        wed: WET
+        thu: WEN
+        fri: WTN
+        sat: JUM
+      wide:
+        sun: Kiumia
+        mon: Muramuko
+        tue: Wairi
+        wed: Wethatu
+        thu: Wena
+        fri: Wetano
+        sat: Jumamosi
+    periods:
+      abbreviated:
+        am: "R\u0168"
+        pm: "\u0168G"
+      narrow:
+        am: "R\u0168"
+        pm: "\u0168G"
+      wide:
+        am: "R\u0168"
+        pm: "\u0168G"

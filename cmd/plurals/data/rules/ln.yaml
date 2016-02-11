@@ -1,0 +1,111 @@
+plural: 2B
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: .
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4"
+currencies:
+  CDF:
+    symbol: FC
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: d/M/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": yan
+        "2": fbl
+        "3": msi
+        "4": apl
+        "5": mai
+        "6": yun
+        "7": yul
+        "8": agt
+        "9": stb
+        "10": "\u0254tb"
+        "11": nvb
+        "12": dsb
+      narrow:
+        "1": "y"
+        "2": f
+        "3": m
+        "4": a
+        "5": m
+        "6": "y"
+        "7": "y"
+        "8": a
+        "9": s
+        "10": "\u0254"
+        "11": "n"
+        "12": d
+      wide:
+        "1": "s\xE1nz\xE1 ya yambo"
+        "2": "s\xE1nz\xE1 ya m\xEDbal\xE9"
+        "3": "s\xE1nz\xE1 ya m\xEDs\xE1to"
+        "4": "s\xE1nz\xE1 ya m\xEDnei"
+        "5": "s\xE1nz\xE1 ya m\xEDt\xE1no"
+        "6": "s\xE1nz\xE1 ya mot\xF3b\xE1"
+        "7": "s\xE1nz\xE1 ya nsambo"
+        "8": "s\xE1nz\xE1 ya mwambe"
+        "9": "s\xE1nz\xE1 ya libwa"
+        "10": "s\xE1nz\xE1 ya z\xF3mi"
+        "11": "s\xE1nz\xE1 ya z\xF3mi na m\u0254\u030Ck\u0254\u0301"
+        "12": "s\xE1nz\xE1 ya z\xF3mi na m\xEDbal\xE9"
+    days:
+      abbreviated:
+        sun: eye
+        mon: ybo
+        tue: mbl
+        wed: mst
+        thu: min
+        fri: mtn
+        sat: mps
+      narrow:
+        sun: e
+        mon: "y"
+        tue: m
+        wed: m
+        thu: m
+        fri: m
+        sat: p
+      short:
+        sun: eye
+        mon: ybo
+        tue: mbl
+        wed: mst
+        thu: min
+        fri: mtn
+        sat: mps
+      wide:
+        sun: eyenga
+        mon: "mok\u0254l\u0254 mwa yambo"
+        tue: "mok\u0254l\u0254 mwa m\xEDbal\xE9"
+        wed: "mok\u0254l\u0254 mwa m\xEDs\xE1to"
+        thu: "mok\u0254l\u0254 ya m\xEDn\xE9i"
+        fri: "mok\u0254l\u0254 ya m\xEDt\xE1no"
+        sat: "mp\u0254\u0301s\u0254"
+    periods:
+      abbreviated:
+        am: "nt\u0254\u0301ng\u0254\u0301"
+        pm: "mp\xF3kwa"
+      narrow:
+        am: "nt\u0254\u0301ng\u0254\u0301"
+        pm: "mp\xF3kwa"
+      wide:
+        am: "nt\u0254\u0301ng\u0254\u0301"
+        pm: "mp\xF3kwa"

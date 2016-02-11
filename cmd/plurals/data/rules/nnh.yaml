@@ -1,0 +1,85 @@
+plural: 2A
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: .
+    percent: '%'
+currencies:
+  XAF:
+    symbol: FCFA
+datetime:
+  formats:
+    date:
+      full: "EEEE , 'ly\u025B'\u030C\u02BC d 'na' MMMM, y"
+      long: "'ly\u025B'\u030C\u02BC d 'na' MMMM, y"
+      medium: d MMM, y
+      short: dd/MM/yy
+    time:
+      medium: HH:mm:ss a
+    datetime:
+      full: '{1},{0}'
+      long: '{1}, {0}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": "sa\u014B tsets\u025B\u0300\u025B l\xF9m"
+        "2": "sa\u014B k\xE0g ngw\xF3\u014B"
+        "3": "sa\u014B lepy\xE8 sh\xFAm"
+        "4": "sa\u014B c\xFF\xF3"
+        "5": "sa\u014B ts\u025B\u0300\u025B c\xFF\xF3"
+        "6": "sa\u014B nj\xFFol\xE1\u02BC"
+        "7": "sa\u014B ty\u025B\u0300b ty\u025B\u0300b mb\u0289\u0300"
+        "8": "sa\u014B mb\u0289\u0300\u014B"
+        "9": "sa\u014B ngw\u0254\u0300\u02BC mb\xFF\u025B"
+        "10": "sa\u014B t\xE0\u014Ba tsets\xE1\u02BC"
+        "11": "sa\u014B mejwo\u014B\xF3"
+        "12": "sa\u014B l\xF9m"
+      wide:
+        "1": "sa\u014B tsets\u025B\u0300\u025B l\xF9m"
+        "2": "sa\u014B k\xE0g ngw\xF3\u014B"
+        "3": "sa\u014B lepy\xE8 sh\xFAm"
+        "4": "sa\u014B c\xFF\xF3"
+        "5": "sa\u014B ts\u025B\u0300\u025B c\xFF\xF3"
+        "6": "sa\u014B nj\xFFol\xE1\u02BC"
+        "7": "sa\u014B ty\u025B\u0300b ty\u025B\u0300b mb\u0289\u0300"
+        "8": "sa\u014B mb\u0289\u0300\u014B"
+        "9": "sa\u014B ngw\u0254\u0300\u02BC mb\xFF\u025B"
+        "10": "sa\u014B t\xE0\u014Ba tsets\xE1\u02BC"
+        "11": "sa\u014B mejwo\u014B\xF3"
+        "12": "sa\u014B l\xF9m"
+    days:
+      abbreviated:
+        sun: "ly\u025B\u02BC\u025B\u0301 s\u1E85\xED\u014Bt\xE8"
+        mon: "mvf\xF2 ly\u025B\u030C\u02BC"
+        tue: "mb\u0254\u0301\u0254nt\xE8 mvf\xF2 ly\u025B\u030C\u02BC"
+        wed: "ts\xE8ts\u025B\u0300\u025B ly\u025B\u030C\u02BC"
+        thu: "mb\u0254\u0301\u0254nt\xE8 tsets\u025B\u0300\u025B ly\u025B\u030C\u02BC"
+        fri: "mvf\xF2 m\xE0ga ly\u025B\u030C\u02BC"
+        sat: "m\xE0ga ly\u025B\u030C\u02BC"
+      short:
+        sun: "ly\u025B\u02BC\u025B\u0301 s\u1E85\xED\u014Bt\xE8"
+        mon: "mvf\xF2 ly\u025B\u030C\u02BC"
+        tue: "mb\u0254\u0301\u0254nt\xE8 mvf\xF2 ly\u025B\u030C\u02BC"
+        wed: "ts\xE8ts\u025B\u0300\u025B ly\u025B\u030C\u02BC"
+        thu: "mb\u0254\u0301\u0254nt\xE8 tsets\u025B\u0300\u025B ly\u025B\u030C\u02BC"
+        fri: "mvf\xF2 m\xE0ga ly\u025B\u030C\u02BC"
+        sat: "m\xE0ga ly\u025B\u030C\u02BC"
+      wide:
+        sun: "ly\u025B\u02BC\u025B\u0301 s\u1E85\xED\u014Bt\xE8"
+        mon: "mvf\xF2 ly\u025B\u030C\u02BC"
+        tue: "mb\u0254\u0301\u0254nt\xE8 mvf\xF2 ly\u025B\u030C\u02BC"
+        wed: "ts\xE8ts\u025B\u0300\u025B ly\u025B\u030C\u02BC"
+        thu: "mb\u0254\u0301\u0254nt\xE8 tsets\u025B\u0300\u025B ly\u025B\u030C\u02BC"
+        fri: "mvf\xF2 m\xE0ga ly\u025B\u030C\u02BC"
+        sat: "m\xE0ga ly\u025B\u030C\u02BC"
+    periods:
+      abbreviated:
+        am: "mba\u02BC\xE1mba\u02BC"
+        pm: "ncw\xF2nz\xE9m"
+      narrow:
+        am: "mba\u02BC\xE1mba\u02BC"
+        pm: "ncw\xF2nz\xE9m"
+      wide:
+        am: "mba\u02BC\xE1mba\u02BC"
+        pm: "ncw\xF2nz\xE9m"

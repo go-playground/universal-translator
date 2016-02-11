@@ -1,0 +1,85 @@
+plural: 2A
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: .
+currencies:
+  XAF:
+    symbol: FCFA
+datetime:
+  formats:
+    date:
+      full: EEEE dd MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM y
+    time:
+      medium: HH:mm:ss
+      short: HH:mm
+    datetime:
+      full: '{1} {0}'
+      long: '{1} {0}'
+      medium: '{1} {0}'
+      short: '{1} {0}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": pamba
+        "2": wanja
+        "3": "mbiy\u0254 m\u025Bndo\u014Bg\u0254"
+        "4": "Ny\u0254l\u0254mb\u0254\u014Bg\u0254"
+        "5": "M\u0254n\u0254 \u014Bgbanja"
+        "6": "Nya\u014Bgw\u025B \u014Bgbanja"
+        "7": "ku\u014Bgw\u025B"
+        "8": "f\u025B"
+        "9": njapi
+        "10": nyukul
+        "11": "11"
+        "12": "\u0253ul\u0253us\u025B"
+      wide:
+        "1": pamba
+        "2": wanja
+        "3": "mbiy\u0254 m\u025Bndo\u014Bg\u0254"
+        "4": "Ny\u0254l\u0254mb\u0254\u014Bg\u0254"
+        "5": "M\u0254n\u0254 \u014Bgbanja"
+        "6": "Nya\u014Bgw\u025B \u014Bgbanja"
+        "7": "ku\u014Bgw\u025B"
+        "8": "f\u025B"
+        "9": njapi
+        "10": nyukul
+        "11": "11"
+        "12": "\u0253ul\u0253us\u025B"
+    days:
+      abbreviated:
+        sun: "s\u0254ndi"
+        mon: lundi
+        tue: mardi
+        wed: "m\u025Brk\u025Br\u025Bdi"
+        thu: yedi
+        fri: "va\u014Bd\u025Br\u025Bdi"
+        sat: "m\u0254n\u0254 s\u0254ndi"
+      narrow:
+        sun: so
+        mon: lu
+        tue: ma
+        wed: "m\u025B"
+        thu: ye
+        fri: va
+        sat: ms
+      short:
+        sun: "s\u0254ndi"
+        mon: lundi
+        tue: mardi
+        wed: "m\u025Brk\u025Br\u025Bdi"
+        thu: yedi
+        fri: "va\u014Bd\u025Br\u025Bdi"
+        sat: "m\u0254n\u0254 s\u0254ndi"
+      wide:
+        sun: "s\u0254ndi"
+        mon: lundi
+        tue: mardi
+        wed: "m\u025Brk\u025Br\u025Bdi"
+        thu: yedi
+        fri: "va\u014Bd\u025Br\u025Bdi"
+        sat: "m\u0254n\u0254 s\u0254ndi"

@@ -1,0 +1,82 @@
+plural: "1"
+direction: LTR
+numbers:
+  formats:
+    decimal: '#,##,##0.###'
+    currency: "\xA4\_#,##,##0.00"
+    percent: '#,##,##0%'
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM, y
+      long: d MMMM, y
+      medium: dd-MM-y
+      short: d-M-y
+    time:
+      full: h.mm.ss a zzzz
+      long: h.mm.ss a z
+      medium: h.mm.ss a
+      short: h.mm. a
+  formatNames:
+    months:
+      abbreviated:
+        "1": "\u099C\u09BE\u09A8\u09C1"
+        "2": "\u09AB\u09C7\u09AC\u09CD\u09F0\u09C1"
+        "3": "\u09AE\u09BE\u09F0\u09CD\u099A"
+        "4": "\u098F\u09AA\u09CD\u09F0\u09BF\u09B2"
+        "5": "\u09AE\u09C7"
+        "6": "\u099C\u09C1\u09A8"
+        "7": "\u099C\u09C1\u09B2\u09BE\u0987"
+        "8": "\u0986\u0997"
+        "9": "\u09B8\u09C7\u09AA\u09CD\u099F"
+        "10": "\u0985\u0995\u09CD\u099F\u09CB"
+        "11": "\u09A8\u09AD\u09C7"
+        "12": "\u09A1\u09BF\u09B8\u09C7"
+      wide:
+        "1": "\u099C\u09BE\u09A8\u09C1\u09F1\u09BE\u09F0\u09C0"
+        "2": "\u09AB\u09C7\u09AC\u09CD\u09F0\u09C1\u09F1\u09BE\u09F0\u09C0"
+        "3": "\u09AE\u09BE\u09F0\u09CD\u099A"
+        "4": "\u098F\u09AA\u09CD\u09F0\u09BF\u09B2"
+        "5": "\u09AE\u09C7"
+        "6": "\u099C\u09C1\u09A8"
+        "7": "\u099C\u09C1\u09B2\u09BE\u0987"
+        "8": "\u0986\u0997\u09B7\u09CD\u099F"
+        "9": "\u099B\u09C7\u09AA\u09CD\u09A4\u09C7\u09AE\u09CD\u09AC\u09F0"
+        "10": "\u0985\u0995\u09CD\u099F\u09CB\u09AC\u09F0"
+        "11": "\u09A8\u09F1\u09C7\u09AE\u09CD\u09AC\u09F0"
+        "12": "\u09A1\u09BF\u099A\u09C7\u09AE\u09CD\u09AC\u09F0"
+    days:
+      abbreviated:
+        sun: "\u09F0\u09AC\u09BF"
+        mon: "\u09B8\u09CB\u09AE"
+        tue: "\u09AE\u0999\u09CD\u0997\u09B2"
+        wed: "\u09AC\u09C1\u09A7"
+        thu: "\u09AC\u09C3\u09B9\u09B7\u09CD\u09AA\u09A4\u09BF"
+        fri: "\u09B6\u09C1\u0995\u09CD\u09F0"
+        sat: "\u09B6\u09A8\u09BF"
+      short:
+        sun: "\u09F0\u09AC\u09BF"
+        mon: "\u09B8\u09CB\u09AE"
+        tue: "\u09AE\u0999\u09CD\u0997\u09B2"
+        wed: "\u09AC\u09C1\u09A7"
+        thu: "\u09AC\u09C3\u09B9\u09B7\u09CD\u09AA\u09A4\u09BF"
+        fri: "\u09B6\u09C1\u0995\u09CD\u09F0"
+        sat: "\u09B6\u09A8\u09BF"
+      wide:
+        sun: "\u09A6\u09C7\u0993\u09AC\u09BE\u09F0"
+        mon: "\u09B8\u09CB\u09AE\u09AC\u09BE\u09F0"
+        tue: "\u09AE\u0999\u09CD\u0997\u09B2\u09AC\u09BE\u09F0"
+        wed: "\u09AC\u09C1\u09A7\u09AC\u09BE\u09F0"
+        thu: "\u09AC\u09C3\u09B9\u09B7\u09CD\u09AA\u09A4\u09BF\u09AC\u09BE\u09F0"
+        fri: "\u09B6\u09C1\u0995\u09CD\u09F0\u09AC\u09BE\u09F0"
+        sat: "\u09B6\u09A8\u09BF\u09AC\u09BE\u09F0"
+    periods:
+      abbreviated:
+        am: "\u09AA\u09C2\u09F0\u09CD\u09AC\u09BE\u09B9\u09CD\u09A3"
+        pm: "\u0985\u09AA\u09F0\u09BE\u09B9\u09CD\u09A3"
+      narrow:
+        am: "\u09AA\u09C2\u09F0\u09CD\u09AC\u09BE\u09B9\u09CD\u09A3"
+        pm: "\u0985\u09AA\u09F0\u09BE\u09B9\u09CD\u09A3"
+      wide:
+        am: "\u09AA\u09C2\u09F0\u09CD\u09AC\u09BE\u09B9\u09CD\u09A3"
+        pm: "\u0985\u09AA\u09F0\u09BE\u09B9\u09CD\u09A3"

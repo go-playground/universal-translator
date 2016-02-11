@@ -1,0 +1,106 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+  formats:
+    decimal: '#,##0.###'
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+    percent: '#,##0%'
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: d/MM/y
+    time:
+      full: zzzz h:mm:ss a
+      long: z h:mm:ss a
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": Tiop
+        "2": "P\u025Bt"
+        "3": "Du\u0254\u0331\u0254\u0331"
+        "4": Guak
+        "5": "Du\xE4"
+        "6": Kor
+        "7": Pay
+        "8": Thoo
+        "9": "T\u025B\u025B"
+        "10": Laa
+        "11": Kur
+        "12": Tid
+      narrow:
+        "1": T
+        "2": P
+        "3": D
+        "4": G
+        "5": D
+        "6": K
+        "7": P
+        "8": T
+        "9": T
+        "10": L
+        "11": K
+        "12": T
+      wide:
+        "1": "Tiop thar p\u025Bt"
+        "2": "P\u025Bt"
+        "3": "Du\u0254\u0331\u0254\u0331\u014B"
+        "4": Guak
+        "5": "Du\xE4t"
+        "6": Kornyoot
+        "7": "Pay yie\u0331tni"
+        "8": "Tho\u0331o\u0331r"
+        "9": "T\u025B\u025Br"
+        "10": Laath
+        "11": Kur
+        "12": "Tio\u0331p in di\u0331i\u0331t"
+    days:
+      abbreviated:
+        sun: "C\xE4\u014B"
+        mon: Jiec
+        tue: "R\u025Bw"
+        wed: "Di\u0254\u0331k"
+        thu: "\u014Auaan"
+        fri: Dhieec
+        sat: "B\xE4k\u025Bl"
+      narrow:
+        sun: C
+        mon: J
+        tue: R
+        wed: D
+        thu: "\u014A"
+        fri: D
+        sat: B
+      short:
+        sun: "C\xE4\u014B"
+        mon: Jiec
+        tue: "R\u025Bw"
+        wed: "Di\u0254\u0331k"
+        thu: "\u014Auaan"
+        fri: Dhieec
+        sat: "B\xE4k\u025Bl"
+      wide:
+        sun: "C\xE4\u014B ku\u0254th"
+        mon: "Jiec la\u0331t"
+        tue: "R\u025Bw l\xE4tni"
+        wed: "Di\u0254\u0331k l\xE4tni"
+        thu: "\u014Auaan l\xE4tni"
+        fri: "Dhieec l\xE4tni"
+        sat: "B\xE4k\u025Bl l\xE4tni"
+    periods:
+      abbreviated:
+        am: RW
+        pm: "T\u014A"
+      narrow:
+        am: RW
+        pm: "T\u014A"
+      wide:
+        am: RW
+        pm: "T\u014A"

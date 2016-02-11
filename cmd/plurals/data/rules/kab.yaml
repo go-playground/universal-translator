@@ -1,0 +1,107 @@
+plural: 2C
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+  formats:
+    currency: "#,##0.00\xA4"
+currencies:
+  DZD:
+    symbol: DA
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM, y
+      short: d/M/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": Yen
+        "2": Fur
+        "3": "Me\u0263"
+        "4": Yeb
+        "5": May
+        "6": Yun
+        "7": Yul
+        "8": "\u0194uc"
+        "9": Cte
+        "10": Tub
+        "11": Nun
+        "12": "Du\u01E7"
+      narrow:
+        "1": "Y"
+        "2": F
+        "3": M
+        "4": "Y"
+        "5": M
+        "6": "Y"
+        "7": "Y"
+        "8": "\u0194"
+        "9": C
+        "10": T
+        "11": "N"
+        "12": D
+      wide:
+        "1": Yennayer
+        "2": "Fu\u1E5Bar"
+        "3": "Me\u0263res"
+        "4": Yebrir
+        "5": Mayyu
+        "6": Yunyu
+        "7": Yulyu
+        "8": "\u0194uct"
+        "9": "Ctembe\u1E5B"
+        "10": "Tube\u1E5B"
+        "11": "Nunembe\u1E5B"
+        "12": "Du\u01E7embe\u1E5B"
+    days:
+      abbreviated:
+        sun: Yan
+        mon: San
+        tue: "Kra\u1E0D"
+        wed: "Ku\u1E93"
+        thu: Sam
+        fri: "S\u1E0Dis"
+        sat: Say
+      narrow:
+        sun: "Y"
+        mon: S
+        tue: K
+        wed: K
+        thu: S
+        fri: S
+        sat: S
+      short:
+        sun: Yan
+        mon: San
+        tue: "Kra\u1E0D"
+        wed: "Ku\u1E93"
+        thu: Sam
+        fri: "S\u1E0Dis"
+        sat: Say
+      wide:
+        sun: Yanass
+        mon: Sanass
+        tue: "Kra\u1E0Dass"
+        wed: "Ku\u1E93ass"
+        thu: Samass
+        fri: "S\u1E0Disass"
+        sat: Sayass
+    periods:
+      abbreviated:
+        am: n tufat
+        pm: n tmeddit
+      narrow:
+        am: n tufat
+        pm: n tmeddit
+      wide:
+        am: n tufat
+        pm: n tmeddit

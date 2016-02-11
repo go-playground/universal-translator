@@ -1,0 +1,106 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    group: "\u2019"
+  formats:
+    currency: "\xA4#,##0.00"
+currencies:
+  ETB:
+    symbol: Br
+datetime:
+  formats:
+    date:
+      full: "EEEE\u1365 dd MMMM \u130B\u120B\u1233 y G"
+      long: dd MMMM y
+      medium: dd-MMM-y
+      short: dd/MM/yy
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": "\u1303\u1295\u12E9"
+        "2": "\u134C\u1265\u1229"
+        "3": "\u121B\u122D\u127D"
+        "4": "\u12A4\u1355\u1228"
+        "5": "\u121C\u12ED"
+        "6": "\u1301\u1295"
+        "7": "\u1301\u120B\u12ED"
+        "8": "\u12A6\u1308\u1235"
+        "9": "\u1234\u1355\u1274"
+        "10": "\u12A6\u12AD\u1270"
+        "11": "\u1296\u126C\u121D"
+        "12": "\u12F2\u1234\u121D"
+      narrow:
+        "1": "\u1303"
+        "2": "\u134C"
+        "3": "\u121B"
+        "4": "\u12A4"
+        "5": "\u121C"
+        "6": "\u1301"
+        "7": "\u1301"
+        "8": "\u12A6"
+        "9": "\u1234"
+        "10": "\u12A6"
+        "11": "\u1296"
+        "12": "\u12F2"
+      wide:
+        "1": "\u1303\u1295\u12E9\u12C8\u122A"
+        "2": "\u134C\u1265\u1229\u12C8\u122A"
+        "3": "\u121B\u122D\u127D"
+        "4": "\u12A4\u1355\u1228\u120D"
+        "5": "\u121C\u12ED"
+        "6": "\u1301\u1295"
+        "7": "\u1301\u120B\u12ED"
+        "8": "\u12A6\u1308\u1235\u1275"
+        "9": "\u1234\u1355\u1274\u121D\u1260\u122D"
+        "10": "\u12A6\u12AD\u1270\u12CD\u1260\u122D"
+        "11": "\u1296\u126C\u121D\u1260\u122D"
+        "12": "\u12F2\u1234\u121D\u1260\u122D"
+    days:
+      abbreviated:
+        sun: "\u12C8\u130B"
+        mon: "\u1233\u12ED\u1296"
+        tue: "\u121B\u1246\u1233\u129B"
+        wed: "\u12A0\u1229\u12CB"
+        thu: "\u1203\u1219\u1233"
+        fri: "\u12A0\u122D\u1263"
+        sat: "\u1244\u122B"
+      narrow:
+        sun: "\u12C8"
+        mon: "\u1233"
+        tue: "\u121B"
+        wed: "\u12A0"
+        thu: "\u1203"
+        fri: "\u12A0"
+        sat: "\u1244"
+      short:
+        sun: "\u12C8\u130B"
+        mon: "\u1233\u12ED\u1296"
+        tue: "\u121B\u1246\u1233\u129B"
+        wed: "\u12A0\u1229\u12CB"
+        thu: "\u1203\u1219\u1233"
+        fri: "\u12A0\u122D\u1263"
+        sat: "\u1244\u122B"
+      wide:
+        sun: "\u12C8\u130B"
+        mon: "\u1233\u12ED\u1296"
+        tue: "\u121B\u1246\u1233\u129B"
+        wed: "\u12A0\u1229\u12CB"
+        thu: "\u1203\u1219\u1233"
+        fri: "\u12A0\u122D\u1263"
+        sat: "\u1244\u122B"
+    periods:
+      abbreviated:
+        am: "\u121B\u1208\u12F6"
+        pm: "\u1243\u121B"
+      narrow:
+        am: "\u121B\u1208\u12F6"
+        pm: "\u1243\u121B"
+      wide:
+        am: "\u121B\u1208\u12F6"
+        pm: "\u1243\u121B"

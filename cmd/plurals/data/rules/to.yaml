@@ -1,0 +1,117 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#0.###'
+    currency: "\xA4\_#,##0.00"
+    percent: "\u200E#0%"
+currencies:
+  TOP:
+    symbol: T$
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: d/M/yy
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+    datetime:
+      full: '{1} {0}'
+      long: '{1} {0}'
+      medium: '{1} {0}'
+      short: '{1} {0}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": "S\u0101n"
+        "2": "F\u0113p"
+        "3": "Ma\u02BBa"
+        "4": "\u02BBEpe"
+        "5": "M\u0113"
+        "6": Sun
+        "7": Siu
+        "8": "\u02BBAok"
+        "9": Sep
+        "10": "\u02BBOka"
+        "11": "N\u014Dv"
+        "12": "T\u012Bs"
+      narrow:
+        "1": S
+        "2": F
+        "3": M
+        "4": E
+        "5": M
+        "6": S
+        "7": S
+        "8": A
+        "9": S
+        "10": O
+        "11": "N"
+        "12": T
+      wide:
+        "1": "S\u0101nuali"
+        "2": "F\u0113pueli"
+        "3": "Ma\u02BBasi"
+        "4": "\u02BBEpeleli"
+        "5": "M\u0113"
+        "6": Sune
+        "7": Siulai
+        "8": "\u02BBAokosi"
+        "9": Sepitema
+        "10": "\u02BBOkatopa"
+        "11": "N\u014Dvema"
+        "12": "T\u012Bsema"
+    days:
+      abbreviated:
+        sun: "S\u0101p"
+        mon: "M\u014Dn"
+        tue: "T\u016Bs"
+        wed: Pul
+        thu: "Tu\u02BBa"
+        fri: Fal
+        sat: Tok
+      narrow:
+        sun: S
+        mon: M
+        tue: T
+        wed: P
+        thu: T
+        fri: F
+        sat: T
+      short:
+        sun: "S\u0101p"
+        mon: "M\u014Dn"
+        tue: "T\u016Bs"
+        wed: Pul
+        thu: "Tu\u02BBa"
+        fri: Fal
+        sat: Tok
+      wide:
+        sun: "S\u0101pate"
+        mon: "M\u014Dnite"
+        tue: "T\u016Bsite"
+        wed: Pulelulu
+        thu: "Tu\u02BBapulelulu"
+        fri: Falaite
+        sat: Tokonaki
+    periods:
+      abbreviated:
+        am: AM
+        pm: PM
+      narrow:
+        am: AM
+        pm: PM
+      wide:
+        am: AM
+        pm: PM

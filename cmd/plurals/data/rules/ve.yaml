@@ -1,0 +1,67 @@
+plural: 2A
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+  formats:
+    decimal: '#,##0.###'
+    currency: "\xA4#,##0.00"
+    percent: '#,##0%'
+currencies:
+  ZAR:
+    symbol: R
+datetime:
+  formatNames:
+    months:
+      abbreviated:
+        "1": Pha
+        "2": Luh
+        "3": "\u1E70hf"
+        "4": Lam
+        "5": Shu
+        "6": Lwi
+        "7": Lwa
+        "8": "\u1E70ha"
+        "9": Khu
+        "10": Tsh
+        "11": "\u1E3Car"
+        "12": Nye
+      wide:
+        "1": Phando
+        "2": Luhuhi
+        "3": "\u1E70hafamuhwe"
+        "4": Lambamai
+        "5": Shundunthule
+        "6": Fulwi
+        "7": Fulwana
+        "8": "\u1E70hangule"
+        "9": Khubvumedzi
+        "10": Tshimedzi
+        "11": "\u1E3Cara"
+        "12": Nyendavhusiku
+    days:
+      abbreviated:
+        sun: Swo
+        mon: Mus
+        tue: Vhi
+        wed: Rar
+        thu: "\u1E4Aa"
+        fri: "\u1E70an"
+        sat: Mug
+      short:
+        sun: Swo
+        mon: Mus
+        tue: Vhi
+        wed: Rar
+        thu: "\u1E4Aa"
+        fri: "\u1E70an"
+        sat: Mug
+      wide:
+        sun: Swondaha
+        mon: Musumbuluwo
+        tue: "\u1E3Cavhuvhili"
+        wed: "\u1E3Cavhuraru"
+        thu: "\u1E3Cavhu\u1E4Ba"
+        fri: "\u1E3Cavhu\u1E71anu"
+        sat: Mugivhela

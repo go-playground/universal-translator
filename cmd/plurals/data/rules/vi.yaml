@@ -1,0 +1,157 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: .
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4"
+    percent: '#,##0%'
+currencies:
+  AUD:
+    symbol: AU$
+  BRL:
+    symbol: R$
+  CAD:
+    symbol: CA$
+  CNY:
+    symbol: "CN\xA5"
+  EUR:
+    symbol: "\u20AC"
+  GBP:
+    symbol: "\xA3"
+  HKD:
+    symbol: HK$
+  ILS:
+    symbol: "\u20AA"
+  INR:
+    symbol: "\u20B9"
+  JPY:
+    symbol: "JP\xA5"
+  KRW:
+    symbol: "\u20A9"
+  MXN:
+    symbol: MX$
+  NZD:
+    symbol: NZ$
+  THB:
+    symbol: "\u0E3F"
+  TWD:
+    symbol: NT$
+  USD:
+    symbol: US$
+  VND:
+    symbol: "\u20AB"
+  XAF:
+    symbol: FCFA
+  XCD:
+    symbol: EC$
+  XOF:
+    symbol: CFA
+  XPF:
+    symbol: CFPF
+datetime:
+  formats:
+    date:
+      full: "EEEE, 'ng\xE0y' dd MMMM 'n\u0103m' y"
+      long: "'Ng\xE0y' dd 'th\xE1ng' M 'n\u0103m' y"
+      medium: dd-MM-y
+      short: dd/MM/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+    datetime:
+      full: '{0} {1}'
+      long: '{0} {1}'
+      medium: '{0} {1}'
+      short: '{0} {1}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": thg 1
+        "2": thg 2
+        "3": thg 3
+        "4": thg 4
+        "5": thg 5
+        "6": thg 6
+        "7": thg 7
+        "8": thg 8
+        "9": thg 9
+        "10": thg 10
+        "11": thg 11
+        "12": thg 12
+      narrow:
+        "1": "1"
+        "2": "2"
+        "3": "3"
+        "4": "4"
+        "5": "5"
+        "6": "6"
+        "7": "7"
+        "8": "8"
+        "9": "9"
+        "10": "10"
+        "11": "11"
+        "12": "12"
+      wide:
+        "1": "th\xE1ng m\u1ED9t"
+        "2": "th\xE1ng hai"
+        "3": "th\xE1ng ba"
+        "4": "th\xE1ng t\u01B0"
+        "5": "th\xE1ng n\u0103m"
+        "6": "th\xE1ng s\xE1u"
+        "7": "th\xE1ng b\u1EA3y"
+        "8": "th\xE1ng t\xE1m"
+        "9": "th\xE1ng ch\xEDn"
+        "10": "th\xE1ng m\u01B0\u1EDDi"
+        "11": "th\xE1ng m\u01B0\u1EDDi m\u1ED9t"
+        "12": "th\xE1ng m\u01B0\u1EDDi hai"
+    days:
+      abbreviated:
+        sun: CN
+        mon: Th 2
+        tue: Th 3
+        wed: Th 4
+        thu: Th 5
+        fri: Th 6
+        sat: Th 7
+      narrow:
+        sun: CN
+        mon: T2
+        tue: T3
+        wed: T4
+        thu: T5
+        fri: T6
+        sat: T7
+      short:
+        sun: CN
+        mon: T2
+        tue: T3
+        wed: T4
+        thu: T5
+        fri: T6
+        sat: T7
+      wide:
+        sun: "Ch\u1EE7 nh\u1EADt"
+        mon: "Th\u1EE9 hai"
+        tue: "Th\u1EE9 ba"
+        wed: "Th\u1EE9 t\u01B0"
+        thu: "Th\u1EE9 n\u0103m"
+        fri: "Th\u1EE9 s\xE1u"
+        sat: "Th\u1EE9 b\u1EA3y"
+    periods:
+      abbreviated:
+        am: SA
+        pm: CH
+      narrow:
+        am: SA
+        pm: CH
+      wide:
+        am: SA
+        pm: CH

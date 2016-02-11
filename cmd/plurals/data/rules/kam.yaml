@@ -1,0 +1,104 @@
+plural: "1"
+direction: LTR
+numbers:
+  formats:
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+currencies:
+  KES:
+    symbol: Ksh
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": Mbe
+        "2": Kel
+        "3": "Kt\u0169"
+        "4": Kan
+        "5": Ktn
+        "6": Tha
+        "7": Moo
+        "8": Nya
+        "9": Knd
+        "10": "\u0128ku"
+        "11": "\u0128km"
+        "12": "\u0128kl"
+      narrow:
+        "1": M
+        "2": K
+        "3": K
+        "4": K
+        "5": K
+        "6": T
+        "7": M
+        "8": "N"
+        "9": K
+        "10": "\u0128"
+        "11": "\u0128"
+        "12": "\u0128"
+      wide:
+        "1": Mwai wa mbee
+        "2": "Mwai wa kel\u0129"
+        "3": "Mwai wa katat\u0169"
+        "4": Mwai wa kana
+        "5": Mwai wa katano
+        "6": "Mwai wa thanthat\u0169"
+        "7": Mwai wa muonza
+        "8": Mwai wa nyaanya
+        "9": Mwai wa kenda
+        "10": "Mwai wa \u0129kumi"
+        "11": "Mwai wa \u0129kumi na \u0129mwe"
+        "12": "Mwai wa \u0129kumi na il\u0129"
+    days:
+      abbreviated:
+        sun: Wky
+        mon: Wkw
+        tue: Wkl
+        wed: "Wt\u0169"
+        thu: Wkn
+        fri: Wtn
+        sat: Wth
+      narrow:
+        sun: "Y"
+        mon: W
+        tue: E
+        wed: A
+        thu: A
+        fri: A
+        sat: A
+      short:
+        sun: Wky
+        mon: Wkw
+        tue: Wkl
+        wed: "Wt\u0169"
+        thu: Wkn
+        fri: Wtn
+        sat: Wth
+      wide:
+        sun: Wa kyumwa
+        mon: "Wa kwamb\u0129l\u0129lya"
+        tue: "Wa kel\u0129"
+        wed: "Wa katat\u0169"
+        thu: Wa kana
+        fri: Wa katano
+        sat: "Wa thanthat\u0169"
+    periods:
+      abbreviated:
+        am: "\u0128yakwakya"
+        pm: "\u0128yaw\u0129oo"
+      narrow:
+        am: "\u0128yakwakya"
+        pm: "\u0128yaw\u0129oo"
+      wide:
+        am: "\u0128yakwakya"
+        pm: "\u0128yaw\u0129oo"

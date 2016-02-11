@@ -1,0 +1,17 @@
+plural:    "2A"
+direction: "LTR"
+numbers:
+  symbols:
+    decimal:  ","
+    group:    " "
+    negative: "-"
+    percent:  "%"
+    permille: "‰"
+  formats:
+    decimal:  "#,##0.###"
+    currency: "#,##0.00 ¤;(#,##0.00 ¤)"
+    percent:  "#,##0 %"
+currencies:
+  USD:
+    symbol:  "$US"
+    display: "{n} dollar des États-Unis|{n} dollars des États-Unis"

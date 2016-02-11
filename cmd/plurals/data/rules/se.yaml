@@ -1,0 +1,105 @@
+plural: 3B
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+    negative: "\u2212"
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4"
+    percent: "#,##0\_%"
+currencies:
+  DKK:
+    symbol: Dkr
+  NOK:
+    symbol: kr
+  SEK:
+    symbol: Skr
+datetime:
+  formatNames:
+    months:
+      abbreviated:
+        "1": "o\u0111\u0111j"
+        "2": guov
+        "3": njuk
+        "4": cuo
+        "5": mies
+        "6": geas
+        "7": suoi
+        "8": borg
+        "9": "\u010Dak\u010D"
+        "10": golg
+        "11": "sk\xE1b"
+        "12": juov
+      narrow:
+        "1": O
+        "2": G
+        "3": "N"
+        "4": C
+        "5": M
+        "6": G
+        "7": S
+        "8": B
+        "9": "\u010C"
+        "10": G
+        "11": S
+        "12": J
+      wide:
+        "1": "o\u0111\u0111ajagem\xE1nnu"
+        "2": "guovvam\xE1nnu"
+        "3": "njuk\u010Dam\xE1nnu"
+        "4": "cuo\u014Bom\xE1nnu"
+        "5": "miessem\xE1nnu"
+        "6": "geassem\xE1nnu"
+        "7": "suoidnem\xE1nnu"
+        "8": "borgem\xE1nnu"
+        "9": "\u010Dak\u010Dam\xE1nnu"
+        "10": "golggotm\xE1nnu"
+        "11": "sk\xE1bmam\xE1nnu"
+        "12": "juovlam\xE1nnu"
+    days:
+      abbreviated:
+        sun: sotn
+        mon: vuos
+        tue: "ma\u014B"
+        wed: gask
+        thu: duor
+        fri: bear
+        sat: "l\xE1v"
+      narrow:
+        sun: S
+        mon: V
+        tue: M
+        wed: G
+        thu: D
+        fri: B
+        sat: L
+      short:
+        sun: sotn
+        mon: vuos
+        tue: "ma\u014B"
+        wed: gask
+        thu: duor
+        fri: bear
+        sat: "l\xE1v"
+      wide:
+        sun: sotnabeaivi
+        mon: "vuoss\xE1rga"
+        tue: "ma\u014B\u014Beb\xE1rga"
+        wed: gaskavahkku
+        thu: duorasdat
+        fri: bearjadat
+        sat: "l\xE1vvardat"
+    periods:
+      abbreviated:
+        am: i.b.
+        pm: e.b.
+      narrow:
+        am: i.b.
+        pm: e.b.
+      wide:
+        am: "i\u0111itbeaivet"
+        pm: eahketbeaivet

@@ -1,0 +1,81 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+currencies:
+  CNY:
+    symbol: "\xA5"
+datetime:
+  formatNames:
+    months:
+      abbreviated:
+        "1": "1"
+        "2": "2"
+        "3": "3"
+        "4": "4"
+        "5": "5"
+        "6": "6"
+        "7": "7"
+        "8": "8"
+        "9": "9"
+        "10": "10"
+        "11": "11"
+        "12": "12"
+      wide:
+        "1": "\uA2CD\uA1AA"
+        "2": "\uA44D\uA1AA"
+        "3": "\uA315\uA1AA"
+        "4": "\uA1D6\uA1AA"
+        "5": "\uA26C\uA1AA"
+        "6": "\uA0D8\uA1AA"
+        "7": "\uA3C3\uA1AA"
+        "8": "\uA246\uA1AA"
+        "9": "\uA22C\uA1AA"
+        "10": "\uA2B0\uA1AA"
+        "11": "\uA2B0\uA2AA\uA1AA"
+        "12": "\uA2B0\uA44B\uA1AA"
+    days:
+      abbreviated:
+        sun: "\uA46D\uA18F"
+        mon: "\uA18F\uA2CD"
+        tue: "\uA18F\uA44D"
+        wed: "\uA18F\uA315"
+        thu: "\uA18F\uA1D6"
+        fri: "\uA18F\uA26C"
+        sat: "\uA18F\uA0D8"
+      narrow:
+        sun: "\uA18F"
+        mon: "\uA2CD"
+        tue: "\uA44D"
+        wed: "\uA315"
+        thu: "\uA1D6"
+        fri: "\uA26C"
+        sat: "\uA0D8"
+      short:
+        sun: "\uA46D\uA18F"
+        mon: "\uA18F\uA2CD"
+        tue: "\uA18F\uA44D"
+        wed: "\uA18F\uA315"
+        thu: "\uA18F\uA1D6"
+        fri: "\uA18F\uA26C"
+        sat: "\uA18F\uA0D8"
+      wide:
+        sun: "\uA46D\uA18F\uA44D"
+        mon: "\uA18F\uA282\uA2CD"
+        tue: "\uA18F\uA282\uA44D"
+        wed: "\uA18F\uA282\uA315"
+        thu: "\uA18F\uA282\uA1D6"
+        fri: "\uA18F\uA282\uA26C"
+        sat: "\uA18F\uA282\uA0D8"
+    periods:
+      abbreviated:
+        am: "\uA3B8\uA111"
+        pm: "\uA06F\uA2D2"
+      narrow:
+        am: "\uA3B8\uA111"
+        pm: "\uA06F\uA2D2"
+      wide:
+        am: "\uA3B8\uA111"
+        pm: "\uA06F\uA2D2"

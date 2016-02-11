@@ -1,0 +1,112 @@
+plural: 4F
+direction: LTR
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##0.###'
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+    percent: '#,##0%'
+currencies:
+  USD:
+    symbol: $
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": Faoi
+        "2": Gearr
+        "3": "M\xE0rt"
+        "4": Gibl
+        "5": "C\xE8it"
+        "6": "\xD2gmh"
+        "7": Iuch
+        "8": "L\xF9na"
+        "9": Sult
+        "10": "D\xE0mh"
+        "11": Samh
+        "12": "D\xF9bh"
+      narrow:
+        "1": FA
+        "2": GE
+        "3": "M\xC0"
+        "4": GI
+        "5": "C\xC8"
+        "6": "\xD2G"
+        "7": IU
+        "8": "L\xD9"
+        "9": SU
+        "10": "D\xC0"
+        "11": SA
+        "12": "D\xD9"
+      wide:
+        "1": Am Faoilleach
+        "2": An Gearran
+        "3": "Am M\xE0rt"
+        "4": An Giblean
+        "5": "An C\xE8itean"
+        "6": "An t-\xD2gmhios"
+        "7": An t-Iuchar
+        "8": "An L\xF9nastal"
+        "9": An t-Sultain
+        "10": "An D\xE0mhair"
+        "11": An t-Samhain
+        "12": "An D\xF9bhlachd"
+    days:
+      abbreviated:
+        sun: DiD
+        mon: DiL
+        tue: DiM
+        wed: DiC
+        thu: Dia
+        fri: Dih
+        sat: DiS
+      narrow:
+        sun: D
+        mon: L
+        tue: M
+        wed: C
+        thu: A
+        fri: H
+        sat: S
+      short:
+        sun: DiD
+        mon: DiL
+        tue: DiM
+        wed: DiC
+        thu: Dia
+        fri: Dih
+        sat: DiS
+      wide:
+        sun: "DiD\xF2mhnaich"
+        mon: DiLuain
+        tue: "DiM\xE0irt"
+        wed: DiCiadain
+        thu: Diardaoin
+        fri: DihAoine
+        sat: DiSathairne
+    periods:
+      abbreviated:
+        am: m
+        pm: f
+      narrow:
+        am: m
+        pm: f
+      wide:
+        am: m
+        pm: f

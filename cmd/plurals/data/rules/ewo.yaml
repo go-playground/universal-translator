@@ -1,0 +1,106 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4"
+    percent: '#,##0%'
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: d/M/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": ngo
+        "2": ngb
+        "3": ngl
+        "4": ngn
+        "5": ngt
+        "6": ngs
+        "7": ngz
+        "8": ngm
+        "9": nge
+        "10": nga
+        "11": ngad
+        "12": ngab
+      narrow:
+        "1": o
+        "2": b
+        "3": l
+        "4": "n"
+        "5": t
+        "6": s
+        "7": z
+        "8": m
+        "9": e
+        "10": a
+        "11": d
+        "12": b
+      wide:
+        "1": "ng\u0254n os\xFA"
+        "2": "ng\u0254n b\u025B\u030C"
+        "3": "ng\u0254n l\xE1la"
+        "4": "ng\u0254n nyina"
+        "5": "ng\u0254n t\xE1na"
+        "6": "ng\u0254n sam\u0259na"
+        "7": "ng\u0254n zamgb\xE1la"
+        "8": "ng\u0254n mwom"
+        "9": "ng\u0254n ebul\xFA"
+        "10": "ng\u0254n aw\xF3m"
+        "11": "ng\u0254n aw\xF3m ai dzi\xE1"
+        "12": "ng\u0254n aw\xF3m ai b\u025B\u030C"
+    days:
+      abbreviated:
+        sun: "s\u0254\u0301n"
+        mon: "m\u0254\u0301n"
+        tue: smb
+        wed: sml
+        thu: smn
+        fri: "f\xFAl"
+        sat: "s\xE9r"
+      narrow:
+        sun: s
+        mon: m
+        tue: s
+        wed: s
+        thu: s
+        fri: f
+        sat: s
+      short:
+        sun: "s\u0254\u0301n"
+        mon: "m\u0254\u0301n"
+        tue: smb
+        wed: sml
+        thu: smn
+        fri: "f\xFAl"
+        sat: "s\xE9r"
+      wide:
+        sun: "s\u0254\u0301nd\u0254"
+        mon: "m\u0254\u0301ndi"
+        tue: "s\u0254\u0301nd\u0254 m\u0259l\xFA m\u0259\u0301b\u025B\u030C"
+        wed: "s\u0254\u0301nd\u0254 m\u0259l\xFA m\u0259\u0301l\u025B\u0301"
+        thu: "s\u0254\u0301nd\u0254 m\u0259l\xFA m\u0259\u0301nyi"
+        fri: "f\xFAlad\xE9"
+        sat: "s\xE9rad\xE9"
+    periods:
+      abbreviated:
+        am: "k\xEDk\xEDr\xEDg"
+        pm: "ng\u0259g\xF3g\u0259le"
+      narrow:
+        am: "k\xEDk\xEDr\xEDg"
+        pm: "ng\u0259g\xF3g\u0259le"
+      wide:
+        am: "k\xEDk\xEDr\xEDg"
+        pm: "ng\u0259g\xF3g\u0259le"

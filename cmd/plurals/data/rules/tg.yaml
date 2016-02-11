@@ -1,0 +1,80 @@
+plural: 2B
+direction: LTR
+currencies:
+  TJS:
+    symbol: "\u0441\u043E\u043C"
+datetime:
+  formats:
+    date:
+      full: EEEE, y MMMM dd
+      long: y MMMM d
+      medium: y MMM d
+      short: yy/MM/dd
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": "\u042F\u043D\u0432"
+        "2": "\u0424\u0435\u0432"
+        "3": "\u041C\u0430\u0440"
+        "4": "\u0410\u043F\u0440"
+        "5": "\u041C\u0430\u0439"
+        "6": "\u0418\u044E\u043D"
+        "7": "\u0418\u044E\u043B"
+        "8": "\u0410\u0432\u0433"
+        "9": "\u0421\u0435\u043D"
+        "10": "\u041E\u043A\u0442"
+        "11": "\u041D\u043E\u044F"
+        "12": "\u0414\u0435\u043A"
+      wide:
+        "1": "\u042F\u043D\u0432\u0430\u0440"
+        "2": "\u0424\u0435\u0432\u0440\u0430\u043B"
+        "3": "\u041C\u0430\u0440\u0442"
+        "4": "\u0410\u043F\u0440\u0435\u043B"
+        "5": "\u041C\u0430\u0439"
+        "6": "\u0418\u044E\u043D"
+        "7": "\u0418\u044E\u043B"
+        "8": "\u0410\u0432\u0433\u0443\u0441\u0442"
+        "9": "\u0421\u0435\u043D\u0442\u044F\u0431\u0440"
+        "10": "\u041E\u043A\u0442\u044F\u0431\u0440"
+        "11": "\u041D\u043E\u044F\u0431\u0440"
+        "12": "\u0414\u0435\u043A\u0430\u0431\u0440"
+    days:
+      abbreviated:
+        sun: "\u042F\u0448\u0431"
+        mon: "\u0414\u0448\u0431"
+        tue: "\u0421\u0448\u0431"
+        wed: "\u0427\u0448\u0431"
+        thu: "\u041F\u0448\u0431"
+        fri: "\u04B6\u043C\u044A"
+        sat: "\u0428\u043D\u0431"
+      short:
+        sun: "\u042F\u0448\u0431"
+        mon: "\u0414\u0448\u0431"
+        tue: "\u0421\u0448\u0431"
+        wed: "\u0427\u0448\u0431"
+        thu: "\u041F\u0448\u0431"
+        fri: "\u04B6\u043C\u044A"
+        sat: "\u0428\u043D\u0431"
+      wide:
+        sun: "\u042F\u043A\u0448\u0430\u043D\u0431\u0435"
+        mon: "\u0414\u0443\u0448\u0430\u043D\u0431\u0435"
+        tue: "\u0421\u0435\u0448\u0430\u043D\u0431\u0435"
+        wed: "\u0427\u043E\u0440\u0448\u0430\u043D\u0431\u0435"
+        thu: "\u041F\u0430\u043D\u04B7\u0448\u0430\u043D\u0431\u0435"
+        fri: "\u04B6\u0443\u043C\u044A\u0430"
+        sat: "\u0428\u0430\u043D\u0431\u0435"
+    periods:
+      abbreviated:
+        am: "\u043F\u0435. \u0447\u043E."
+        pm: "\u043F\u0430. \u0447\u043E."
+      narrow:
+        am: "\u043F\u0435. \u0447\u043E."
+        pm: "\u043F\u0430. \u0447\u043E."
+      wide:
+        am: "\u043F\u0435. \u0447\u043E."
+        pm: "\u043F\u0430. \u0447\u043E."

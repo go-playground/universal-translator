@@ -1,0 +1,159 @@
+plural: 3E
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4"
+    percent: "#,##0\_%"
+currencies:
+  AUD:
+    symbol: AU$
+  BRL:
+    symbol: R$
+  CAD:
+    symbol: CA$
+  CNY:
+    symbol: "CN\xA5"
+  CZK:
+    symbol: "K\u010D"
+  EUR:
+    symbol: "\u20AC"
+  GBP:
+    symbol: "\xA3"
+  HKD:
+    symbol: HK$
+  ILS:
+    symbol: "\u20AA"
+  INR:
+    symbol: "\u20B9"
+  JPY:
+    symbol: "JP\xA5"
+  KRW:
+    symbol: "\u20A9"
+  MXN:
+    symbol: MX$
+  NZD:
+    symbol: NZ$
+  THB:
+    symbol: "\u0E3F"
+  TWD:
+    symbol: NT$
+  USD:
+    symbol: US$
+  VND:
+    symbol: "\u20AB"
+  XAF:
+    symbol: FCFA
+  XCD:
+    symbol: EC$
+  XOF:
+    symbol: CFA
+  XPF:
+    symbol: CFPF
+datetime:
+  formats:
+    date:
+      full: EEEE, d. MMMM y
+      long: d. MMMM y
+      medium: d. M. y
+      short: dd.MM.yy
+    time:
+      full: H:mm:ss zzzz
+      long: H:mm:ss z
+      medium: H:mm:ss
+      short: H:mm
+    datetime:
+      full: '{1} {0}'
+      long: '{1} {0}'
+      medium: '{1} {0}'
+      short: '{1} {0}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": led
+        "2": "\xFAno"
+        "3": "b\u0159e"
+        "4": dub
+        "5": "kv\u011B"
+        "6": "\u010Dvn"
+        "7": "\u010Dvc"
+        "8": srp
+        "9": "z\xE1\u0159"
+        "10": "\u0159\xEDj"
+        "11": lis
+        "12": pro
+      narrow:
+        "1": "1"
+        "2": "2"
+        "3": "3"
+        "4": "4"
+        "5": "5"
+        "6": "6"
+        "7": "7"
+        "8": "8"
+        "9": "9"
+        "10": "10"
+        "11": "11"
+        "12": "12"
+      wide:
+        "1": ledna
+        "2": "\xFAnora"
+        "3": "b\u0159ezna"
+        "4": dubna
+        "5": "kv\u011Btna"
+        "6": "\u010Dervna"
+        "7": "\u010Dervence"
+        "8": srpna
+        "9": "z\xE1\u0159\xED"
+        "10": "\u0159\xEDjna"
+        "11": listopadu
+        "12": prosince
+    days:
+      abbreviated:
+        sun: ne
+        mon: po
+        tue: "\xFAt"
+        wed: st
+        thu: "\u010Dt"
+        fri: "p\xE1"
+        sat: so
+      narrow:
+        sun: "N"
+        mon: P
+        tue: "\xDA"
+        wed: S
+        thu: "\u010C"
+        fri: P
+        sat: S
+      short:
+        sun: ne
+        mon: po
+        tue: "\xFAt"
+        wed: st
+        thu: "\u010Dt"
+        fri: "p\xE1"
+        sat: so
+      wide:
+        sun: "ned\u011Ble"
+        mon: "pond\u011Bl\xED"
+        tue: "\xFAter\xFD"
+        wed: "st\u0159eda"
+        thu: "\u010Dtvrtek"
+        fri: "p\xE1tek"
+        sat: sobota
+    periods:
+      abbreviated:
+        am: dop.
+        pm: odp.
+      narrow:
+        am: dop.
+        pm: odp.
+      wide:
+        am: dop.
+        pm: odp.

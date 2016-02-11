@@ -1,0 +1,117 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##0.###'
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+    percent: '#,##0%'
+currencies:
+  AUD:
+    symbol: AU$
+datetime:
+  formats:
+    date:
+      full: "y\uB144 M\uC6D4 d\uC77C EEEE"
+      long: "y\uB144 M\uC6D4 d\uC77C"
+      medium: y. M. d.
+      short: yy. M. d.
+    time:
+      full: "a h\uC2DC m\uBD84 s\uCD08 zzzz"
+      long: "a h\uC2DC m\uBD84 s\uCD08 z"
+      medium: a h:mm:ss
+      short: a h:mm
+    datetime:
+      full: '{1} {0}'
+      long: '{1} {0}'
+      medium: '{1} {0}'
+      short: '{1} {0}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": "1\uC6D4"
+        "2": "2\uC6D4"
+        "3": "3\uC6D4"
+        "4": "4\uC6D4"
+        "5": "5\uC6D4"
+        "6": "6\uC6D4"
+        "7": "7\uC6D4"
+        "8": "8\uC6D4"
+        "9": "9\uC6D4"
+        "10": "10\uC6D4"
+        "11": "11\uC6D4"
+        "12": "12\uC6D4"
+      narrow:
+        "1": "1\uC6D4"
+        "2": "2\uC6D4"
+        "3": "3\uC6D4"
+        "4": "4\uC6D4"
+        "5": "5\uC6D4"
+        "6": "6\uC6D4"
+        "7": "7\uC6D4"
+        "8": "8\uC6D4"
+        "9": "9\uC6D4"
+        "10": "10\uC6D4"
+        "11": "11\uC6D4"
+        "12": "12\uC6D4"
+      wide:
+        "1": "1\uC6D4"
+        "2": "2\uC6D4"
+        "3": "3\uC6D4"
+        "4": "4\uC6D4"
+        "5": "5\uC6D4"
+        "6": "6\uC6D4"
+        "7": "7\uC6D4"
+        "8": "8\uC6D4"
+        "9": "9\uC6D4"
+        "10": "10\uC6D4"
+        "11": "11\uC6D4"
+        "12": "12\uC6D4"
+    days:
+      abbreviated:
+        sun: "\uC77C"
+        mon: "\uC6D4"
+        tue: "\uD654"
+        wed: "\uC218"
+        thu: "\uBAA9"
+        fri: "\uAE08"
+        sat: "\uD1A0"
+      narrow:
+        sun: "\uC77C"
+        mon: "\uC6D4"
+        tue: "\uD654"
+        wed: "\uC218"
+        thu: "\uBAA9"
+        fri: "\uAE08"
+        sat: "\uD1A0"
+      short:
+        sun: "\uC77C"
+        mon: "\uC6D4"
+        tue: "\uD654"
+        wed: "\uC218"
+        thu: "\uBAA9"
+        fri: "\uAE08"
+        sat: "\uD1A0"
+      wide:
+        sun: "\uC77C\uC694\uC77C"
+        mon: "\uC6D4\uC694\uC77C"
+        tue: "\uD654\uC694\uC77C"
+        wed: "\uC218\uC694\uC77C"
+        thu: "\uBAA9\uC694\uC77C"
+        fri: "\uAE08\uC694\uC77C"
+        sat: "\uD1A0\uC694\uC77C"
+    periods:
+      abbreviated:
+        am: "\uC624\uC804"
+        pm: "\uC624\uD6C4"
+      narrow:
+        am: "\uC624\uC804"
+        pm: "\uC624\uD6C4"
+      wide:
+        am: "\uC624\uC804"
+        pm: "\uC624\uD6C4"

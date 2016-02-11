@@ -1,0 +1,108 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: .
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\xA4"
+currencies:
+  CDF:
+    symbol: FC
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: d/M/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": Cio
+        "2": Lui
+        "3": Lus
+        "4": Muu
+        "5": Lum
+        "6": Luf
+        "7": Kab
+        "8": Lush
+        "9": Lut
+        "10": Lun
+        "11": Kas
+        "12": Cis
+      narrow:
+        "1": C
+        "2": L
+        "3": L
+        "4": M
+        "5": L
+        "6": L
+        "7": K
+        "8": L
+        "9": L
+        "10": L
+        "11": K
+        "12": C
+      wide:
+        "1": Ciongo
+        "2": "L\xF9ishi"
+        "3": "Lus\xF2lo"
+        "4": "M\xF9uy\xE0"
+        "5": "Lum\xF9ng\xF9l\xF9"
+        "6": Lufuimi
+        "7": "Kab\xE0l\xE0sh\xECp\xF9"
+        "8": "L\xF9sh\xECk\xE0"
+        "9": Lutongolo
+        "10": "Lung\xF9di"
+        "11": "Kasw\xE8k\xE8s\xE8"
+        "12": "Cisw\xE0"
+    days:
+      abbreviated:
+        sun: Lum
+        mon: Nko
+        tue: Ndy
+        wed: Ndg
+        thu: Njw
+        fri: Ngv
+        sat: Lub
+      narrow:
+        sun: L
+        mon: "N"
+        tue: "N"
+        wed: "N"
+        thu: "N"
+        fri: "N"
+        sat: L
+      short:
+        sun: Lum
+        mon: Nko
+        tue: Ndy
+        wed: Ndg
+        thu: Njw
+        fri: Ngv
+        sat: Lub
+      wide:
+        sun: Lumingu
+        mon: Nkodya
+        tue: "Nd\xE0ay\xE0"
+        wed: "Ndang\xF9"
+        thu: "Nj\xF2wa"
+        fri: "Ng\xF2vya"
+        sat: Lubingu
+    periods:
+      abbreviated:
+        am: Dinda
+        pm: Dilolo
+      narrow:
+        am: Dinda
+        pm: Dilolo
+      wide:
+        am: Dinda
+        pm: Dilolo

@@ -1,0 +1,104 @@
+plural: 3B
+direction: LTR
+numbers:
+  formats:
+    currency: "\xA4#,##0.00"
+currencies:
+  NAD:
+    symbol: $
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": Jan
+        "2": Feb
+        "3": Mar
+        "4": Apr
+        "5": May
+        "6": Jun
+        "7": Jul
+        "8": Aug
+        "9": Sep
+        "10": Oct
+        "11": Nov
+        "12": Dec
+      narrow:
+        "1": J
+        "2": F
+        "3": M
+        "4": A
+        "5": M
+        "6": J
+        "7": J
+        "8": A
+        "9": S
+        "10": O
+        "11": "N"
+        "12": D
+      wide:
+        "1": "\u01C3Khanni"
+        "2": "\u01C3Khan\u01C0g\xF4ab"
+        "3": "\u01C0Khuu\u01C1kh\xE2b"
+        "4": "\u01C3H\xF4a\u01C2khaib"
+        "5": "\u01C3Khaits\xE2b"
+        "6": "Gama\u01C0aeb"
+        "7": "\u01C2Khoesaob"
+        "8": "Ao\u01C1khuum\xFB\u01C1kh\xE2b"
+        "9": "Tara\u01C0khuum\xFB\u01C1kh\xE2b"
+        "10": "\u01C2N\xFB\u01C1n\xE2iseb"
+        "11": "\u01C0Hoo\u01C2gaeb"
+        "12": "H\xF4asore\u01C1kh\xE2b"
+    days:
+      abbreviated:
+        sun: Son
+        mon: Ma
+        tue: De
+        wed: Wu
+        thu: Do
+        fri: Fr
+        sat: Sat
+      narrow:
+        sun: S
+        mon: M
+        tue: E
+        wed: W
+        thu: D
+        fri: F
+        sat: A
+      short:
+        sun: Son
+        mon: Ma
+        tue: De
+        wed: Wu
+        thu: Do
+        fri: Fr
+        sat: Sat
+      wide:
+        sun: Sontaxtsees
+        mon: Mantaxtsees
+        tue: Denstaxtsees
+        wed: Wunstaxtsees
+        thu: Dondertaxtsees
+        fri: Fraitaxtsees
+        sat: Satertaxtsees
+    periods:
+      abbreviated:
+        am: "\u01C1goagas"
+        pm: "\u01C3uias"
+      narrow:
+        am: "\u01C1goagas"
+        pm: "\u01C3uias"
+      wide:
+        am: "\u01C1goagas"
+        pm: "\u01C3uias"

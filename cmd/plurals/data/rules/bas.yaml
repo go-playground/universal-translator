@@ -1,0 +1,106 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4"
+    percent: "#,##0\_%"
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM, y
+      short: d/M/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": "k\u0254n"
+        "2": mac
+        "3": mat
+        "4": mto
+        "5": mpu
+        "6": hil
+        "7": nje
+        "8": hik
+        "9": dip
+        "10": bio
+        "11": may
+        "12": "li\u0253"
+      narrow:
+        "1": k
+        "2": m
+        "3": m
+        "4": m
+        "5": m
+        "6": h
+        "7": "n"
+        "8": h
+        "9": d
+        "10": b
+        "11": m
+        "12": l
+      wide:
+        "1": "K\u0254nd\u0254\u014B"
+        "2": "M\xE0c\u025B\u0302l"
+        "3": "M\xE0t\xF9mb"
+        "4": "M\xE0top"
+        "5": "M\u0300puy\u025B"
+        "6": "H\xECl\xF2nd\u025B\u0300"
+        "7": "Nj\xE8b\xE0"
+        "8": "H\xECka\u014B"
+        "9": "D\xECp\u0254\u0300s"
+        "10": "B\xEC\xF2\xF4m"
+        "11": "M\xE0y\u025Bs\xE8p"
+        "12": "L\xECbuy li \u0144y\xE8e"
+    days:
+      abbreviated:
+        sun: "n\u0254y"
+        mon: nja
+        tue: uum
+        wed: "\u014Bge"
+        thu: "mb\u0254"
+        fri: "k\u0254\u0254"
+        sat: jon
+      narrow:
+        sun: "n"
+        mon: "n"
+        tue: u
+        wed: "\u014B"
+        thu: m
+        fri: k
+        sat: j
+      short:
+        sun: "n\u0254y"
+        mon: nja
+        tue: uum
+        wed: "\u014Bge"
+        thu: "mb\u0254"
+        fri: "k\u0254\u0254"
+        sat: jon
+      wide:
+        sun: "\u014Bgw\xE0 n\u0254\u0302y"
+        mon: "\u014Bgw\xE0 nja\u014Bgumba"
+        tue: "\u014Bgw\xE0 \xFBm"
+        wed: "\u014Bgw\xE0 \u014Bg\xEA"
+        thu: "\u014Bgw\xE0 mb\u0254k"
+        fri: "\u014Bgw\xE0 k\u0254\u0254"
+        sat: "\u014Bgw\xE0 j\xF4n"
+    periods:
+      abbreviated:
+        am: "I bik\u025B\u0302gl\xE0"
+        pm: "I \u0253ugaj\u0254p"
+      narrow:
+        am: "I bik\u025B\u0302gl\xE0"
+        pm: "I \u0253ugaj\u0254p"
+      wide:
+        am: "I bik\u025B\u0302gl\xE0"
+        pm: "I \u0253ugaj\u0254p"

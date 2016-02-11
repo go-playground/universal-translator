@@ -1,0 +1,93 @@
+plural: 2A
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\u2019"
+currencies:
+  JPY:
+    symbol: "\xA5"
+  RUB:
+    symbol: "\u0440\u0443\u0431"
+  USD:
+    symbol: $
+datetime:
+  formats:
+    date:
+      full: EEEE, d. MMMM y
+      long: d. MMMM y
+      medium: d. MMM y
+  formatNames:
+    months:
+      abbreviated:
+        "1": Jen
+        "2": Hor
+        "3": "M\xE4r"
+        "4": Abr
+        "5": Mei
+        "6": "Br\xE1"
+        "7": Hei
+        "8": "\xD6ig"
+        "9": Her
+        "10": "W\xEDm"
+        "11": Win
+        "12": Chr
+      narrow:
+        "1": J
+        "2": H
+        "3": M
+        "4": A
+        "5": M
+        "6": B
+        "7": H
+        "8": "\xD6"
+        "9": H
+        "10": W
+        "11": W
+        "12": C
+      wide:
+        "1": Jenner
+        "2": Hornig
+        "3": "M\xE4rze"
+        "4": Abrille
+        "5": Meije
+        "6": "Br\xE1\u010Det"
+        "7": Heiwet
+        "8": "\xD6ig\u0161te"
+        "9": "Herb\u0161tm\xE1net"
+        "10": "W\xEDm\xE1net"
+        "11": "Winterm\xE1net"
+        "12": "Chri\u0161tm\xE1net"
+    days:
+      abbreviated:
+        sun: Sun
+        mon: "M\xE4n"
+        tue: "Zi\u0161"
+        wed: Mit
+        thu: "Fr\xF3"
+        fri: Fri
+        sat: Sam
+      narrow:
+        sun: S
+        mon: M
+        tue: Z
+        wed: M
+        thu: F
+        fri: F
+        sat: S
+      short:
+        sun: Sun
+        mon: "M\xE4n"
+        tue: "Zi\u0161"
+        wed: Mit
+        thu: "Fr\xF3"
+        fri: Fri
+        sat: Sam
+      wide:
+        sun: Sunntag
+        mon: "M\xE4ntag"
+        tue: "Zi\u0161tag"
+        wed: "Mittwu\u010D"
+        thu: "Fr\xF3ntag"
+        fri: Fritag
+        sat: "Sam\u0161tag"

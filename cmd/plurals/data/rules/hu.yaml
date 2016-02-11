@@ -1,0 +1,159 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\_\xA4"
+    percent: '#,##0%'
+currencies:
+  AUD:
+    symbol: AUD
+  BRL:
+    symbol: BRL
+  CAD:
+    symbol: CAD
+  CNY:
+    symbol: CNY
+  EUR:
+    symbol: EUR
+  GBP:
+    symbol: GBP
+  HKD:
+    symbol: HKD
+  HUF:
+    symbol: Ft
+  ILS:
+    symbol: ILS
+  INR:
+    symbol: INR
+  JPY:
+    symbol: "\xA5"
+  KRW:
+    symbol: KRW
+  MXN:
+    symbol: MXN
+  NZD:
+    symbol: NZD
+  THB:
+    symbol: THB
+  TWD:
+    symbol: TWD
+  USD:
+    symbol: $
+  VND:
+    symbol: VND
+  XAF:
+    symbol: FCFA
+  XCD:
+    symbol: XCD
+  XOF:
+    symbol: CFA
+  XPF:
+    symbol: CFPF
+datetime:
+  formats:
+    date:
+      full: y. MMMM d., EEEE
+      long: y. MMMM d.
+      medium: y.MM.dd.
+      short: y.MM.dd.
+    time:
+      full: H:mm:ss zzzz
+      long: H:mm:ss z
+      medium: H:mm:ss
+      short: H:mm
+    datetime:
+      full: '{1} {0}'
+      long: '{1} {0}'
+      medium: '{1} {0}'
+      short: '{1} {0}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": jan.
+        "2": febr.
+        "3": "m\xE1rc."
+        "4": "\xE1pr."
+        "5": "m\xE1j."
+        "6": "j\xFAn."
+        "7": "j\xFAl."
+        "8": aug.
+        "9": szept.
+        "10": okt.
+        "11": nov.
+        "12": dec.
+      narrow:
+        "1": J
+        "2": F
+        "3": M
+        "4": "\xC1"
+        "5": M
+        "6": J
+        "7": J
+        "8": "\xC1"
+        "9": Sz
+        "10": O
+        "11": "N"
+        "12": D
+      wide:
+        "1": "janu\xE1r"
+        "2": "febru\xE1r"
+        "3": "m\xE1rcius"
+        "4": "\xE1prilis"
+        "5": "m\xE1jus"
+        "6": "j\xFAnius"
+        "7": "j\xFAlius"
+        "8": augusztus
+        "9": szeptember
+        "10": "okt\xF3ber"
+        "11": november
+        "12": december
+    days:
+      abbreviated:
+        sun: V
+        mon: H
+        tue: K
+        wed: Sze
+        thu: Cs
+        fri: P
+        sat: Szo
+      narrow:
+        sun: V
+        mon: H
+        tue: K
+        wed: Sz
+        thu: Cs
+        fri: P
+        sat: Sz
+      short:
+        sun: V
+        mon: H
+        tue: K
+        wed: Sze
+        thu: Cs
+        fri: P
+        sat: Szo
+      wide:
+        sun: "vas\xE1rnap"
+        mon: "h\xE9tf\u0151"
+        tue: kedd
+        wed: szerda
+        thu: "cs\xFCt\xF6rt\xF6k"
+        fri: "p\xE9ntek"
+        sat: szombat
+    periods:
+      abbreviated:
+        am: de.
+        pm: du.
+      narrow:
+        am: de.
+        pm: du.
+      wide:
+        am: de.
+        pm: du.

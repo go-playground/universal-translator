@@ -1,0 +1,107 @@
+plural: 5A
+direction: LTR
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+  formats:
+    currency: "\xA4#,##0.00"
+currencies:
+  ANG:
+    symbol: "A\xCD f."
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": Ean
+        "2": Feabh
+        "3": "M\xE1rta"
+        "4": Aib
+        "5": Beal
+        "6": Meith
+        "7": "I\xFAil"
+        "8": "L\xFAn"
+        "9": "MF\xF3mh"
+        "10": "DF\xF3mh"
+        "11": Samh
+        "12": Noll
+      narrow:
+        "1": E
+        "2": F
+        "3": M
+        "4": A
+        "5": B
+        "6": M
+        "7": I
+        "8": L
+        "9": M
+        "10": D
+        "11": S
+        "12": "N"
+      wide:
+        "1": "Ean\xE1ir"
+        "2": Feabhra
+        "3": "M\xE1rta"
+        "4": "Aibre\xE1n"
+        "5": Bealtaine
+        "6": Meitheamh
+        "7": "I\xFAil"
+        "8": "L\xFAnasa"
+        "9": "Me\xE1n F\xF3mhair"
+        "10": "Deireadh F\xF3mhair"
+        "11": Samhain
+        "12": Nollaig
+    days:
+      abbreviated:
+        sun: Domh
+        mon: Luan
+        tue: "M\xE1irt"
+        wed: "C\xE9ad"
+        thu: "D\xE9ar"
+        fri: Aoine
+        sat: Sath
+      narrow:
+        sun: D
+        mon: L
+        tue: M
+        wed: C
+        thu: D
+        fri: A
+        sat: S
+      short:
+        sun: Domh
+        mon: Luan
+        tue: "M\xE1irt"
+        wed: "C\xE9ad"
+        thu: "D\xE9ar"
+        fri: Aoine
+        sat: Sath
+      wide:
+        sun: "D\xE9 Domhnaigh"
+        mon: "D\xE9 Luain"
+        tue: "D\xE9 M\xE1irt"
+        wed: "D\xE9 C\xE9adaoin"
+        thu: "D\xE9ardaoin"
+        fri: "D\xE9 hAoine"
+        sat: "D\xE9 Sathairn"
+    periods:
+      abbreviated:
+        am: a.m.
+        pm: p.m.
+      narrow:
+        am: a.m.
+        pm: p.m.
+      wide:
+        am: a.m.
+        pm: p.m.

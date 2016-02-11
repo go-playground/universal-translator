@@ -1,0 +1,91 @@
+plural: 2A
+direction: LTR
+numbers:
+  formats:
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+currencies:
+  KES:
+    symbol: Ksh
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": Dal
+        "2": "Ar\xE1"
+        "3": "\u0186\u025Bn"
+        "4": Doy
+        "5": "L\xE9p"
+        "6": Rok
+        "7": "S\xE1s"
+        "8": "B\u0254\u0301r"
+        "9": "K\xFAs"
+        "10": "G\xEDs"
+        "11": "Sh\u0289\u0301"
+        "12": "Nt\u0289\u0301"
+      wide:
+        "1": "Oladal\u0289\u0301"
+        "2": "Ar\xE1t"
+        "3": "\u0186\u025Bn\u0268\u0301\u0254\u0268\u014B\u0254k"
+        "4": "Olodoy\xED\xF3r\xED\xEA ink\xF3k\xFA\xE2"
+        "5": "Oloil\xE9p\u016Bny\u012B\u0113 ink\xF3k\xFA\xE2"
+        "6": "K\xFAj\xFA\u0254r\u0254k"
+        "7": "M\xF3rus\xE1sin"
+        "8": "\u0186l\u0254\u0301\u0268\u0301b\u0254\u0301r\xE1r\u025B"
+        "9": "K\xFAsh\xEEn"
+        "10": "Olg\xEDsan"
+        "11": "P\u0289sh\u0289\u0301ka"
+        "12": "Nt\u0289\u0301\u014B\u0289\u0301s"
+    days:
+      abbreviated:
+        sun: Jpi
+        mon: Jtt
+        tue: Jnn
+        wed: Jtn
+        thu: Alh
+        fri: Iju
+        sat: Jmo
+      narrow:
+        sun: "2"
+        mon: "3"
+        tue: "4"
+        wed: "5"
+        thu: "6"
+        fri: "7"
+        sat: "1"
+      short:
+        sun: Jpi
+        mon: Jtt
+        tue: Jnn
+        wed: Jtn
+        thu: Alh
+        fri: Iju
+        sat: Jmo
+      wide:
+        sun: "Jumap\xEDl\xED"
+        mon: "Jumat\xE1tu"
+        tue: Jumane
+        wed: "Jumat\xE1n\u0254"
+        thu: "Ala\xE1misi"
+        fri: "Jum\xE1a"
+        sat: "Jumam\xF3si"
+    periods:
+      abbreviated:
+        am: "\u0190nkak\u025Bny\xE1"
+        pm: "\u0190nd\xE1m\xE2"
+      narrow:
+        am: "\u0190nkak\u025Bny\xE1"
+        pm: "\u0190nd\xE1m\xE2"
+      wide:
+        am: "\u0190nkak\u025Bny\xE1"
+        pm: "\u0190nd\xE1m\xE2"

@@ -1,0 +1,101 @@
+plural: 3F
+direction: LTR
+currencies:
+  TZS:
+    symbol: TSh
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": "F\xFAngat\u0268"
+        "2": "Naan\u0268"
+        "3": Keenda
+        "4": "Ik\xFAmi"
+        "5": Inyambala
+        "6": Idwaata
+        "7": "M\u0289\u0289nch\u0268"
+        "8": "V\u0268\u0268r\u0268"
+        "9": "Saat\u0289"
+        "10": Inyi
+        "11": Saano
+        "12": "Sasat\u0289"
+      narrow:
+        "1": F
+        "2": "N"
+        "3": K
+        "4": I
+        "5": I
+        "6": I
+        "7": M
+        "8": V
+        "9": S
+        "10": I
+        "11": S
+        "12": S
+      wide:
+        "1": "K\u0289f\xFAngat\u0268"
+        "2": "K\u0289naan\u0268"
+        "3": "K\u0289keenda"
+        "4": Kwiikumi
+        "5": "Kwiinyamb\xE1la"
+        "6": Kwiidwaata
+        "7": "K\u0289m\u0289\u0289nch\u0268"
+        "8": "K\u0289v\u0268\u0268r\u0268"
+        "9": "K\u0289saat\u0289"
+        "10": Kwiinyi
+        "11": "K\u0289saano"
+        "12": "K\u0289sasat\u0289"
+    days:
+      abbreviated:
+        sun: "P\xEDili"
+        mon: "T\xE1atu"
+        tue: "\xCDne"
+        wed: "T\xE1ano"
+        thu: Alh
+        fri: Ijm
+        sat: "M\xF3osi"
+      narrow:
+        sun: P
+        mon: T
+        tue: E
+        wed: O
+        thu: A
+        fri: I
+        sat: M
+      short:
+        sun: "P\xEDili"
+        mon: "T\xE1atu"
+        tue: "\xCDne"
+        wed: "T\xE1ano"
+        thu: Alh
+        fri: Ijm
+        sat: "M\xF3osi"
+      wide:
+        sun: "Jumap\xEDiri"
+        mon: "Jumat\xE1tu"
+        tue: "Juma\xEDne"
+        wed: "Jumat\xE1ano"
+        thu: "Alam\xEDisi"
+        fri: "Ijum\xE1a"
+        sat: "Jumam\xF3osi"
+    periods:
+      abbreviated:
+        am: TOO
+        pm: MUU
+      narrow:
+        am: TOO
+        pm: MUU
+      wide:
+        am: TOO
+        pm: MUU

@@ -1,0 +1,119 @@
+plural: 2A
+direction: LTR
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##,##0.###'
+    currency: "\xA4\_#,##,##0.00"
+    percent: '#,##,##0%'
+currencies:
+  CAD:
+    symbol: CA$
+  USD:
+    symbol: US$
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM, y
+      long: d MMMM, y
+      medium: d MMM, y
+      short: d-M-yy
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+    datetime:
+      full: '{1} {0}'
+      long: '{1} {0}'
+      medium: '{1} {0}'
+      short: '{1} {0}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": "\u0B9C\u0BA9."
+        "2": "\u0BAA\u0BBF\u0BAA\u0BCD."
+        "3": "\u0BAE\u0BBE\u0BB0\u0BCD."
+        "4": "\u0B8F\u0BAA\u0BCD."
+        "5": "\u0BAE\u0BC7"
+        "6": "\u0B9C\u0BC2\u0BA9\u0BCD"
+        "7": "\u0B9C\u0BC2\u0BB2\u0BC8"
+        "8": "\u0B86\u0B95."
+        "9": "\u0B9A\u0BC6\u0BAA\u0BCD."
+        "10": "\u0B85\u0B95\u0BCD."
+        "11": "\u0BA8\u0BB5."
+        "12": "\u0B9F\u0BBF\u0B9A."
+      narrow:
+        "1": "\u0B9C"
+        "2": "\u0BAA\u0BBF"
+        "3": "\u0BAE\u0BBE"
+        "4": "\u0B8F"
+        "5": "\u0BAE\u0BC7"
+        "6": "\u0B9C\u0BC2"
+        "7": "\u0B9C\u0BC2"
+        "8": "\u0B86"
+        "9": "\u0B9A\u0BC6"
+        "10": "\u0B85"
+        "11": "\u0BA8"
+        "12": "\u0B9F\u0BBF"
+      wide:
+        "1": "\u0B9C\u0BA9\u0BB5\u0BB0\u0BBF"
+        "2": "\u0BAA\u0BBF\u0BAA\u0BCD\u0BB0\u0BB5\u0BB0\u0BBF"
+        "3": "\u0BAE\u0BBE\u0BB0\u0BCD\u0B9A\u0BCD"
+        "4": "\u0B8F\u0BAA\u0BCD\u0BB0\u0BB2\u0BCD"
+        "5": "\u0BAE\u0BC7"
+        "6": "\u0B9C\u0BC2\u0BA9\u0BCD"
+        "7": "\u0B9C\u0BC2\u0BB2\u0BC8"
+        "8": "\u0B86\u0B95\u0BB8\u0BCD\u0B9F\u0BCD"
+        "9": "\u0B9A\u0BC6\u0BAA\u0BCD\u0B9F\u0BAE\u0BCD\u0BAA\u0BB0\u0BCD"
+        "10": "\u0B85\u0B95\u0BCD\u0B9F\u0BCB\u0BAA\u0BB0\u0BCD"
+        "11": "\u0BA8\u0BB5\u0BAE\u0BCD\u0BAA\u0BB0\u0BCD"
+        "12": "\u0B9F\u0BBF\u0B9A\u0BAE\u0BCD\u0BAA\u0BB0\u0BCD"
+    days:
+      abbreviated:
+        sun: "\u0B9E\u0BBE"
+        mon: "\u0BA4\u0BBF"
+        tue: "\u0B9A\u0BC6"
+        wed: "\u0BAA\u0BC1"
+        thu: "\u0BB5\u0BBF"
+        fri: "\u0BB5\u0BC6"
+        sat: "\u0B9A"
+      narrow:
+        sun: "\u0B9E\u0BBE"
+        mon: "\u0BA4\u0BBF"
+        tue: "\u0B9A\u0BC6"
+        wed: "\u0BAA\u0BC1"
+        thu: "\u0BB5\u0BBF"
+        fri: "\u0BB5\u0BC6"
+        sat: "\u0B9A"
+      short:
+        sun: "\u0B9E\u0BBE"
+        mon: "\u0BA4\u0BBF"
+        tue: "\u0B9A\u0BC6"
+        wed: "\u0BAA\u0BC1"
+        thu: "\u0BB5\u0BBF"
+        fri: "\u0BB5\u0BC6"
+        sat: "\u0B9A"
+      wide:
+        sun: "\u0B9E\u0BBE\u0BAF\u0BBF\u0BB1\u0BC1"
+        mon: "\u0BA4\u0BBF\u0B99\u0BCD\u0B95\u0BB3\u0BCD"
+        tue: "\u0B9A\u0BC6\u0BB5\u0BCD\u0BB5\u0BBE\u0BAF\u0BCD"
+        wed: "\u0BAA\u0BC1\u0BA4\u0BA9\u0BCD"
+        thu: "\u0BB5\u0BBF\u0BAF\u0BBE\u0BB4\u0BA9\u0BCD"
+        fri: "\u0BB5\u0BC6\u0BB3\u0BCD\u0BB3\u0BBF"
+        sat: "\u0B9A\u0BA9\u0BBF"
+    periods:
+      abbreviated:
+        am: "\u0BAE\u0BC1\u0BB1\u0BCD\u0BAA\u0B95\u0BB2\u0BCD"
+        pm: "\u0BAA\u0BBF\u0BB1\u0BCD\u0BAA\u0B95\u0BB2\u0BCD"
+      narrow:
+        am: AM
+        pm: PM
+      wide:
+        am: AM
+        pm: PM

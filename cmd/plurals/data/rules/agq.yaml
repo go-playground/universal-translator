@@ -1,0 +1,106 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: "\_"
+  formats:
+    decimal: '#,##0.###'
+    currency: "#,##0.00\xA4"
+    percent: '#,##0%'
+datetime:
+  formats:
+    date:
+      full: EEEE d MMMM y
+      long: d MMMM y
+      medium: d MMM, y
+      short: d/M/y
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+  formatNames:
+    months:
+      abbreviated:
+        "1": "n\xF9m"
+        "2": "k\u0268z"
+        "3": "t\u0268d"
+        "4": taa
+        "5": see
+        "6": nzu
+        "7": dum
+        "8": "f\u0254e"
+        "9": dzu
+        "10": "l\u0254m"
+        "11": kaa
+        "12": fwo
+      narrow:
+        "1": "n"
+        "2": k
+        "3": t
+        "4": t
+        "5": s
+        "6": z
+        "7": k
+        "8": f
+        "9": d
+        "10": l
+        "11": c
+        "12": f
+      wide:
+        "1": "ndz\u0254\u0300\u014B\u0254\u0300n\xF9m"
+        "2": "ndz\u0254\u0300\u014B\u0254\u0300k\u0197\u0300z\xF9\u0294"
+        "3": "ndz\u0254\u0300\u014B\u0254\u0300t\u0197\u0300d\u0289\u0300gh\xE0"
+        "4": "ndz\u0254\u0300\u014B\u0254\u0300t\u01CEaf\u0289\u0304gh\u0101"
+        "5": "ndz\u0254\u0300\u014B\xE8s\xE8e"
+        "6": "ndz\u0254\u0300\u014B\u0254\u0300nz\xF9gh\xF2"
+        "7": "ndz\u0254\u0300\u014B\u0254\u0300d\xF9mlo"
+        "8": "ndz\u0254\u0300\u014B\u0254\u0300kw\xEEf\u0254\u0300e"
+        "9": "ndz\u0254\u0300\u014B\u0254\u0300t\u0197\u0300f\u0289\u0300gh\xE0dzugh\xF9"
+        "10": "ndz\u0254\u0300\u014B\u0254\u0300gh\u01D4uwel\u0254\u0300m"
+        "11": "ndz\u0254\u0300\u014B\u0254\u0300chwa\u0294\xE0kaa wo"
+        "12": "ndz\u0254\u0300\u014B\xE8fw\xF2o"
+    days:
+      abbreviated:
+        sun: nts
+        mon: kpa
+        tue: "gh\u0254"
+        wed: "t\u0254m"
+        thu: ume
+        fri: "gh\u0268"
+        sat: dzk
+      narrow:
+        sun: "n"
+        mon: k
+        tue: g
+        wed: t
+        thu: u
+        fri: g
+        sat: d
+      short:
+        sun: nts
+        mon: kpa
+        tue: "gh\u0254"
+        wed: "t\u0254m"
+        thu: ume
+        fri: "gh\u0268"
+        sat: dzk
+      wide:
+        sun: "tsu\u0294nts\u0268"
+        mon: "tsu\u0294ukp\xE0"
+        tue: "tsu\u0294ugh\u0254e"
+        wed: "tsu\u0294ut\u0254\u0300ml\xF2"
+        thu: "tsu\u0294um\xE8"
+        fri: "tsu\u0294ugh\u0268\u0302m"
+        sat: "tsu\u0294ndz\u0268k\u0254\u0294\u0254"
+    periods:
+      abbreviated:
+        am: a.g
+        pm: a.k
+      narrow:
+        am: a.g
+        pm: a.k
+      wide:
+        am: a.g
+        pm: a.k

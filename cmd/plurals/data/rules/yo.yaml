@@ -1,0 +1,83 @@
+plural: "1"
+direction: LTR
+numbers:
+  formats:
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+currencies:
+  NGN:
+    symbol: "\u20A6"
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": "\u1E62\u1EB9\u0301r\u1EB9\u0301"
+        "2": "\xC8r\xE8l\xE8"
+        "3": "\u1EB8r\u1EB9\u0300n\xE0"
+        "4": "\xCCgb\xE9"
+        "5": "\u1EB8\u0300bibi"
+        "6": "\xD2k\xFAdu"
+        "7": "Ag\u1EB9m\u1ECD"
+        "8": "\xD2g\xFAn"
+        "9": Owewe
+        "10": "\u1ECC\u0300w\xE0r\xE0"
+        "11": "B\xE9l\xFA"
+        "12": "\u1ECC\u0300p\u1EB9\u0300"
+      wide:
+        "1": "O\u1E63\xF9 \u1E62\u1EB9\u0301r\u1EB9\u0301"
+        "2": "O\u1E63\xF9 \xC8r\xE8l\xE8"
+        "3": "O\u1E63\xF9 \u1EB8r\u1EB9\u0300n\xE0"
+        "4": "O\u1E63\xF9 \xCCgb\xE9"
+        "5": "O\u1E63\xF9 \u1EB8\u0300bibi"
+        "6": "O\u1E63\xF9 \xD2k\xFAdu"
+        "7": "O\u1E63\xF9 Ag\u1EB9m\u1ECD"
+        "8": "O\u1E63\xF9 \xD2g\xFAn"
+        "9": "O\u1E63\xF9 Owewe"
+        "10": "O\u1E63\xF9 \u1ECC\u0300w\xE0r\xE0"
+        "11": "O\u1E63\xF9 B\xE9l\xFA"
+        "12": "O\u1E63\xF9 \u1ECC\u0300p\u1EB9\u0300"
+    days:
+      abbreviated:
+        sun: "\xC0\xECk\xFA"
+        mon: "Aj\xE9"
+        tue: "\xCCs\u1EB9\u0301gun"
+        wed: "\u1ECCj\u1ECD\u0301r\xFA"
+        thu: "\u1ECCj\u1ECD\u0301b\u1ECD"
+        fri: "\u1EB8t\xEC"
+        sat: "\xC0b\xE1m\u1EB9\u0301ta"
+      short:
+        sun: "\xC0\xECk\xFA"
+        mon: "Aj\xE9"
+        tue: "\xCCs\u1EB9\u0301gun"
+        wed: "\u1ECCj\u1ECD\u0301r\xFA"
+        thu: "\u1ECCj\u1ECD\u0301b\u1ECD"
+        fri: "\u1EB8t\xEC"
+        sat: "\xC0b\xE1m\u1EB9\u0301ta"
+      wide:
+        sun: "\u1ECCj\u1ECD\u0301 \xC0\xECk\xFA"
+        mon: "\u1ECCj\u1ECD\u0301 Aj\xE9"
+        tue: "\u1ECCj\u1ECD\u0301 \xCCs\u1EB9\u0301gun"
+        wed: "\u1ECCj\u1ECD\u0301r\xFA"
+        thu: "\u1ECCj\u1ECD\u0301b\u1ECD"
+        fri: "\u1ECCj\u1ECD\u0301 \u1EB8t\xEC"
+        sat: "\u1ECCj\u1ECD\u0301 \xC0b\xE1m\u1EB9\u0301ta"
+    periods:
+      abbreviated:
+        am: "\xC0\xE1r\u1ECD\u0300"
+        pm: "\u1ECC\u0300s\xE1n"
+      narrow:
+        am: "\xC0\xE1r\u1ECD\u0300"
+        pm: "\u1ECC\u0300s\xE1n"
+      wide:
+        am: "\xC0\xE1r\u1ECD\u0300"
+        pm: "\u1ECC\u0300s\xE1n"

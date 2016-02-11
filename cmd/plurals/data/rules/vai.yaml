@@ -1,0 +1,77 @@
+plural: "1"
+direction: LTR
+numbers:
+  symbols:
+    decimal: .
+    group: ','
+  formats:
+    decimal: '#,##0.###'
+    currency: "\xA4#,##0.00;(\xA4#,##0.00)"
+currencies:
+  LRD:
+    symbol: $
+datetime:
+  formats:
+    date:
+      full: EEEE, d MMMM y
+      long: d MMMM y
+      medium: d MMM y
+      short: dd/MM/y
+    time:
+      full: h:mm:ss a zzzz
+      long: h:mm:ss a z
+      medium: h:mm:ss a
+      short: h:mm a
+  formatNames:
+    months:
+      abbreviated:
+        "1": "\uA5A8\uA56A\uA583 \uA51E\uA56E"
+        "2": "\uA552\uA561\uA59D\uA595"
+        "3": "\uA57E\uA5BA"
+        "4": "\uA5A2\uA595"
+        "5": "\uA591\uA571"
+        "6": "6"
+        "7": "7"
+        "8": "\uA5DB\uA515"
+        "9": "\uA562\uA54C"
+        "10": "\uA56D\uA583"
+        "11": "\uA51E\uA60B\uA554\uA57F \uA578\uA583\uA5CF"
+        "12": "\uA5A8\uA56A\uA571 \uA5CF\uA56E"
+      wide:
+        "1": "\uA5A8\uA56A\uA583 \uA51E\uA56E"
+        "2": "\uA552\uA561\uA59D\uA595"
+        "3": "\uA57E\uA5BA"
+        "4": "\uA5A2\uA595"
+        "5": "\uA591\uA571"
+        "6": "6"
+        "7": "7"
+        "8": "\uA5DB\uA515"
+        "9": "\uA562\uA54C"
+        "10": "\uA56D\uA583"
+        "11": "\uA51E\uA60B\uA554\uA57F \uA578\uA583\uA5CF"
+        "12": "\uA5A8\uA56A\uA571 \uA5CF\uA56E"
+    days:
+      abbreviated:
+        sun: "\uA55E\uA54C\uA535"
+        mon: "\uA5F3\uA5E1\uA609"
+        tue: "\uA55A\uA55E\uA55A"
+        wed: "\uA549\uA55E\uA552"
+        thu: "\uA549\uA524\uA546\uA562"
+        fri: "\uA549\uA524\uA540\uA56E"
+        sat: "\uA53B\uA52C\uA533"
+      short:
+        sun: "\uA55E\uA54C\uA535"
+        mon: "\uA5F3\uA5E1\uA609"
+        tue: "\uA55A\uA55E\uA55A"
+        wed: "\uA549\uA55E\uA552"
+        thu: "\uA549\uA524\uA546\uA562"
+        fri: "\uA549\uA524\uA540\uA56E"
+        sat: "\uA53B\uA52C\uA533"
+      wide:
+        sun: "\uA55E\uA54C\uA535"
+        mon: "\uA5F3\uA5E1\uA609"
+        tue: "\uA55A\uA55E\uA55A"
+        wed: "\uA549\uA55E\uA552"
+        thu: "\uA549\uA524\uA546\uA562"
+        fri: "\uA549\uA524\uA540\uA56E"
+        sat: "\uA53B\uA52C\uA533"

@@ -1,0 +1,117 @@
+plural: 2A
+direction: LTR
+numbers:
+  symbols:
+    decimal: ','
+    group: .
+    negative: '-'
+    percent: '%'
+    permille: "\u2030"
+  formats:
+    decimal: '#,##0.###'
+    currency: "\xA4\_#,##0.00"
+    percent: '#,##0%'
+currencies:
+  XAF:
+    symbol: FCFA
+datetime:
+  formats:
+    date:
+      full: EEEE, y MMMM dd
+      long: y MMMM d
+      medium: y MMM d
+      short: y-MM-dd
+    time:
+      full: HH:mm:ss zzzz
+      long: HH:mm:ss z
+      medium: HH:mm:ss
+      short: HH:mm
+    datetime:
+      full: '{1} {0}'
+      long: '{1} {0}'
+      medium: '{1} {0}'
+      short: '{1} {0}'
+  formatNames:
+    months:
+      abbreviated:
+        "1": "Ndu\u014Bmbi Sa\u014B"
+        "2": "P\u025Bsa\u014B P\u025B\u0301p\xE1"
+        "3": "P\u025Bsa\u014B P\u025B\u0301t\xE1t"
+        "4": "P\u025Bsa\u014B P\u025B\u0301n\u025B\u0301kwa"
+        "5": "P\u025Bsa\u014B Pataa"
+        "6": "P\u025Bsa\u014B P\u025B\u0301n\u025B\u0301nt\xFAk\xFA"
+        "7": "P\u025Bsa\u014B Saamb\xE1"
+        "8": "P\u025Bsa\u014B P\u025B\u0301n\u025B\u0301f\u0254m"
+        "9": "P\u025Bsa\u014B P\u025B\u0301n\u025B\u0301pf\xFA\uA78B\xFA"
+        "10": "P\u025Bsa\u014B N\u025Bg\u025B\u0301m"
+        "11": "P\u025Bsa\u014B Nts\u0254\u030Cpm\u0254\u0301"
+        "12": "P\u025Bsa\u014B Nts\u0254\u030Cpp\xE1"
+      narrow:
+        "1": "1"
+        "2": "2"
+        "3": "3"
+        "4": "4"
+        "5": "5"
+        "6": "6"
+        "7": "7"
+        "8": "8"
+        "9": "9"
+        "10": "10"
+        "11": "11"
+        "12": "12"
+      wide:
+        "1": "Ndu\u014Bmbi Sa\u014B"
+        "2": "P\u025Bsa\u014B P\u025B\u0301p\xE1"
+        "3": "P\u025Bsa\u014B P\u025B\u0301t\xE1t"
+        "4": "P\u025Bsa\u014B P\u025B\u0301n\u025B\u0301kwa"
+        "5": "P\u025Bsa\u014B Pataa"
+        "6": "P\u025Bsa\u014B P\u025B\u0301n\u025B\u0301nt\xFAk\xFA"
+        "7": "P\u025Bsa\u014B Saamb\xE1"
+        "8": "P\u025Bsa\u014B P\u025B\u0301n\u025B\u0301f\u0254m"
+        "9": "P\u025Bsa\u014B P\u025B\u0301n\u025B\u0301pf\xFA\uA78B\xFA"
+        "10": "P\u025Bsa\u014B N\u025Bg\u025B\u0301m"
+        "11": "P\u025Bsa\u014B Nts\u0254\u030Cpm\u0254\u0301"
+        "12": "P\u025Bsa\u014B Nts\u0254\u030Cpp\xE1"
+    days:
+      abbreviated:
+        sun: "S\u0254\u0301ndi"
+        mon: "M\u0254\u0301ndi"
+        tue: "\xC1pta M\u0254\u0301ndi"
+        wed: "W\u025B\u0301n\u025Bs\u025Bd\u025B"
+        thu: "T\u0254\u0301s\u025Bd\u025B"
+        fri: "F\u025Bl\xE2y\u025Bd\u025B"
+        sat: "S\xE1sid\u025B"
+      narrow:
+        sun: "S\u0254\u0301"
+        mon: "M\u0254\u0301"
+        tue: "\xC1M"
+        wed: "W\u025B\u0301"
+        thu: "T\u0254\u0301"
+        fri: "F\u025B"
+        sat: "S\xE1"
+      short:
+        sun: "S\u0254\u0301ndi"
+        mon: "M\u0254\u0301ndi"
+        tue: "\xC1pta M\u0254\u0301ndi"
+        wed: "W\u025B\u0301n\u025Bs\u025Bd\u025B"
+        thu: "T\u0254\u0301s\u025Bd\u025B"
+        fri: "F\u025Bl\xE2y\u025Bd\u025B"
+        sat: "S\xE1sid\u025B"
+      wide:
+        sun: "S\u0254\u0301ndi"
+        mon: "M\u0254\u0301ndi"
+        tue: "\xC1pta M\u0254\u0301ndi"
+        wed: "W\u025B\u0301n\u025Bs\u025Bd\u025B"
+        thu: "T\u0254\u0301s\u025Bd\u025B"
+        fri: "F\u025Bl\xE2y\u025Bd\u025B"
+        sat: "S\xE1sid\u025B"
+    periods:
+      abbreviated:
+        am: "mba\u2019mba\u2019"
+        pm: "\u014Bka mb\u0254\u0301t nji"
+      narrow:
+        am: "mba\u2019mba\u2019"
+        pm: "\u014Bka mb\u0254\u0301t nji"
+      wide:
+        am: "mba\u2019mba\u2019"
+        pm: "\u014Bka mb\u0254\u0301t nji"
