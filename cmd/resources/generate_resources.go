@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go/format"
 	"os"
+	"strings"
 	"sync"
 	"text/template"
 
@@ -38,10 +39,12 @@ func main() {
 		panic(err)
 	}
 
+	locs := map[string]string{}
 	numbers := map[string]i18n.Number{}
 	calendars := map[string]i18n.Calendar{}
 	locales := cldr.Locales()
 	for _, loc := range locales {
+
 		ldml := cldr.RawLDML(loc)
 		if ldml.Numbers == nil {
 			continue
@@ -88,6 +91,7 @@ func main() {
 			}
 		}
 		numbers[loc] = number
+		locs[loc] = strings.Replace(loc, "_", "", -1)
 
 		if ldml.Dates != nil && ldml.Dates.Calendars != nil {
 			var calendar i18n.Calendar
@@ -261,108 +265,113 @@ func main() {
 	wg.Add(len(numbers))
 	for locale, number := range numbers {
 		go func(locale string, number i18n.Number) {
+
+			localeNoUnderscore := strings.Replace(locale, "_", "", -1)
 			defer func() { wg.Done() }()
-			path := "../../resources/locales/" + locale
-			if _, err := os.Stat(path); err != nil {
-				if err = os.MkdirAll(path, 0777); err != nil {
-					panic(err)
-				}
-			}
-			numberFile, err := os.Create(path + "/number.go")
+			path := "../../zzz_generated_" + locale + "_"
+			// if _, err := os.Stat(path); err != nil {
+			// 	if err = os.MkdirAll(path, 0777); err != nil {
+			// 		panic(err)
+			// 	}
+			// }
+			numberFile, err := os.Create(path + "number.go")
 			if err != nil {
 				panic(err)
 			}
 			defer func() { numberFile.Close() }()
-			mainFile, err := os.Create(path + "/main.go")
+			mainFile, err := os.Create(path + "main.go")
 			if err != nil {
 				panic(err)
 			}
 			defer func() { mainFile.Close() }()
-			currencyFile, err := os.Create(path + "/currency.go")
+			currencyFile, err := os.Create(path + "currency.go")
 			if err != nil {
 				panic(err)
 			}
 			defer func() { currencyFile.Close() }()
 
-			mainCodes, err := format.Source([]byte(fmt.Sprintf(`package %s
-			import "github.com/go-playground/universal-translator"
+			mainCodes, err := format.Source([]byte(fmt.Sprintf(`package ut
 
-			// New returns a new instance of the locale
-			func New() *ut.Locale {
-				return &ut.Locale {
+			// new returns a new instance of the locale
+			func new%s() *Locale {
+				return &Locale {
 					Locale: %q,
-					Number: ut.Number {
-						Symbols: newSymbols(),
-						Formats: newFormats(),
-						Currencies: newCurrencies(),
+					Number: Number {
+						Symbols: new%sSymbols(),
+						Formats: new%sFormats(),
+						Currencies: new%sCurrencies(),
 					},
-					Calendar: newCalendar(),
-					PluralRule: pluralRule,
+					Calendar: new%sCalendar(),
+					PluralRule: %spluralRule,
 				}
 			}
-		`, locale, locale)))
+		`, localeNoUnderscore, locale, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore)))
 			if err != nil {
 				panic(err)
 			}
 			fmt.Fprintf(mainFile, "%s", mainCodes)
 
-			numberCodes, err := format.Source([]byte(fmt.Sprintf(`package %s
-			import "github.com/go-playground/universal-translator"
+			numberCodes, err := format.Source([]byte(fmt.Sprintf(`package ut
 
-			func newSymbols() ut.Symbols {
-				return %# v
+			func new%sSymbols() Symbols {
+				return %#v
 			}
 
-			func newFormats() ut.NumberFormats {
-				return %# v
+			func new%sFormats() NumberFormats {
+				return %#v
 			}
-		`, locale, pretty.Formatter(number.Symbols), pretty.Formatter(number.Formats))))
+		`, localeNoUnderscore, pretty.Formatter(number.Symbols), localeNoUnderscore, pretty.Formatter(number.Formats))))
 			if err != nil {
 				panic(err)
 			}
+
+			numberCodes = []byte(strings.Replace(string(numberCodes), "ut.", "", -1))
+
 			fmt.Fprintf(numberFile, "%s", numberCodes)
 
-			currencyCodes, err := format.Source([]byte(fmt.Sprintf(`package %s
-			import "github.com/go-playground/universal-translator"
+			currencyCodes, err := format.Source([]byte(fmt.Sprintf(`package ut
 
-			func newCurrencies() []ut.Currency {
-				return %# v
+			func new%sCurrencies() []Currency {
+				return %#v
 			}
-		`, locale, pretty.Formatter(number.Currencies))))
+		`, localeNoUnderscore, pretty.Formatter(number.Currencies))))
 			if err != nil {
 				panic(err)
 			}
+
+			currencyCodes = []byte(strings.Replace(string(currencyCodes), "ut.", "", -1))
 			fmt.Fprintf(currencyFile, "%s", currencyCodes)
 
 			calendar := calendars[locale]
-			calendarFile, err := os.Create(path + "/calendar.go")
+			calendarFile, err := os.Create(path + "calendar.go")
 			if err != nil {
 				panic(err)
 			}
 			defer func() { calendarFile.Close() }()
 
-			calendarCodes, err := format.Source([]byte(fmt.Sprintf(`package %s
-			import "github.com/go-playground/universal-translator"
+			calendarCodes, err := format.Source([]byte(fmt.Sprintf(`package ut
 
-			func newCalendar() ut.Calendar {
-				return %# v
+			func new%sCalendar() Calendar {
+				return %#v
 			}
-		`, locale, pretty.Formatter(calendar))))
+		`, localeNoUnderscore, pretty.Formatter(calendar))))
 			if err != nil {
 				panic(err)
 			}
+
+			calendarCodes = []byte(strings.Replace(string(calendarCodes), "ut.", "", -1))
 			fmt.Fprintf(calendarFile, "%s", calendarCodes)
 
-			pluralFile, err := os.Create(path + "/plural.go")
+			pluralFile, err := os.Create(path + "plural.go")
 			if err != nil {
 				panic(err)
 			}
 			defer func() { pluralFile.Close() }()
 
-			pluralCodes, err := format.Source([]byte(fmt.Sprintf(`package %s
+			pluralCodes, err := format.Source([]byte(fmt.Sprintf(`package ut
 
-			var pluralRule = "1"
-		`, locale)))
+			var %spluralRule = "1"
+		`, localeNoUnderscore)))
 			if err != nil {
 				panic(err)
 			}
@@ -373,24 +382,22 @@ func main() {
 	wg.Wait()
 
 	// TODO: make switch with all of the locales + function to return new!
-	localesFile, err := os.Create("../../resources/locales/locales.go")
+	localesFile, err := os.Create("../../zzz_generated_locales.go")
 	if err != nil {
 		panic(err)
 	}
 	defer localesFile.Close()
 
-	tmpl, err := template.New("").Parse(`package locales
-		import (
-			"github.com/go-playground/universal-translator"
-			{{range $locale, $_ := .}}"github.com/go-playground/universal-translator/resources/locales/{{$locale}}"
-			{{end}})
+	tmpl, err := template.New("").Parse(`package ut
+
+		import "errors"
 
 		// GetLocale returns the Locale instance associated with
 		// the provided locale string, or returns an error when not found.
-		func GetLocale(locale string) (*ut.Locale, error) {
+		func GetLocale(locale string) (*Locale, error) {
 			switch locale {
-			{{range $locale, $_ := .}}case "{{$locale}}":
-				return {{$locale}}.New(), nil
+			{{range $locale, $val := .}}case "{{$locale}}":
+				return new{{$val}}(), nil
 			{{end}}
 			default:
 				return nil, errors.New("Unknown locale '" + locale + "'")
@@ -401,7 +408,7 @@ func main() {
 		panic(err)
 	}
 	var buf bytes.Buffer
-	if err := tmpl.Execute(&buf, numbers); err != nil {
+	if err := tmpl.Execute(&buf, locs); err != nil {
 		panic(err)
 	}
 	allCodes, err := format.Source(buf.Bytes())
