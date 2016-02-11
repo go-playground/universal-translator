@@ -268,27 +268,15 @@ func main() {
 
 			localeNoUnderscore := strings.Replace(locale, "_", "", -1)
 			defer func() { wg.Done() }()
-			path := "../../zzz_generated_" + locale + "_"
-			// if _, err := os.Stat(path); err != nil {
-			// 	if err = os.MkdirAll(path, 0777); err != nil {
-			// 		panic(err)
-			// 	}
-			// }
-			numberFile, err := os.Create(path + "number.go")
+			path := "../../zzz_generated_" + locale
+
+			mainFile, err := os.Create(path + ".go")
 			if err != nil {
 				panic(err)
 			}
-			defer func() { numberFile.Close() }()
-			mainFile, err := os.Create(path + "main.go")
-			if err != nil {
-				panic(err)
-			}
-			defer func() { mainFile.Close() }()
-			currencyFile, err := os.Create(path + "currency.go")
-			if err != nil {
-				panic(err)
-			}
-			defer func() { currencyFile.Close() }()
+			defer mainFile.Close()
+
+			calendar := calendars[locale]
 
 			mainCodes, err := format.Source([]byte(fmt.Sprintf(`package ut
 
@@ -305,13 +293,6 @@ func main() {
 					PluralRule: %spluralRule,
 				}
 			}
-		`, localeNoUnderscore, locale, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore)))
-			if err != nil {
-				panic(err)
-			}
-			fmt.Fprintf(mainFile, "%s", mainCodes)
-
-			numberCodes, err := format.Source([]byte(fmt.Sprintf(`package ut
 
 			func new%sSymbols() Symbols {
 				return %#v
@@ -320,53 +301,30 @@ func main() {
 			func new%sFormats() NumberFormats {
 				return %#v
 			}
-		`, localeNoUnderscore, pretty.Formatter(number.Symbols), localeNoUnderscore, pretty.Formatter(number.Formats))))
-			if err != nil {
-				panic(err)
-			}
-
-			numberCodes = []byte(strings.Replace(string(numberCodes), "ut.", "", -1))
-
-			fmt.Fprintf(numberFile, "%s", numberCodes)
-
-			currencyCodes, err := format.Source([]byte(fmt.Sprintf(`package ut
 
 			func new%sCurrencies() []Currency {
 				return %#v
 			}
-		`, localeNoUnderscore, pretty.Formatter(number.Currencies))))
-			if err != nil {
-				panic(err)
-			}
-
-			currencyCodes = []byte(strings.Replace(string(currencyCodes), "ut.", "", -1))
-			fmt.Fprintf(currencyFile, "%s", currencyCodes)
-
-			calendar := calendars[locale]
-			calendarFile, err := os.Create(path + "calendar.go")
-			if err != nil {
-				panic(err)
-			}
-			defer func() { calendarFile.Close() }()
-
-			calendarCodes, err := format.Source([]byte(fmt.Sprintf(`package ut
 
 			func new%sCalendar() Calendar {
 				return %#v
 			}
-		`, localeNoUnderscore, pretty.Formatter(calendar))))
+
+		`, localeNoUnderscore, locale, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore,
+				localeNoUnderscore, pretty.Formatter(number.Symbols), localeNoUnderscore, pretty.Formatter(number.Formats), localeNoUnderscore,
+				pretty.Formatter(number.Currencies), localeNoUnderscore, pretty.Formatter(calendar))))
 			if err != nil {
 				panic(err)
 			}
 
-			calendarCodes = []byte(strings.Replace(string(calendarCodes), "ut.", "", -1))
-			fmt.Fprintf(calendarFile, "%s", calendarCodes)
+			mainCodes = []byte(strings.Replace(string(mainCodes), "ut.", "", -1))
+			fmt.Fprintf(mainFile, "%s", mainCodes)
 
-			pluralFile, err := os.Create(path + "plural.go")
+			pluralFile, err := os.Create(path + "_plural.go")
 			if err != nil {
 				panic(err)
 			}
-			defer func() { pluralFile.Close() }()
+			defer pluralFile.Close()
 
 			pluralCodes, err := format.Source([]byte(fmt.Sprintf(`package ut
 
