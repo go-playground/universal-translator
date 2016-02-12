@@ -23,19 +23,14 @@ type Translator struct {
 	groups       groups
 }
 
-func newTranslator(locale string) (*Translator, error) {
-
-	loc, err := GetLocale(locale)
-	if err != nil {
-		return nil, err
-	}
+func newTranslator(loc *Locale) *Translator {
 
 	return &Translator{
 		locale:       loc,
 		ruler:        pluralRules[loc.PluralRule],
 		translations: make(translations),
 		groups:       make(groups),
-	}, nil
+	}
 }
 
 // Add registers a new translation to the Translator using the
@@ -48,6 +43,10 @@ func (t *Translator) Add(rule PluralRule, group string, key string, text string)
 
 	trans := &translation{
 		text: text,
+	}
+
+	if _, ok := t.translations[rule]; !ok {
+		t.translations[rule] = make(map[string]*translation)
 	}
 
 	if _, ok := t.translations[rule][key]; ok {
@@ -70,13 +69,13 @@ func (t *Translator) pluralRule(count NumberValue) (rule PluralRule) {
 // T translates the text associated with the given key with the
 // arguments passed in
 func (t *Translator) T(key string, a ...interface{}) string {
-	return t.P(key, 0, a...)
+	return t.P(key, 1, a...)
 }
 
 // TSafe translates the text associated with the given key with the
 // arguments passed in, if the key or rule cannot be found it returns an error
 func (t *Translator) TSafe(key string, a ...interface{}) (string, error) {
-	return t.PSafe(key, 0, a...)
+	return t.PSafe(key, 1, a...)
 }
 
 // P translates the plural text associated with the given key with the
@@ -106,63 +105,123 @@ func (t *Translator) PSafe(key string, count interface{}, a ...interface{}) (str
 	return fmt.Sprintf(trans.text, a...), nil
 }
 
+// FmtDateFullSafe formats the time with the current locales full date format
+func (t *Translator) FmtDateFullSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateFullSafe(dt)
+}
+
+// FmtDateLongSafe formats the time with the current locales long date format
+func (t *Translator) FmtDateLongSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateLongSafe(dt)
+}
+
+// FmtDateMediumSafe formats the time with the current locales medium date format
+func (t *Translator) FmtDateMediumSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateMediumSafe(dt)
+}
+
+// FmtDateShortSafe formats the time with the current locales short date format
+func (t *Translator) FmtDateShortSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateShortSafe(dt)
+}
+
+// FmtDateTimeFullSafe formats the time with the current locales full data & time format
+func (t *Translator) FmtDateTimeFullSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateTimeFullSafe(dt)
+}
+
+// FmtDateTimeLongSafe formats the time with the current locales long data & time format
+func (t *Translator) FmtDateTimeLongSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateTimeLongSafe(dt)
+}
+
+// FmtDateTimeMediumSafe formats the time with the current locales medium data & time format
+func (t *Translator) FmtDateTimeMediumSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateTimeMediumSafe(dt)
+}
+
+// FmtDateTimeShortSafe formats the time with the current locales short data & time format
+func (t *Translator) FmtDateTimeShortSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateTimeShortSafe(dt)
+}
+
+// FmtTimeFullSafe formats the time with the current locales full time format
+func (t *Translator) FmtTimeFullSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtTimeFullSafe(dt)
+}
+
+// FmtTimeLongSafe formats the time with the current locales long time format
+func (t *Translator) FmtTimeLongSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtTimeLongSafe(dt)
+}
+
+// FmtTimeMediumSafe formats the time with the current locales medium time format
+func (t *Translator) FmtTimeMediumSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtTimeMediumSafe(dt)
+}
+
+// FmtTimeShortSafe formats the time with the current locales short time format
+func (t *Translator) FmtTimeShortSafe(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtTimeShortSafe(dt)
+}
+
 // FmtDateFull formats the time with the current locales full date format
-func (t *Translator) FmtDateFull(dt time.Time) (string, error) {
+func (t *Translator) FmtDateFull(dt time.Time) string {
 	return t.locale.Calendar.FmtDateFull(dt)
 }
 
 // FmtDateLong formats the time with the current locales long date format
-func (t *Translator) FmtDateLong(dt time.Time) (string, error) {
+func (t *Translator) FmtDateLong(dt time.Time) string {
 	return t.locale.Calendar.FmtDateLong(dt)
 }
 
 // FmtDateMedium formats the time with the current locales medium date format
-func (t *Translator) FmtDateMedium(dt time.Time) (string, error) {
+func (t *Translator) FmtDateMedium(dt time.Time) string {
 	return t.locale.Calendar.FmtDateMedium(dt)
 }
 
 // FmtDateShort formats the time with the current locales short date format
-func (t *Translator) FmtDateShort(dt time.Time) (string, error) {
+func (t *Translator) FmtDateShort(dt time.Time) string {
 	return t.locale.Calendar.FmtDateShort(dt)
 }
 
 // FmtDateTimeFull formats the time with the current locales full data & time format
-func (t *Translator) FmtDateTimeFull(dt time.Time) (string, error) {
+func (t *Translator) FmtDateTimeFull(dt time.Time) string {
 	return t.locale.Calendar.FmtDateTimeFull(dt)
 }
 
 // FmtDateTimeLong formats the time with the current locales long data & time format
-func (t *Translator) FmtDateTimeLong(dt time.Time) (string, error) {
+func (t *Translator) FmtDateTimeLong(dt time.Time) string {
 	return t.locale.Calendar.FmtDateTimeLong(dt)
 }
 
 // FmtDateTimeMedium formats the time with the current locales medium data & time format
-func (t *Translator) FmtDateTimeMedium(dt time.Time) (string, error) {
+func (t *Translator) FmtDateTimeMedium(dt time.Time) string {
 	return t.locale.Calendar.FmtDateTimeMedium(dt)
 }
 
 // FmtDateTimeShort formats the time with the current locales short data & time format
-func (t *Translator) FmtDateTimeShort(dt time.Time) (string, error) {
+func (t *Translator) FmtDateTimeShort(dt time.Time) string {
 	return t.locale.Calendar.FmtDateTimeShort(dt)
 }
 
 // FmtTimeFull formats the time with the current locales full time format
-func (t *Translator) FmtTimeFull(dt time.Time) (string, error) {
+func (t *Translator) FmtTimeFull(dt time.Time) string {
 	return t.locale.Calendar.FmtTimeFull(dt)
 }
 
 // FmtTimeLong formats the time with the current locales long time format
-func (t *Translator) FmtTimeLong(dt time.Time) (string, error) {
+func (t *Translator) FmtTimeLong(dt time.Time) string {
 	return t.locale.Calendar.FmtTimeLong(dt)
 }
 
 // FmtTimeMedium formats the time with the current locales medium time format
-func (t *Translator) FmtTimeMedium(dt time.Time) (string, error) {
+func (t *Translator) FmtTimeMedium(dt time.Time) string {
 	return t.locale.Calendar.FmtTimeMedium(dt)
 }
 
 // FmtTimeShort formats the time with the current locales short time format
-func (t *Translator) FmtTimeShort(dt time.Time) (string, error) {
+func (t *Translator) FmtTimeShort(dt time.Time) string {
 	return t.locale.Calendar.FmtTimeShort(dt)
 }
 

@@ -13,11 +13,10 @@ import (
 )
 
 type pluralInfo struct {
-	path               string
-	locale             string
-	localeNoUnderscore string
-	plural             string
-	outputFile         string
+	path       string
+	locale     string
+	plural     string
+	outputFile string
 }
 
 // rules downloaded/copied from download github.com/vube/i18n/data/rules
@@ -57,11 +56,10 @@ func main() {
 		locale = strings.Replace(locale, "-", "_", -1)
 
 		plurals = append(plurals, pluralInfo{
-			path:               path,
-			locale:             locale,
-			localeNoUnderscore: strings.ToLower(strings.Replace(locale, "_", "", -1)),
-			plural:             plural,
-			outputFile:         "../../zzz_generated_" + locale + "_plural.go",
+			path:       path,
+			locale:     locale,
+			plural:     plural,
+			outputFile: "../../resources/locales/" + locale + "/plural.go",
 		})
 
 		if plural == "" {
@@ -103,10 +101,10 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		rawcodes := fmt.Sprintf(`package ut
+		rawcodes := fmt.Sprintf(`package %s
 
-		const %spluralRule = %q
-		`, p.localeNoUnderscore, p.plural)
+		const pluralRule = %q
+		`, p.locale, p.plural)
 
 		var codes []byte
 		if codes, err = format.Source([]byte(rawcodes)); err != nil {

@@ -87,65 +87,141 @@ type datetimePatternComponent struct {
 }
 
 // FmtDateFull formats the time with the current locales full date format
-func (c Calendar) FmtDateFull(t time.Time) (string, error) {
-	return c.Format(t, c.Formats.Date.Full)
+func (c Calendar) FmtDateFull(t time.Time) string {
+	s, _ := c.Format(t, c.Formats.Date.Full)
+	return s
 }
 
 // FmtDateLong formats the time with the current locales long date format
-func (c Calendar) FmtDateLong(t time.Time) (string, error) {
-	return c.Format(t, c.Formats.Date.Long)
+func (c Calendar) FmtDateLong(t time.Time) string {
+	s, _ := c.Format(t, c.Formats.Date.Long)
+	return s
 }
 
 // FmtDateMedium formats the time with the current locales medium date format
-func (c Calendar) FmtDateMedium(t time.Time) (string, error) {
-	return c.Format(t, c.Formats.Date.Medium)
+func (c Calendar) FmtDateMedium(t time.Time) string {
+	s, _ := c.Format(t, c.Formats.Date.Medium)
+	return s
 }
 
 // FmtDateShort formats the time with the current locales short date format
-func (c Calendar) FmtDateShort(t time.Time) (string, error) {
-	return c.Format(t, c.Formats.Date.Short)
+func (c Calendar) FmtDateShort(t time.Time) string {
+	s, _ := c.Format(t, c.Formats.Date.Short)
+	return s
 }
 
 // FmtTimeFull formats the time with the current locales full time format
-func (c Calendar) FmtTimeFull(t time.Time) (string, error) {
-	return c.Format(t, c.Formats.Time.Full)
+func (c Calendar) FmtTimeFull(t time.Time) string {
+	s, _ := c.Format(t, c.Formats.Time.Full)
+	return s
 }
 
 // FmtTimeLong formats the time with the current locales long time format
-func (c Calendar) FmtTimeLong(t time.Time) (string, error) {
-	return c.Format(t, c.Formats.Time.Long)
+func (c Calendar) FmtTimeLong(t time.Time) string {
+	s, _ := c.Format(t, c.Formats.Time.Long)
+	return s
 }
 
 // FmtTimeMedium formats the time with the current locales medium time format
-func (c Calendar) FmtTimeMedium(t time.Time) (string, error) {
-	return c.Format(t, c.Formats.Time.Medium)
+func (c Calendar) FmtTimeMedium(t time.Time) string {
+	s, _ := c.Format(t, c.Formats.Time.Medium)
+	return s
 }
 
 // FmtTimeShort formats the time with the current locales short time format
-func (c Calendar) FmtTimeShort(t time.Time) (string, error) {
-	return c.Format(t, c.Formats.Time.Short)
+func (c Calendar) FmtTimeShort(t time.Time) string {
+	s, _ := c.Format(t, c.Formats.Time.Short)
+	return s
 }
 
 // FmtDateTimeFull formats the time with the current locales full data & time format
-func (c Calendar) FmtDateTimeFull(t time.Time) (string, error) {
+func (c Calendar) FmtDateTimeFull(t time.Time) string {
+	pattern := getDateTimePattern(c.Formats.DateTime.Full, c.Formats.Date.Full, c.Formats.Time.Full)
+	s, _ := c.Format(t, pattern)
+	return s
+}
+
+// FmtDateTimeLong formats the time with the current locales long data & time format
+func (c Calendar) FmtDateTimeLong(t time.Time) string {
+	pattern := getDateTimePattern(c.Formats.DateTime.Long, c.Formats.Date.Long, c.Formats.Time.Long)
+	s, _ := c.Format(t, pattern)
+	return s
+}
+
+// FmtDateTimeMedium formats the time with the current locales medium data & time format
+func (c Calendar) FmtDateTimeMedium(t time.Time) string {
+	pattern := getDateTimePattern(c.Formats.DateTime.Medium, c.Formats.Date.Medium, c.Formats.Time.Medium)
+	s, _ := c.Format(t, pattern)
+	return s
+}
+
+// FmtDateTimeShort formats the time with the current locales short data & time format
+func (c Calendar) FmtDateTimeShort(t time.Time) string {
+	pattern := getDateTimePattern(c.Formats.DateTime.Short, c.Formats.Date.Short, c.Formats.Time.Short)
+	s, _ := c.Format(t, pattern)
+	return s
+}
+
+// FmtDateFullSafe formats the time with the current locales full date format
+func (c Calendar) FmtDateFullSafe(t time.Time) (string, error) {
+	return c.Format(t, c.Formats.Date.Full)
+}
+
+// FmtDateLongSafe formats the time with the current locales long date format
+func (c Calendar) FmtDateLongSafe(t time.Time) (string, error) {
+	return c.Format(t, c.Formats.Date.Long)
+}
+
+// FmtDateMediumSafe formats the time with the current locales medium date format
+func (c Calendar) FmtDateMediumSafe(t time.Time) (string, error) {
+	return c.Format(t, c.Formats.Date.Medium)
+}
+
+// FmtDateShortSafe formats the time with the current locales short date format
+func (c Calendar) FmtDateShortSafe(t time.Time) (string, error) {
+	return c.Format(t, c.Formats.Date.Short)
+}
+
+// FmtTimeFullSafe formats the time with the current locales full time format
+func (c Calendar) FmtTimeFullSafe(t time.Time) (string, error) {
+	return c.Format(t, c.Formats.Time.Full)
+}
+
+// FmtTimeLongSafe formats the time with the current locales long time format
+func (c Calendar) FmtTimeLongSafe(t time.Time) (string, error) {
+	return c.Format(t, c.Formats.Time.Long)
+}
+
+// FmtTimeMediumSafe formats the time with the current locales medium time format
+func (c Calendar) FmtTimeMediumSafe(t time.Time) (string, error) {
+	return c.Format(t, c.Formats.Time.Medium)
+}
+
+// FmtTimeShortSafe formats the time with the current locales short time format
+func (c Calendar) FmtTimeShortSafe(t time.Time) (string, error) {
+	return c.Format(t, c.Formats.Time.Short)
+}
+
+// FmtDateTimeFullSafe formats the time with the current locales full data & time format
+func (c Calendar) FmtDateTimeFullSafe(t time.Time) (string, error) {
 	pattern := getDateTimePattern(c.Formats.DateTime.Full, c.Formats.Date.Full, c.Formats.Time.Full)
 	return c.Format(t, pattern)
 }
 
-// FmtDateTimeLong formats the time with the current locales long data & time format
-func (c Calendar) FmtDateTimeLong(t time.Time) (string, error) {
+// FmtDateTimeLongSafe formats the time with the current locales long data & time format
+func (c Calendar) FmtDateTimeLongSafe(t time.Time) (string, error) {
 	pattern := getDateTimePattern(c.Formats.DateTime.Long, c.Formats.Date.Long, c.Formats.Time.Long)
 	return c.Format(t, pattern)
 }
 
-// FmtDateTimeMedium formats the time with the current locales medium data & time format
-func (c Calendar) FmtDateTimeMedium(t time.Time) (string, error) {
+// FmtDateTimeMediumSafe formats the time with the current locales medium data & time format
+func (c Calendar) FmtDateTimeMediumSafe(t time.Time) (string, error) {
 	pattern := getDateTimePattern(c.Formats.DateTime.Medium, c.Formats.Date.Medium, c.Formats.Time.Medium)
 	return c.Format(t, pattern)
 }
 
-// FmtDateTimeShort formats the time with the current locales short data & time format
-func (c Calendar) FmtDateTimeShort(t time.Time) (string, error) {
+// FmtDateTimeShortSafe formats the time with the current locales short data & time format
+func (c Calendar) FmtDateTimeShortSafe(t time.Time) (string, error) {
 	pattern := getDateTimePattern(c.Formats.DateTime.Short, c.Formats.Date.Short, c.Formats.Time.Short)
 	return c.Format(t, pattern)
 }
