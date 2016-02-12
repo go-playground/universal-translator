@@ -6,6 +6,8 @@ import "math"
 type PluralRule string
 
 // PluralRule types
+
+// TODO: change this to integer for efficiency and use stringify lib to generate string values.
 const (
 	PluralRuleZero  PluralRule = "zero"  // zero
 	PluralRuleOne              = "one"   // singular
@@ -52,6 +54,15 @@ var pluralRules = map[string]PluralRuler{
 	"6A": PluralRulerFunc(pluralRule6A),
 	"6B": PluralRulerFunc(pluralRule6B),
 }
+
+// func getPluralFunc(code string) PluralRulerFunc {
+// 	fn, ok := pluralRules[code]
+// 	if !ok {
+// 		return PluralRuleOther
+// 	}
+
+// 	return fn
+// }
 
 // func RegisterPluralRule(locale string, ruler PluralRuler) {
 // 	pluralRules[locale] = ruler

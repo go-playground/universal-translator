@@ -1,23 +1,39 @@
 package ut
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 type translation struct {
-	singular  string
-	plural    string
-	hasPlural bool
+	text string
 }
+
+// map[key]map[plural type othe, many, few, single]*translation
+type translations map[PluralRule]map[string]*translation
+type groups map[string][]*translation
 
 // Translator holds the locale translation instance
 type Translator struct {
-	locale       *Locale
-	pluralFunc   PluralRulerFunc
-	translations map[string]*translation
-	groups       map[string][]*translation
+	Locale       *Locale
+	ruler        PluralRuler
+	translations translations
+	groups       groups
 }
 
 func newTranslator(locale string) (*Translator, error) {
-	return nil, nil
+
+	loc, err := GetLocale(locale)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Translator{
+		Locale:       loc,
+		ruler:        pluralRules[loc.PluralRule],
+		translations: make(translations),
+		groups:       make(groups),
+	}, nil
 }
 
 // Add registers a new translation to the Translator using the
@@ -26,19 +42,17 @@ func newTranslator(locale string) (*Translator, error) {
 // for the "homepage" group
 // plural is optional, can be blank, but allows adding a plural translation
 // at the same time as a singular
-func (t *Translator) Add(group string, key string, singular string, plural string) {
+func (t *Translator) Add(rule PluralRule, group string, key string, text string) {
 
 	trans := &translation{
-		singular:  singular,
-		plural:    plural,
-		hasPlural: plural != "",
+		text: text,
 	}
 
-	if _, ok := t.translations[key]; ok {
+	if _, ok := t.translations[rule][key]; ok {
 		panic(fmt.Sprintf("Translation with key '%s' already exists", key))
 	}
 
-	t.translations[key] = trans
+	t.translations[rule][key] = trans
 
 	if _, ok := t.groups[group]; !ok {
 		t.groups[group] = make([]*translation, 0)
@@ -48,22 +62,40 @@ func (t *Translator) Add(group string, key string, singular string, plural strin
 }
 
 func (t *Translator) pluralRule(count NumberValue) (rule PluralRule) {
-	// l, ok := GetLocale(locale)
-	// if !ok {
-	// 	return PluralRuleOther
-	// }
-
-	// ruler, ok := pluralRules[t.locale.PluralRule]
-
-	// if !ok {
-	// 	return PluralRuleOther
-	// }
-	//  ruler.FindRule(count)
-	return t.pluralFunc(count)
+	return t.ruler.FindRule(count)
 }
 
 // T translates the text associated with the given key with the
 // arguments passed in
-func (t *Translator) T(key string, a ...interface{}) {
-
+func (t *Translator) T(key string, a ...interface{}) string {
+	return t.P(key, 0, a...)
 }
+
+// P translates the plural text associated with the given key with the
+// arguments passed in
+func (t *Translator) P(key string, count interface{}, a ...interface{}) string {
+
+	rule := t.ruler.FindRule(count)
+
+	trans, ok := t.translations[rule][key]
+	if !ok {
+		s := "***** WARNING:***** Translation Key " + key + " Not Found"
+		log.Println(s)
+		return s
+	}
+
+	return fmt.Sprintf(trans.text, a...)
+}
+
+// // TSafe translates the text associated with the given key with the
+// // arguments passed in just like T() but doesn't panic, but instead
+// // returns an error
+// func (t *Translator) TSafe(key string, a ...interface{}) (string, error) {
+
+// 	trans, ok := t.translations[key]
+// 	if !ok {
+// 		return "", errors.New("*** Translation Key " + key + " Not Found")
+// 	}
+
+// 	return fmt.Sprintf(trans.singular, a...), nil
+// }

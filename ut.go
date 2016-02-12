@@ -1,7 +1,5 @@
 package ut
 
-// _ "github.com/go-playground/universal-translator/resources/locales"
-
 // UniversalTranslator holds all locale Translator instances
 type UniversalTranslator struct {
 	translators map[string]*Translator
@@ -33,8 +31,6 @@ func (ut *UniversalTranslator) LoadTranslator(locale string) (*Translator, error
 	}
 
 	ut.translators[locale] = t
-
-	// TODO: MUST set pluralFunc on local here to save lookup each translation in the future
 
 	// just to ensure it get's set to something
 	if ut.fallback == nil {

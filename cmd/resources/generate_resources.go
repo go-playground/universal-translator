@@ -91,7 +91,7 @@ func main() {
 			}
 		}
 		numbers[loc] = number
-		locs[loc] = strings.Replace(loc, "_", "", -1)
+		locs[loc] = strings.ToLower(strings.Replace(loc, "_", "", -1))
 
 		if ldml.Dates != nil && ldml.Dates.Calendars != nil {
 			var calendar i18n.Calendar
@@ -266,7 +266,7 @@ func main() {
 	for locale, number := range numbers {
 		go func(locale string, number i18n.Number) {
 
-			localeNoUnderscore := strings.Replace(locale, "_", "", -1)
+			localeNoUnderscore := strings.ToLower(strings.Replace(locale, "_", "", -1))
 			defer func() { wg.Done() }()
 			path := "../../zzz_generated_" + locale
 
