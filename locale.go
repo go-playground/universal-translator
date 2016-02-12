@@ -1,5 +1,7 @@
 package ut
 
+import "time"
+
 // Locale contains all of the locale info needed for translation,
 // number and date formatting
 type Locale struct {
@@ -13,8 +15,11 @@ type Locale struct {
 type Number struct {
 	Symbols    Symbols
 	Formats    NumberFormats
-	Currencies []Currency
+	Currencies CurrencyFormatValue
 }
+
+// CurrencyFormatValue contains the currency information
+type CurrencyFormatValue map[string]Currency
 
 // Symbols contains the number symbols related to formatting
 type Symbols struct {
@@ -71,9 +76,7 @@ type CalendarMonthFormatNames struct {
 }
 
 // CalendarMonthFormatNameValue contains the DateTime month name information
-type CalendarMonthFormatNameValue struct {
-	Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec string
-}
+type CalendarMonthFormatNameValue map[time.Month]string
 
 // CalendarDayFormatNames contains the DateTime month name information
 type CalendarDayFormatNames struct {
@@ -84,9 +87,7 @@ type CalendarDayFormatNames struct {
 }
 
 // CalendarDayFormatNameValue contains the DateTime day name information
-type CalendarDayFormatNameValue struct {
-	Sun, Mon, Tue, Wed, Thu, Fri, Sat string
-}
+type CalendarDayFormatNameValue map[time.Weekday]string
 
 // CalendarPeriodFormatNames contains the DateTime period information
 type CalendarPeriodFormatNames struct {
@@ -97,6 +98,4 @@ type CalendarPeriodFormatNames struct {
 }
 
 // CalendarPeriodFormatNameValue contains the DateTime period name information
-type CalendarPeriodFormatNameValue struct {
-	AM, PM string
-}
+type CalendarPeriodFormatNameValue map[string]string

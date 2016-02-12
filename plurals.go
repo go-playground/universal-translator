@@ -3,19 +3,28 @@ package ut
 import "math"
 
 // PluralRule denotes the type of plural rules
-type PluralRule string
+type PluralRule int
 
 // PluralRule types
 
 // TODO: change this to integer for efficiency and use stringify lib to generate string values.
 const (
-	PluralRuleZero  PluralRule = "zero"  // zero
-	PluralRuleOne              = "one"   // singular
-	PluralRuleTwo              = "two"   // dual
-	PluralRuleFew              = "few"   // paucal
-	PluralRuleMany             = "many"  // also used for fractions if they have a separate class
-	PluralRuleOther            = "other" // required—general plural form—also used if the language only has a single form
+	PluralRuleZero  PluralRule = iota // zero
+	PluralRuleOne                     // one - singular
+	PluralRuleTwo                     // two - dual
+	PluralRuleFew                     // few - paucal
+	PluralRuleMany                    // many - also used for fractions if they have a separate class
+	PluralRuleOther                   // other - required—general plural form—also used if the language only has a single form
 )
+
+// const (
+// 	PluralRuleZero  PluralRule = "zero"  // zero
+// 	PluralRuleOne              = "one"   // singular
+// 	PluralRuleTwo              = "two"   // dual
+// 	PluralRuleFew              = "few"   // paucal
+// 	PluralRuleMany             = "many"  // also used for fractions if they have a separate class
+// 	PluralRuleOther            = "other" // required—general plural form—also used if the language only has a single form
+// )
 
 // NumberValue should be one of these types:
 // int, float
@@ -54,6 +63,12 @@ var pluralRules = map[string]PluralRuler{
 	"6A": PluralRulerFunc(pluralRule6A),
 	"6B": PluralRulerFunc(pluralRule6B),
 }
+
+// func GetPluralInt(code string) int {
+// 	switch code {
+// 	case "":
+// 	}
+// }
 
 // func getPluralFunc(code string) PluralRulerFunc {
 // 	fn, ok := pluralRules[code]
@@ -139,7 +154,6 @@ func (p PluralRulerFunc) FindRule(n NumberValue) PluralRule {
 
 // isInt checks if a float64 is an integer value
 func isInt(n NumberValue) bool {
-	// return n == float64(int64(n))
 	switch n.(type) {
 	case int, int16, int32, int64, uint, uint16, uint32, uint64:
 		return true

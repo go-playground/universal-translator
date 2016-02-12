@@ -22,18 +22,18 @@ type Translator struct {
 }
 
 func newTranslator(locale string) (*Translator, error) {
+	return nil, nil
+	// loc, err := GetLocale(locale)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	loc, err := GetLocale(locale)
-	if err != nil {
-		return nil, err
-	}
-
-	return &Translator{
-		Locale:       loc,
-		ruler:        pluralRules[loc.PluralRule],
-		translations: make(translations),
-		groups:       make(groups),
-	}, nil
+	// return &Translator{
+	// 	Locale:       loc,
+	// 	ruler:        pluralRules[loc.PluralRule],
+	// 	translations: make(translations),
+	// 	groups:       make(groups),
+	// }, nil
 }
 
 // Add registers a new translation to the Translator using the

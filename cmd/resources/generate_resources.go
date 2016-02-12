@@ -8,11 +8,11 @@ import (
 	"strings"
 	"sync"
 	"text/template"
+	"time"
 
 	"golang.org/x/text/unicode/cldr"
 
 	i18n "github.com/go-playground/universal-translator"
-	"github.com/kr/pretty"
 )
 
 // numbers:
@@ -50,6 +50,9 @@ func main() {
 			continue
 		}
 		var number i18n.Number
+
+		number.Currencies = make(i18n.CurrencyFormatValue)
+
 		if len(ldml.Numbers.Symbols) > 0 {
 			symbol := ldml.Numbers.Symbols[0]
 			if len(symbol.Decimal) > 0 {
@@ -78,16 +81,22 @@ func main() {
 			number.Formats.Percent = ldml.Numbers.PercentFormats[0].PercentFormatLength[0].PercentFormat[0].Pattern[0].Data()
 		}
 		if ldml.Numbers.Currencies != nil {
+
 			for _, currency := range ldml.Numbers.Currencies.Currency {
+
 				var c i18n.Currency
+
 				c.Currency = currency.Type
+
 				if len(currency.DisplayName) > 0 {
 					c.DisplayName = currency.DisplayName[0].Data()
 				}
+
 				if len(currency.Symbol) > 0 {
 					c.Symbol = currency.Symbol[0].Data()
 				}
-				number.Currencies = append(number.Currencies, c)
+
+				number.Currencies[c.Currency] = c
 			}
 		}
 		numbers[loc] = number
@@ -145,35 +154,39 @@ func main() {
 				}
 			}
 			if ldmlCar.Months != nil {
+
 				for _, monthctx := range ldmlCar.Months.MonthContext {
+
 					for _, months := range monthctx.MonthWidth {
-						var i18nMonth i18n.CalendarMonthFormatNameValue
+
+						i18nMonth := make(i18n.CalendarMonthFormatNameValue)
+
 						for _, m := range months.Month {
 							switch m.Type {
 							case "1":
-								i18nMonth.Jan = m.Data()
+								i18nMonth[time.January] = m.Data()
 							case "2":
-								i18nMonth.Feb = m.Data()
+								i18nMonth[time.February] = m.Data()
 							case "3":
-								i18nMonth.Mar = m.Data()
+								i18nMonth[time.March] = m.Data()
 							case "4":
-								i18nMonth.Apr = m.Data()
+								i18nMonth[time.April] = m.Data()
 							case "5":
-								i18nMonth.May = m.Data()
+								i18nMonth[time.May] = m.Data()
 							case "6":
-								i18nMonth.Jun = m.Data()
+								i18nMonth[time.June] = m.Data()
 							case "7":
-								i18nMonth.Jul = m.Data()
+								i18nMonth[time.July] = m.Data()
 							case "8":
-								i18nMonth.Aug = m.Data()
+								i18nMonth[time.August] = m.Data()
 							case "9":
-								i18nMonth.Sep = m.Data()
+								i18nMonth[time.September] = m.Data()
 							case "10":
-								i18nMonth.Oct = m.Data()
+								i18nMonth[time.October] = m.Data()
 							case "11":
-								i18nMonth.Nov = m.Data()
+								i18nMonth[time.November] = m.Data()
 							case "12":
-								i18nMonth.Dec = m.Data()
+								i18nMonth[time.December] = m.Data()
 							}
 						}
 						switch months.Type {
@@ -191,26 +204,31 @@ func main() {
 			}
 			if ldmlCar.Days != nil {
 				for _, dayctx := range ldmlCar.Days.DayContext {
+
 					for _, days := range dayctx.DayWidth {
-						var i18nDay i18n.CalendarDayFormatNameValue
+
+						i18nDay := make(i18n.CalendarDayFormatNameValue)
+
 						for _, d := range days.Day {
+
 							switch d.Type {
 							case "sun":
-								i18nDay.Sun = d.Data()
+								i18nDay[time.Sunday] = d.Data()
 							case "mon":
-								i18nDay.Mon = d.Data()
+								i18nDay[time.Monday] = d.Data()
 							case "tue":
-								i18nDay.Tue = d.Data()
+								i18nDay[time.Tuesday] = d.Data()
 							case "wed":
-								i18nDay.Wed = d.Data()
+								i18nDay[time.Wednesday] = d.Data()
 							case "thu":
-								i18nDay.Thu = d.Data()
+								i18nDay[time.Thursday] = d.Data()
 							case "fri":
-								i18nDay.Fri = d.Data()
+								i18nDay[time.Friday] = d.Data()
 							case "sat":
-								i18nDay.Sat = d.Data()
+								i18nDay[time.Saturday] = d.Data()
 							}
 						}
+
 						switch days.Type {
 						case "abbreviated":
 							calendar.FormatNames.Days.Abbreviated = i18nDay
@@ -224,22 +242,23 @@ func main() {
 					}
 				}
 			}
+
 			if ldmlCar.DayPeriods != nil {
+
 				for _, ctx := range ldmlCar.DayPeriods.DayPeriodContext {
+
 					for _, width := range ctx.DayPeriodWidth {
-						var i18nPeriod i18n.CalendarPeriodFormatNameValue
+
+						// var i18nPeriod i18n.CalendarPeriodFormatNameValue
+						i18nPeriod := make(i18n.CalendarPeriodFormatNameValue)
+
 						for _, d := range width.DayPeriod {
-							switch d.Type {
-							case "am":
-								if i18nPeriod.AM == "" {
-									i18nPeriod.AM = d.Data()
-								}
-							case "pm":
-								if i18nPeriod.PM == "" {
-									i18nPeriod.PM = d.Data()
-								}
+
+							if _, ok := i18nPeriod[d.Type]; !ok {
+								i18nPeriod[d.Type] = d.Data()
 							}
 						}
+
 						switch width.Type {
 						case "abbreviated":
 							calendar.FormatNames.Periods.Abbreviated = i18nPeriod
@@ -295,15 +314,15 @@ func main() {
 			}
 
 			func new%sSymbols() Symbols {
-				return %#v
+				return %# v
 			}
 
 			func new%sFormats() NumberFormats {
-				return %#v
+				return %# v
 			}
 
-			func new%sCurrencies() []Currency {
-				return %#v
+			func new%sCurrencies() CurrencyFormatValue {
+				return %# v
 			}
 
 			func new%sCalendar() Calendar {
@@ -311,8 +330,9 @@ func main() {
 			}
 
 		`, localeNoUnderscore, locale, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore, localeNoUnderscore,
-				localeNoUnderscore, pretty.Formatter(number.Symbols), localeNoUnderscore, pretty.Formatter(number.Formats), localeNoUnderscore,
-				pretty.Formatter(number.Currencies), localeNoUnderscore, pretty.Formatter(calendar))))
+				localeNoUnderscore, number.Symbols, localeNoUnderscore, number.Formats, localeNoUnderscore,
+				number.Currencies, localeNoUnderscore, calendar)))
+
 			if err != nil {
 				panic(err)
 			}
