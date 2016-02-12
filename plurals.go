@@ -5,8 +5,6 @@ import "math"
 // PluralRule denotes the type of plural rules
 type PluralRule int
 
-// PluralRule types
-
 // TODO: change this to integer for efficiency and use stringify lib to generate string values.
 const (
 	PluralRuleZero  PluralRule = iota // zero
@@ -16,15 +14,6 @@ const (
 	PluralRuleMany                    // many - also used for fractions if they have a separate class
 	PluralRuleOther                   // other - required—general plural form—also used if the language only has a single form
 )
-
-// const (
-// 	PluralRuleZero  PluralRule = "zero"  // zero
-// 	PluralRuleOne              = "one"   // singular
-// 	PluralRuleTwo              = "two"   // dual
-// 	PluralRuleFew              = "few"   // paucal
-// 	PluralRuleMany             = "many"  // also used for fractions if they have a separate class
-// 	PluralRuleOther            = "other" // required—general plural form—also used if the language only has a single form
-// )
 
 // NumberValue should be one of these types:
 // int, float

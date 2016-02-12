@@ -1,39 +1,41 @@
 package ut
 
 import (
+	"errors"
 	"fmt"
 	"log"
+	"time"
 )
 
 type translation struct {
 	text string
 }
 
-// map[key]map[plural type othe, many, few, single]*translation
+// map[key]map[plural type other, many, few, single]*translation
 type translations map[PluralRule]map[string]*translation
 type groups map[string][]*translation
 
 // Translator holds the locale translation instance
 type Translator struct {
-	Locale       *Locale
+	locale       *Locale
 	ruler        PluralRuler
 	translations translations
 	groups       groups
 }
 
 func newTranslator(locale string) (*Translator, error) {
-	return nil, nil
-	// loc, err := GetLocale(locale)
-	// if err != nil {
-	// 	return nil, err
-	// }
 
-	// return &Translator{
-	// 	Locale:       loc,
-	// 	ruler:        pluralRules[loc.PluralRule],
-	// 	translations: make(translations),
-	// 	groups:       make(groups),
-	// }, nil
+	loc, err := GetLocale(locale)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Translator{
+		locale:       loc,
+		ruler:        pluralRules[loc.PluralRule],
+		translations: make(translations),
+		groups:       make(groups),
+	}, nil
 }
 
 // Add registers a new translation to the Translator using the
@@ -71,31 +73,145 @@ func (t *Translator) T(key string, a ...interface{}) string {
 	return t.P(key, 0, a...)
 }
 
+// TSafe translates the text associated with the given key with the
+// arguments passed in, if the key or rule cannot be found it returns an error
+func (t *Translator) TSafe(key string, a ...interface{}) (string, error) {
+	return t.PSafe(key, 0, a...)
+}
+
 // P translates the plural text associated with the given key with the
 // arguments passed in
 func (t *Translator) P(key string, count interface{}, a ...interface{}) string {
+
+	trans, err := t.PSafe(key, count, a...)
+	if err != nil {
+		log.Println(err.Error())
+		return err.Error()
+	}
+
+	return trans
+}
+
+// PSafe translates the plural text associated with the given key with the
+// arguments passed in, if the key or rule cannot be found it returns an error
+func (t *Translator) PSafe(key string, count interface{}, a ...interface{}) (string, error) {
 
 	rule := t.ruler.FindRule(count)
 
 	trans, ok := t.translations[rule][key]
 	if !ok {
-		s := "***** WARNING:***** Translation Key " + key + " Not Found"
-		log.Println(s)
-		return s
+		return "", errors.New("***** WARNING:***** Translation Key " + key + " Not Found")
 	}
 
-	return fmt.Sprintf(trans.text, a...)
+	return fmt.Sprintf(trans.text, a...), nil
 }
 
-// // TSafe translates the text associated with the given key with the
-// // arguments passed in just like T() but doesn't panic, but instead
-// // returns an error
-// func (t *Translator) TSafe(key string, a ...interface{}) (string, error) {
+// FmtDateFull formats the time with the current locales full date format
+func (t *Translator) FmtDateFull(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateFull(dt)
+}
 
-// 	trans, ok := t.translations[key]
-// 	if !ok {
-// 		return "", errors.New("*** Translation Key " + key + " Not Found")
-// 	}
+// FmtDateLong formats the time with the current locales long date format
+func (t *Translator) FmtDateLong(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateLong(dt)
+}
 
-// 	return fmt.Sprintf(trans.singular, a...), nil
-// }
+// FmtDateMedium formats the time with the current locales medium date format
+func (t *Translator) FmtDateMedium(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateMedium(dt)
+}
+
+// FmtDateShort formats the time with the current locales short date format
+func (t *Translator) FmtDateShort(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateShort(dt)
+}
+
+// FmtDateTimeFull formats the time with the current locales full data & time format
+func (t *Translator) FmtDateTimeFull(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateTimeFull(dt)
+}
+
+// FmtDateTimeLong formats the time with the current locales long data & time format
+func (t *Translator) FmtDateTimeLong(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateTimeLong(dt)
+}
+
+// FmtDateTimeMedium formats the time with the current locales medium data & time format
+func (t *Translator) FmtDateTimeMedium(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateTimeMedium(dt)
+}
+
+// FmtDateTimeShort formats the time with the current locales short data & time format
+func (t *Translator) FmtDateTimeShort(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtDateTimeShort(dt)
+}
+
+// FmtTimeFull formats the time with the current locales full time format
+func (t *Translator) FmtTimeFull(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtTimeFull(dt)
+}
+
+// FmtTimeLong formats the time with the current locales long time format
+func (t *Translator) FmtTimeLong(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtTimeLong(dt)
+}
+
+// FmtTimeMedium formats the time with the current locales medium time format
+func (t *Translator) FmtTimeMedium(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtTimeMedium(dt)
+}
+
+// FmtTimeShort formats the time with the current locales short time format
+func (t *Translator) FmtTimeShort(dt time.Time) (string, error) {
+	return t.locale.Calendar.FmtTimeShort(dt)
+}
+
+// FmtCurrencySafe takes a float number and a currency key and returns a string
+// with a properly formatted currency amount with the correct currency symbol.
+// If a symbol cannot be found for the reqested currency, the the key is used
+// instead. If the currency key requested is not recognized, it is used as the
+// symbol, and an error is returned with the formatted string.
+func (t *Translator) FmtCurrencySafe(currency string, number interface{}) (string, error) {
+	return t.locale.Number.FmtCurrencySafe(currency, toFloat64(number))
+}
+
+// FmtCurrencyWholeSafe does exactly what FormatCurrency does, but it leaves off
+// any decimal places. AKA, it would return $100 rather than $100.00.
+func (t *Translator) FmtCurrencyWholeSafe(currency string, number interface{}) (string, error) {
+	return t.locale.Number.FmtCurrencyWholeSafe(currency, toFloat64(number))
+}
+
+// FmtCurrency takes a float number and a currency key and returns a string
+// with a properly formatted currency amount with the correct currency symbol.
+// If a symbol cannot be found for the reqested currency, this will panic, use
+// FmtCurrencySafe for non panicing variant.
+func (t *Translator) FmtCurrency(currency string, number interface{}) string {
+	return t.locale.Number.FmtCurrency(currency, toFloat64(number))
+}
+
+// FmtCurrencyWhole does exactly what FormatCurrency does, but it leaves off
+// any decimal places. AKA, it would return $100 rather than $100.00.
+// If a symbol cannot be found for the reqested currency, this will panic, use
+// FmtCurrencyWholeSafe for non panicing variant.
+func (t *Translator) FmtCurrencyWhole(currency string, number interface{}) string {
+	return t.locale.Number.FmtCurrencyWhole(currency, toFloat64(number))
+}
+
+// FmtNumber takes a float number and returns a properly formatted string
+// representation of that number according to the locale's number format.
+func (t *Translator) FmtNumber(number interface{}) string {
+	return t.locale.Number.FmtNumber(toFloat64(number))
+}
+
+// FmtNumberWhole does exactly what FormatNumber does, but it leaves off any
+// decimal places. AKA, it would return 100 rather than 100.01.
+func (t *Translator) FmtNumberWhole(number interface{}) string {
+	return t.locale.Number.FmtNumberWhole(toFloat64(number))
+}
+
+// FmtPercent takes a float number and returns a properly formatted string
+// representation of that number as a percentage according to the locale's
+// percentage format.
+func (t *Translator) FmtPercent(number interface{}) string {
+	return t.locale.Number.FmtPercent(toFloat64(number))
+}
