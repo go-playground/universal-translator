@@ -62,6 +62,20 @@ func (t *Translator) Add(rule PluralRule, group string, key string, text string)
 	t.groups[group] = append(t.groups[group], trans)
 }
 
+// PrintPluralRules prints the supported rules for the
+// given translators locale
+func (t *Translator) PrintPluralRules() {
+	rules := pluralPluralRules[t.locale.PluralRule]
+
+	fmt.Println("Translator locale '" + t.locale.Locale + "' supported rules:")
+
+	for _, rule := range rules {
+		fmt.Println("- " + rule.String())
+	}
+
+	fmt.Println("")
+}
+
 func (t *Translator) pluralRule(count NumberValue) (rule PluralRule) {
 	return t.ruler.FindRule(count)
 }

@@ -15,6 +15,25 @@ const (
 	PluralRuleOther                   // other - required—general plural form—also used if the language only has a single form
 )
 
+func (p PluralRule) String() string {
+	switch p {
+	case PluralRuleZero:
+		return "PluralRuleZero"
+	case PluralRuleOne:
+		return "PluralRuleOne"
+	case PluralRuleTwo:
+		return "PluralRuleTwo"
+	case PluralRuleFew:
+		return "PluralRuleFew"
+	case PluralRuleMany:
+		return "PluralRuleMany"
+	case PluralRuleOther:
+		return "PluralRuleOther"
+	default:
+		return "Unknown PluralRule"
+	}
+}
+
 // NumberValue should be one of these types:
 // int, float
 type NumberValue interface{}
@@ -51,6 +70,35 @@ var pluralRules = map[string]PluralRuler{
 	"5B": PluralRulerFunc(pluralRule5B),
 	"6A": PluralRulerFunc(pluralRule6A),
 	"6B": PluralRulerFunc(pluralRule6B),
+}
+
+var pluralPluralRules = map[string][]PluralRule{
+	"1":  {PluralRuleOther},
+	"2A": {PluralRuleOne, PluralRuleOther},
+	"2B": {PluralRuleOne, PluralRuleOther},
+	"2C": {PluralRuleOne, PluralRuleOther},
+	"2D": {PluralRuleOne, PluralRuleOther},
+	"2E": {PluralRuleOne, PluralRuleOther},
+	"2F": {PluralRuleOne, PluralRuleOther},
+	"3A": {PluralRuleZero, PluralRuleOne, PluralRuleOther},
+	"3B": {PluralRuleOne, PluralRuleTwo, PluralRuleOther},
+	"3C": {PluralRuleOne, PluralRuleFew, PluralRuleOther},
+	"3D": {PluralRuleOne, PluralRuleFew, PluralRuleOther},
+	"3E": {PluralRuleOne, PluralRuleFew, PluralRuleOther},
+	"3F": {PluralRuleZero, PluralRuleOne, PluralRuleOther},
+	"3G": {PluralRuleOne, PluralRuleFew, PluralRuleOther},
+	"3H": {PluralRuleZero, PluralRuleOne, PluralRuleOther},
+	"3I": {PluralRuleOne, PluralRuleFew, PluralRuleOther},
+	"4A": {PluralRuleOne, PluralRuleTwo, PluralRuleMany, PluralRuleOther},
+	"4B": {PluralRuleOne, PluralRuleFew, PluralRuleMany, PluralRuleOther},
+	"4C": {PluralRuleOne, PluralRuleFew, PluralRuleMany, PluralRuleOther},
+	"4D": {PluralRuleOne, PluralRuleTwo, PluralRuleFew, PluralRuleOther},
+	"4E": {PluralRuleOne, PluralRuleFew, PluralRuleMany, PluralRuleOther},
+	"4F": {PluralRuleOne, PluralRuleTwo, PluralRuleFew, PluralRuleOther},
+	"5A": {PluralRuleOne, PluralRuleTwo, PluralRuleFew, PluralRuleMany, PluralRuleOther},
+	"5B": {PluralRuleOne, PluralRuleTwo, PluralRuleFew, PluralRuleMany, PluralRuleOther},
+	"6A": {PluralRuleZero, PluralRuleOne, PluralRuleTwo, PluralRuleFew, PluralRuleMany, PluralRuleOther},
+	"6B": {PluralRuleZero, PluralRuleOne, PluralRuleTwo, PluralRuleFew, PluralRuleMany, PluralRuleOther},
 }
 
 // func GetPluralInt(code string) int {
