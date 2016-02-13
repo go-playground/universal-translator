@@ -13,15 +13,16 @@ type translators map[string]*Translator
 
 // UniversalTranslator holds all locale Translator instances
 type UniversalTranslator struct {
-	translators          map[string]*Translator
-	translatorsLowercase map[string]*Translator
+	translators          translators
+	translatorsLowercase translators
 	fallback             *Translator
 }
 
 // newUniversalTranslator creates a new UniversalTranslator instance.
 func newUniversalTranslator() *UniversalTranslator {
 	return &UniversalTranslator{
-		translators: make(translators),
+		translators:          make(translators),
+		translatorsLowercase: make(translators),
 	}
 }
 
