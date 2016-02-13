@@ -1,0 +1,5 @@
+package to
+
+import "github.com/go-playground/universal-translator"
+
+var currencies = ut.CurrencyFormatValue{"BRL": ut.Currency{Currency: "BRL", DisplayName: "BRL", Symbol: ""}, "GEL": ut.Currency{Currency: "GEL", DisplayName: "", Symbol: "₾"}, "SBD": ut.Currency{Currency: "SBD", DisplayName: "", Symbol: "SBD"}, "XPF": ut.Currency{Currency: "XPF", DisplayName: "", Symbol: "CFPF"}, "XXX": ut.Currency{Currency: "XXX", DisplayName: "Pa’anga Ta’e’ilo", Symbol: ""}, "AUD": ut.Currency{Currency: "AUD", DisplayName: "", Symbol: "AUD$"}, "NZD": ut.Currency{Currency: "NZD", DisplayName: "", Symbol: "NZD$"}, "PGK": ut.Currency{Currency: "PGK", DisplayName: "", Symbol: "PGK"}, "TOP": ut.Currency{Currency: "TOP", DisplayName: "Paʻanga fakatonga", Symbol: "T$"}, "TWD": ut.Currency{Currency: "TWD", DisplayName: "", Symbol: "$"}, "VUV": ut.Currency{Currency: "VUV", DisplayName: "", Symbol: "VUV"}, "WST": ut.Currency{Currency: "WST", DisplayName: "Tala fakahaʻamoa", Symbol: "WST"}, "FJD": ut.Currency{Currency: "FJD", DisplayName: "", Symbol: "FJD"}}

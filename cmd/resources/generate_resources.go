@@ -4,11 +4,15 @@ import (
 	"bytes"
 	"fmt"
 	"go/format"
+	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 	"sync"
 	"text/template"
 	"time"
+
+	"gopkg.in/yaml.v2"
 
 	"golang.org/x/text/unicode/cldr"
 
@@ -32,7 +36,90 @@ import (
 //     USD:
 //       symbol: $
 
+type pluralInfo struct {
+	path   string
+	locale string
+	plural string
+}
+
 func main() {
+
+	//plurals
+	rules := "data/rules"
+	plurals := map[string]*pluralInfo{}
+	basePlurals := map[string]string{}
+
+	err := filepath.Walk(rules, func(path string, info os.FileInfo, err error) error {
+
+		if err != nil {
+			panic(err)
+		}
+
+		if info.IsDir() {
+			return nil
+		}
+
+		in, err := ioutil.ReadFile(path)
+		if err != nil {
+			panic(err)
+		}
+
+		var out yaml.MapSlice
+		if err = yaml.Unmarshal(in, &out); err != nil {
+			panic(err)
+		}
+
+		var plural string
+		for _, item := range out {
+			if item.Key == "plural" {
+				plural = item.Value.(string)
+			}
+		}
+
+		locale := strings.Replace(info.Name(), filepath.Ext(info.Name()), "", 1)
+		locale = strings.ToLower(strings.Replace(locale, "-", "_", -1))
+
+		plurals[locale] = &pluralInfo{
+			path:   path,
+			locale: locale,
+			plural: plural,
+		}
+
+		if plural == "" {
+			return nil
+		}
+
+		basePlurals[locale] = plural
+
+		return nil
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	for _, p := range plurals {
+
+		if p.plural == "" {
+
+			var ok bool
+
+			fmt.Print("can't find plurals in ", p.path, " attempting to locate base language plural rules...")
+
+			base := strings.SplitN(p.locale, "_", 2)
+
+			p.plural, ok = basePlurals[base[0]]
+			if !ok {
+				fmt.Println("Not Found")
+				continue
+			}
+
+			fmt.Println("Found")
+		}
+	}
+
+	// cldr
+
 	var decoder cldr.Decoder
 	cldr, err := decoder.DecodePath("data/core")
 	if err != nil {
@@ -280,12 +367,354 @@ func main() {
 		}
 	}
 
+	for locale := range locs {
+
+		if !strings.Contains(locale, "_") {
+			continue
+		}
+
+		calendar := calendars[locale]
+
+		bString := strings.SplitN(locale, "_", 2)
+		base := bString[0]
+
+		baseCal := calendars[base]
+
+		// copy base calendar objects
+
+		// Dates
+		if calendar.Formats.Date.Full == "" {
+			calendar.Formats.Date.Full = baseCal.Formats.Date.Full
+		}
+
+		if calendar.Formats.Date.Long == "" {
+			calendar.Formats.Date.Long = baseCal.Formats.Date.Long
+		}
+
+		if calendar.Formats.Date.Medium == "" {
+			calendar.Formats.Date.Medium = baseCal.Formats.Date.Medium
+		}
+
+		if calendar.Formats.Date.Short == "" {
+			calendar.Formats.Date.Short = baseCal.Formats.Date.Short
+		}
+
+		// times
+		if calendar.Formats.Time.Full == "" {
+			calendar.Formats.Time.Full = baseCal.Formats.Time.Full
+		}
+
+		if calendar.Formats.Time.Long == "" {
+			calendar.Formats.Time.Long = baseCal.Formats.Time.Long
+		}
+
+		if calendar.Formats.Time.Medium == "" {
+			calendar.Formats.Time.Medium = baseCal.Formats.Time.Medium
+		}
+
+		if calendar.Formats.Time.Short == "" {
+			calendar.Formats.Time.Short = baseCal.Formats.Time.Short
+		}
+
+		// date & times
+		if calendar.Formats.DateTime.Full == "" {
+			calendar.Formats.DateTime.Full = baseCal.Formats.DateTime.Full
+		}
+
+		if calendar.Formats.DateTime.Long == "" {
+			calendar.Formats.DateTime.Long = baseCal.Formats.DateTime.Long
+		}
+
+		if calendar.Formats.DateTime.Medium == "" {
+			calendar.Formats.DateTime.Medium = baseCal.Formats.DateTime.Medium
+		}
+
+		if calendar.Formats.DateTime.Short == "" {
+			calendar.Formats.DateTime.Short = baseCal.Formats.DateTime.Short
+		}
+
+		// months
+
+		if calendar.FormatNames.Months.Abbreviated == nil {
+			calendar.FormatNames.Months.Abbreviated = make(i18n.CalendarMonthFormatNameValue)
+		}
+
+		if calendar.FormatNames.Months.Narrow == nil {
+			calendar.FormatNames.Months.Narrow = make(i18n.CalendarMonthFormatNameValue)
+		}
+
+		if calendar.FormatNames.Months.Short == nil {
+			calendar.FormatNames.Months.Short = make(i18n.CalendarMonthFormatNameValue)
+		}
+
+		if calendar.FormatNames.Months.Wide == nil {
+			calendar.FormatNames.Months.Wide = make(i18n.CalendarMonthFormatNameValue)
+		}
+
+		for k, v := range baseCal.FormatNames.Months.Abbreviated {
+
+			val, ok := calendar.FormatNames.Months.Abbreviated[k]
+			if !ok {
+				calendar.FormatNames.Months.Abbreviated[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Months.Abbreviated[k] = v
+			}
+		}
+
+		for k, v := range baseCal.FormatNames.Months.Narrow {
+
+			val, ok := calendar.FormatNames.Months.Narrow[k]
+			if !ok {
+				calendar.FormatNames.Months.Narrow[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Months.Narrow[k] = v
+			}
+		}
+
+		for k, v := range baseCal.FormatNames.Months.Short {
+
+			val, ok := calendar.FormatNames.Months.Short[k]
+			if !ok {
+				calendar.FormatNames.Months.Short[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Months.Short[k] = v
+			}
+		}
+
+		for k, v := range baseCal.FormatNames.Months.Wide {
+
+			val, ok := calendar.FormatNames.Months.Wide[k]
+			if !ok {
+				calendar.FormatNames.Months.Wide[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Months.Wide[k] = v
+			}
+		}
+
+		// days
+
+		if calendar.FormatNames.Days.Abbreviated == nil {
+			calendar.FormatNames.Days.Abbreviated = make(i18n.CalendarDayFormatNameValue)
+		}
+
+		if calendar.FormatNames.Days.Narrow == nil {
+			calendar.FormatNames.Days.Narrow = make(i18n.CalendarDayFormatNameValue)
+		}
+
+		if calendar.FormatNames.Days.Short == nil {
+			calendar.FormatNames.Days.Short = make(i18n.CalendarDayFormatNameValue)
+		}
+
+		if calendar.FormatNames.Days.Wide == nil {
+			calendar.FormatNames.Days.Wide = make(i18n.CalendarDayFormatNameValue)
+		}
+
+		for k, v := range baseCal.FormatNames.Days.Abbreviated {
+
+			val, ok := calendar.FormatNames.Days.Abbreviated[k]
+			if !ok {
+				calendar.FormatNames.Days.Abbreviated[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Days.Abbreviated[k] = v
+			}
+		}
+
+		for k, v := range baseCal.FormatNames.Days.Narrow {
+
+			val, ok := calendar.FormatNames.Days.Narrow[k]
+			if !ok {
+				calendar.FormatNames.Days.Narrow[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Days.Narrow[k] = v
+			}
+		}
+
+		for k, v := range baseCal.FormatNames.Days.Short {
+
+			val, ok := calendar.FormatNames.Days.Short[k]
+			if !ok {
+				calendar.FormatNames.Days.Short[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Days.Short[k] = v
+			}
+		}
+
+		for k, v := range baseCal.FormatNames.Days.Wide {
+
+			val, ok := calendar.FormatNames.Days.Wide[k]
+			if !ok {
+				calendar.FormatNames.Days.Wide[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Days.Wide[k] = v
+			}
+		}
+
+		// periods
+		if calendar.FormatNames.Periods.Abbreviated == nil {
+			calendar.FormatNames.Periods.Abbreviated = make(i18n.CalendarPeriodFormatNameValue)
+		}
+
+		if calendar.FormatNames.Periods.Narrow == nil {
+			calendar.FormatNames.Periods.Narrow = make(i18n.CalendarPeriodFormatNameValue)
+		}
+
+		if calendar.FormatNames.Periods.Short == nil {
+			calendar.FormatNames.Periods.Short = make(i18n.CalendarPeriodFormatNameValue)
+		}
+
+		if calendar.FormatNames.Periods.Wide == nil {
+			calendar.FormatNames.Periods.Wide = make(i18n.CalendarPeriodFormatNameValue)
+		}
+
+		for k, v := range baseCal.FormatNames.Periods.Abbreviated {
+
+			val, ok := calendar.FormatNames.Periods.Abbreviated[k]
+			if !ok {
+				calendar.FormatNames.Periods.Abbreviated[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Periods.Abbreviated[k] = v
+			}
+		}
+
+		for k, v := range baseCal.FormatNames.Periods.Narrow {
+
+			val, ok := calendar.FormatNames.Periods.Narrow[k]
+			if !ok {
+				calendar.FormatNames.Periods.Narrow[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Periods.Narrow[k] = v
+			}
+		}
+
+		for k, v := range baseCal.FormatNames.Periods.Short {
+
+			val, ok := calendar.FormatNames.Periods.Short[k]
+			if !ok {
+				calendar.FormatNames.Periods.Short[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Periods.Short[k] = v
+			}
+		}
+
+		for k, v := range baseCal.FormatNames.Periods.Wide {
+
+			val, ok := calendar.FormatNames.Periods.Wide[k]
+			if !ok {
+				calendar.FormatNames.Periods.Wide[k] = v
+				continue
+			}
+
+			if val == "" {
+				calendar.FormatNames.Periods.Wide[k] = v
+			}
+		}
+
+		calendars[locale] = calendar
+
+		number := numbers[locale]
+		baseNum := numbers[base]
+
+		// symbols
+		if number.Symbols.Decimal == "" {
+			number.Symbols.Decimal = baseNum.Symbols.Decimal
+		}
+
+		if number.Symbols.Group == "" {
+			number.Symbols.Group = baseNum.Symbols.Group
+		}
+
+		if number.Symbols.Negative == "" {
+			number.Symbols.Negative = baseNum.Symbols.Negative
+		}
+
+		if number.Symbols.Percent == "" {
+			number.Symbols.Percent = baseNum.Symbols.Percent
+		}
+
+		if number.Symbols.PerMille == "" {
+			number.Symbols.PerMille = baseNum.Symbols.PerMille
+		}
+
+		// formats
+		if number.Formats.Decimal == "" {
+			number.Formats.Decimal = baseNum.Formats.Decimal
+		}
+
+		if number.Formats.Currency == "" {
+			number.Formats.Currency = baseNum.Formats.Currency
+		}
+
+		if number.Formats.Percent == "" {
+			number.Formats.Percent = baseNum.Formats.Percent
+		}
+
+		// currency
+		for k, v := range baseNum.Currencies {
+
+			val, ok := number.Currencies[k]
+			if !ok {
+				number.Currencies[k] = v
+				continue
+			}
+
+			if val.Currency == "" {
+				val.Currency = v.Currency
+			}
+
+			if val.DisplayName == "" {
+				val.DisplayName = v.DisplayName
+			}
+
+			if val.Symbol == "" {
+				val.Symbol = v.Symbol
+			}
+
+			number.Currencies[k] = val
+		}
+
+		numbers[locale] = number
+	}
+
 	var wg sync.WaitGroup
 	wg.Add(len(numbers))
 	for locale, number := range numbers {
 		go func(locale string, number i18n.Number) {
 
-			// localeNoUnderscore := strings.ToLower(strings.Replace(locale, "_", "", -1))
+			localeLowercase := strings.ToLower(locale)
+
 			defer func() { wg.Done() }()
 			path := "../../resources/locales/" + locale
 
@@ -378,6 +807,14 @@ func main() {
 			}
 			fmt.Fprintf(calendarFile, "%s", calendarCodes)
 
+			var ok bool
+			pluralCode := "1"
+
+			pInfo, ok := plurals[localeLowercase]
+			if ok && pInfo.plural != "" {
+				pluralCode = pInfo.plural
+			}
+
 			pluralFile, err := os.Create(path + "plural.go")
 			if err != nil {
 				panic(err)
@@ -386,8 +823,8 @@ func main() {
 
 			pluralCodes, err := format.Source([]byte(fmt.Sprintf(`package %s
 
-			var pluralRule = "1"
-		`, locale)))
+			var pluralRule = %q
+		`, locale, pluralCode)))
 			if err != nil {
 				panic(err)
 			}
