@@ -239,6 +239,16 @@ func (t *Translator) FmtTimeShort(dt time.Time) string {
 	return t.locale.Calendar.FmtTimeShort(dt)
 }
 
+// FmtDateTimeSafe formats the time with the current locales short time format
+func (t *Translator) FmtDateTimeSafe(dt time.Time, pattern string) (string, error) {
+	return t.locale.Calendar.FormatSafe(dt, pattern)
+}
+
+// FmtDateTime formats the time with the current locales short time format
+func (t *Translator) FmtDateTime(dt time.Time, pattern string) string {
+	return t.locale.Calendar.Format(dt, pattern)
+}
+
 // FmtCurrencySafe takes a float number and a currency key and returns a string
 // with a properly formatted currency amount with the correct currency symbol.
 // If a symbol cannot be found for the reqested currency, the the key is used
