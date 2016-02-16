@@ -34,7 +34,7 @@ Features
 Full Language tests
 --------------------
 I could sure use your help adding tests for every language, it is a huge undertaking and I just don't have the free time to do it all at the moment;
-any help would be **greatly appreciated!!!!** please see issue x for details.
+any help would be **greatly appreciated!!!!** please see [issue](https://github.com/go-playground/universal-translator/issues/1) for details.
 
 Installation
 -----------
