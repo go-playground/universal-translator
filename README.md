@@ -152,3 +152,7 @@ func main() {
 	// OUTPUT: 1,234
 }
 ```
+
+Misc
+-------
+Library is not at 1.0 yet, but don't forsee any major API changes; will raise to 1.0 once I've used it completely in at least one project without issue.
