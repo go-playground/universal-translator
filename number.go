@@ -149,14 +149,19 @@ func (n Number) FmtPercent(number float64) string {
 
 // parseFormat takes a format string and returns a numberFormat instance
 func (n Number) parseFormat(pattern string, includeDecimalDigits bool) *numberFormat {
-	// processed := false
-	// if includeDecimalDigits {
-	// 	_, processed = numberFormats[pattern]
-	// } else {
-	// 	_, processed = numberFormatsNoDecimals[pattern]
-	// }
 
-	// if !processed {
+	if includeDecimalDigits {
+
+		if format, exists := numberFormats[pattern]; exists {
+			return format
+		}
+
+	} else {
+		if format, exists := numberFormatsNoDecimals[pattern]; exists {
+			return format
+		}
+	}
+
 	format := new(numberFormat)
 	patterns := strings.Split(pattern, ";")
 
@@ -236,24 +241,19 @@ func (n Number) parseFormat(pattern string, includeDecimalDigits bool) *numberFo
 
 	if includeDecimalDigits {
 		numberFormats[pattern] = format
-	} else {
-		format.maxDecimalDigits = 0
-		format.minDecimalDigits = 0
-		numberFormatsNoDecimals[pattern] = format
+		return format
 	}
 
-	// }
-
-	if includeDecimalDigits {
-		return numberFormats[pattern]
-	}
-
-	return numberFormatsNoDecimals[pattern]
+	format.maxDecimalDigits = 0
+	format.minDecimalDigits = 0
+	numberFormatsNoDecimals[pattern] = format
+	return format
 }
 
 // formatNumber takes an arbitrary numberFormat and a number and applies that
 // format to that number, returning the resulting string
 func (n Number) formatNumber(format *numberFormat, number float64) string {
+
 	negative := number < 0
 
 	// apply the multiplier first - this is mainly used for percents

@@ -1,56 +1,3 @@
-## universal-translator
-<img align="right" src="https://raw.githubusercontent.com/go-playground/universal-translator/master/logo.png">
-![Project status](https://img.shields.io/badge/version-0.8.0-green.svg)
-[![GoDoc](https://godoc.org/github.com/go-playground/universal-translator?status.svg)](https://godoc.org/github.com/go-playground/universal-translator)
-![License](https://img.shields.io/dub/l/vibe-d.svg)
-
-Universal Translator is an i18n Translator for Go/Golang using CLDR data + pluralization rules
-
-Why another i18n library?
---------------------------
-I noticed that most libraries out there use static files for translations, which I'm not against just there is not option for coding it inline, 
-as well as having formats which do not handle all plural rules, or are overcomplicated. There is also very little in the way of helping the user
-know about what plural translations are needed for each language, no easy grouping to say, display all translations for a page...
-
-Features
---------
-- [x] Rules added from [CLDR](http://cldr.unicode.org/index/downloads) data
-- [x] Use fmt.Sprintf() for translation string parsing
-- [x] Add Translations in code
-- [x] Prints the supported plural rules for a given translators locale using translator.PrintPluralRules()
-- [x] Plural Translations
-- [x] Date, Time & DateTime formatting
-- [x] Number, Whole Number formatting
-- [x] Currency both standard & accounting, formatting i.e. -$1,234.50 vs ($1,234.50)
-- [ ] Support loading translations from files
-- [ ] Exporting translations to file, mainly for getting them professionally translated
-- [ ] Code Generation for translation files -> Go code.. i.e. after it has been professionally translated
-- [ ] Printing of grouped translations, i.e. all transations for the homepage
-- [ ] Tests for all languages, I need help with this one see below
-
-Full Language tests
---------------------
-I could sure use your help adding tests for every language, it is a huge undertaking and I just don't have the free time to do it all at the moment;
-any help would be **greatly appreciated!!!!** please see issue x for details.
-
-Installation
------------
-
-Use go get 
-
-```go
-go get github.com/go-playground/universal-translator
-``` 
-
-or to update
-
-```go
-go get -u github.com/go-playground/universal-translator
-``` 
-
-Usage
--------
-```go
 package main
 
 import (
@@ -151,4 +98,3 @@ func main() {
 	fmt.Println(formatted)
 	// OUTPUT: 1,234
 }
-```

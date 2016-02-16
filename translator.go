@@ -50,7 +50,7 @@ func (t *Translator) Add(rule PluralRule, group string, key string, text string)
 	}
 
 	if _, ok := t.translations[rule][key]; ok {
-		panic(fmt.Sprintf("Translation with key '%s' already exists", key))
+		panic(fmt.Sprintf("Translation with key %q already exists", key))
 	}
 
 	t.translations[rule][key] = trans
@@ -113,7 +113,7 @@ func (t *Translator) PSafe(key string, count interface{}, a ...interface{}) (str
 
 	trans, ok := t.translations[rule][key]
 	if !ok {
-		return "", errors.New("***** WARNING:***** Translation Key " + key + " Not Found")
+		return "", errors.New("***** WARNING:***** Translation Key '" + key + "' Not Found")
 	}
 
 	return fmt.Sprintf(trans.text, a...), nil
