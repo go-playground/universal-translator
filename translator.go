@@ -254,30 +254,30 @@ func (t *Translator) FmtDateTime(dt time.Time, pattern string) string {
 // If a symbol cannot be found for the reqested currency, the the key is used
 // instead. If the currency key requested is not recognized, it is used as the
 // symbol, and an error is returned with the formatted string.
-func (t *Translator) FmtCurrencySafe(currency string, number interface{}) (string, error) {
-	return t.locale.Number.FmtCurrencySafe(currency, toFloat64(number))
+func (t *Translator) FmtCurrencySafe(typ CurrencyType, currency string, number interface{}) (string, error) {
+	return t.locale.Number.FmtCurrencySafe(typ, currency, toFloat64(number))
 }
 
 // FmtCurrencyWholeSafe does exactly what FormatCurrency does, but it leaves off
 // any decimal places. AKA, it would return $100 rather than $100.00.
-func (t *Translator) FmtCurrencyWholeSafe(currency string, number interface{}) (string, error) {
-	return t.locale.Number.FmtCurrencyWholeSafe(currency, toFloat64(number))
+func (t *Translator) FmtCurrencyWholeSafe(typ CurrencyType, currency string, number interface{}) (string, error) {
+	return t.locale.Number.FmtCurrencyWholeSafe(typ, currency, toFloat64(number))
 }
 
 // FmtCurrency takes a float number and a currency key and returns a string
 // with a properly formatted currency amount with the correct currency symbol.
 // If a symbol cannot be found for the reqested currency, this will panic, use
 // FmtCurrencySafe for non panicing variant.
-func (t *Translator) FmtCurrency(currency string, number interface{}) string {
-	return t.locale.Number.FmtCurrency(currency, toFloat64(number))
+func (t *Translator) FmtCurrency(typ CurrencyType, currency string, number interface{}) string {
+	return t.locale.Number.FmtCurrency(typ, currency, toFloat64(number))
 }
 
 // FmtCurrencyWhole does exactly what FormatCurrency does, but it leaves off
 // any decimal places. AKA, it would return $100 rather than $100.00.
 // If a symbol cannot be found for the reqested currency, this will panic, use
 // FmtCurrencyWholeSafe for non panicing variant.
-func (t *Translator) FmtCurrencyWhole(currency string, number interface{}) string {
-	return t.locale.Number.FmtCurrencyWhole(currency, toFloat64(number))
+func (t *Translator) FmtCurrencyWhole(typ CurrencyType, currency string, number interface{}) string {
+	return t.locale.Number.FmtCurrencyWhole(typ, currency, toFloat64(number))
 }
 
 // FmtNumber takes a float number and returns a properly formatted string

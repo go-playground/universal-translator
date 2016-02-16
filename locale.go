@@ -32,9 +32,10 @@ type Symbols struct {
 
 // NumberFormats contains the number format information related to formatting
 type NumberFormats struct {
-	Decimal  string
-	Currency string
-	Percent  string
+	Decimal            string
+	Currency           string
+	CurrencyAccounting string
+	Percent            string
 }
 
 // Currency contains the Currency related formatting information

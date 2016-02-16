@@ -26,6 +26,15 @@ type numberFormat struct {
 	groupSizeMain    int // all other groups
 }
 
+// CurrencyType is the type of Currency your converting
+type CurrencyType int
+
+// Currency Types such as Standard vs Accounting notation i.e. -$123.50 vs ($123.50)
+const (
+	CurrencyStandard CurrencyType = iota
+	CurrencyAccounting
+)
+
 var (
 	// numberFormats keeps a copy of all numberFormat instances that have been
 	// loaded before, to prevent parsing a single number format string multiple
@@ -40,16 +49,28 @@ var (
 	prefixSuffixRegex = regexp.MustCompile(`(.*?)[#,\.0]+(.*)`)
 )
 
+func getCurrencyPattern(typ CurrencyType, nf NumberFormats) string {
+
+	if typ == CurrencyStandard {
+		return nf.Currency
+	}
+
+	return nf.CurrencyAccounting
+}
+
 // FmtCurrency takes a float number and a currency key and returns a string
 // with a properly formatted currency amount with the correct currency symbol.
-// If a symbol cannot be found for the reqested currency, this will panic, use
-// FmtCurrencySafe for non panicing variant.
-func (n Number) FmtCurrency(currency string, number float64) string {
+// If a symbol cannot be found for the reqested currency, this will return blank,
+// use FmtCurrencySafe for variant.
+func (n Number) FmtCurrency(typ CurrencyType, currency string, number float64) string {
 
-	format := n.parseFormat(n.Formats.Currency, true)
-	result := n.formatNumber(format, number)
+	formatted, err := n.FmtCurrencySafe(typ, currency, number)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
 
-	return strings.Replace(result, "¤", n.Currencies[currency].Symbol, -1)
+	return formatted
 }
 
 // FmtCurrencySafe takes a float number and a currency key and returns a string
@@ -57,9 +78,9 @@ func (n Number) FmtCurrency(currency string, number float64) string {
 // If a symbol cannot be found for the reqested currency, the the key is used
 // instead. If the currency key requested is not recognized, it is used as the
 // symbol, and an error is returned with the formatted string.
-func (n Number) FmtCurrencySafe(currency string, number float64) (formatted string, err error) {
+func (n Number) FmtCurrencySafe(typ CurrencyType, currency string, number float64) (formatted string, err error) {
 
-	format := n.parseFormat(n.Formats.Currency, true)
+	format := n.parseFormat(getCurrencyPattern(typ, n.Formats), true)
 	result := n.formatNumber(format, number)
 
 	c, ok := n.Currencies[currency]
@@ -78,17 +99,21 @@ func (n Number) FmtCurrencySafe(currency string, number float64) (formatted stri
 // any decimal places. AKA, it would return $100 rather than $100.00.
 // If a symbol cannot be found for the reqested currency, this will panic, use
 // FmtCurrencyWholeSafe for non panicing variant.
-func (n Number) FmtCurrencyWhole(currency string, number float64) string {
-	format := n.parseFormat(n.Formats.Currency, false)
-	result := n.formatNumber(format, number)
+func (n Number) FmtCurrencyWhole(typ CurrencyType, currency string, number float64) string {
 
-	return strings.Replace(result, "¤", n.Currencies[currency].Symbol, -1)
+	formatted, err := n.FmtCurrencyWholeSafe(typ, currency, number)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+
+	return formatted
 }
 
 // FmtCurrencyWholeSafe does exactly what FormatCurrency does, but it leaves off
 // any decimal places. AKA, it would return $100 rather than $100.00.
-func (n Number) FmtCurrencyWholeSafe(currency string, number float64) (formatted string, err error) {
-	format := n.parseFormat(n.Formats.Currency, false)
+func (n Number) FmtCurrencyWholeSafe(typ CurrencyType, currency string, number float64) (formatted string, err error) {
+	format := n.parseFormat(getCurrencyPattern(typ, n.Formats), false)
 	result := n.formatNumber(format, number)
 
 	c, ok := n.Currencies[currency]

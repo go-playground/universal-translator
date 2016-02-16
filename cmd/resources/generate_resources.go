@@ -161,8 +161,15 @@ func main() {
 		if len(ldml.Numbers.DecimalFormats) > 0 && len(ldml.Numbers.DecimalFormats[0].DecimalFormatLength) > 0 {
 			number.Formats.Decimal = ldml.Numbers.DecimalFormats[0].DecimalFormatLength[0].DecimalFormat[0].Pattern[0].Data()
 		}
+
 		if len(ldml.Numbers.CurrencyFormats) > 0 && len(ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength) > 0 {
+
 			number.Formats.Currency = ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat[0].Pattern[0].Data()
+			number.Formats.CurrencyAccounting = number.Formats.Currency
+
+			if len(ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat) > 1 {
+				number.Formats.CurrencyAccounting = ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat[1].Pattern[0].Data()
+			}
 		}
 		if len(ldml.Numbers.PercentFormats) > 0 && len(ldml.Numbers.PercentFormats[0].PercentFormatLength) > 0 {
 			number.Formats.Percent = ldml.Numbers.PercentFormats[0].PercentFormatLength[0].PercentFormat[0].Pattern[0].Data()
@@ -677,6 +684,10 @@ func main() {
 			number.Formats.Currency = baseNum.Formats.Currency
 		}
 
+		if number.Formats.CurrencyAccounting == "" {
+			number.Formats.CurrencyAccounting = baseNum.Formats.CurrencyAccounting
+		}
+
 		if number.Formats.Percent == "" {
 			number.Formats.Percent = baseNum.Formats.Percent
 		}
@@ -686,7 +697,7 @@ func main() {
 
 			val, ok := number.Currencies[k]
 			if !ok {
-				number.Currencies[k] = v
+				// number.Currencies[k] = v
 				continue
 			}
 
