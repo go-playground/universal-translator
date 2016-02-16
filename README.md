@@ -156,6 +156,12 @@ func main() {
 }
 ```
 
+Special Thanks
+--------------
+Special thanks to the following libraries that not only inspired, but that I borrowed a bunch of code from to create this.. ultimately there were many changes made and more to come, but without them would have taken forever to just get started.
+* [cldr](https://github.com/theplant/cldr) - A golang i18n tool using CLDR data
+* [i18n](https://github.com/vube/i18n) - golang package for basic i18n features, including message translation and number formatting
+
 Misc
 -------
 Library is not at 1.0 yet, but don't forsee any major API changes; will raise to 1.0 once I've used it completely in at least one project without issue.
