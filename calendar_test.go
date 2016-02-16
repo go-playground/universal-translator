@@ -23,7 +23,7 @@ import (
 
 var dateTimeString = "Jan 2, 2006 at 3:04:05pm"
 
-func TestDateTime(t *testing.T) {
+func TestDateTimeEn(t *testing.T) {
 
 	en, err := ut.GetTranslator("en")
 	Equal(t, err, nil)

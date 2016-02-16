@@ -67,7 +67,6 @@ func (n Number) FmtCurrency(typ CurrencyType, currency string, number float64) s
 	formatted, err := n.FmtCurrencySafe(typ, currency, number)
 	if err != nil {
 		fmt.Println(err)
-		return ""
 	}
 
 	return formatted
@@ -88,6 +87,7 @@ func (n Number) FmtCurrencySafe(typ CurrencyType, currency string, number float6
 		s := "**** WARNING **** unknown currency: " + currency
 		err = errors.New(s)
 		log.Println(s)
+		formatted = strings.Replace(result, "¤", currency, -1)
 		return
 	}
 
@@ -104,7 +104,6 @@ func (n Number) FmtCurrencyWhole(typ CurrencyType, currency string, number float
 	formatted, err := n.FmtCurrencyWholeSafe(typ, currency, number)
 	if err != nil {
 		fmt.Println(err)
-		return ""
 	}
 
 	return formatted
@@ -121,6 +120,7 @@ func (n Number) FmtCurrencyWholeSafe(typ CurrencyType, currency string, number f
 		s := "**** WARNING **** unknown currency: " + currency
 		err = errors.New(s)
 		log.Println(s)
+		formatted = strings.Replace(result, "¤", currency, -1)
 		return
 	}
 
