@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 // numberFormat is a struct that contains all the information about number
@@ -43,6 +44,9 @@ var (
 	// formats are used by multiple locales.
 	numberFormats           = map[string]*numberFormat{}
 	numberFormatsNoDecimals = map[string]*numberFormat{}
+
+	nfMutex   = new(sync.RWMutex)
+	nfndMutex = new(sync.RWMutex)
 
 	// prefixSuffixRegex is a regular expression that is used to parse number
 	// formats
@@ -152,14 +156,25 @@ func (n Number) parseFormat(pattern string, includeDecimalDigits bool) *numberFo
 
 	if includeDecimalDigits {
 
+		nfMutex.RLock()
+
 		if format, exists := numberFormats[pattern]; exists {
+			nfMutex.RUnlock()
 			return format
 		}
 
+		nfMutex.RUnlock()
+
 	} else {
+
+		nfndMutex.RLock()
+
 		if format, exists := numberFormatsNoDecimals[pattern]; exists {
+			nfndMutex.RUnlock()
 			return format
 		}
+
+		nfndMutex.RUnlock()
 	}
 
 	format := new(numberFormat)
@@ -240,13 +255,17 @@ func (n Number) parseFormat(pattern string, includeDecimalDigits bool) *numberFo
 	}
 
 	if includeDecimalDigits {
+		nfMutex.Lock()
 		numberFormats[pattern] = format
+		nfMutex.Unlock()
 		return format
 	}
 
 	format.maxDecimalDigits = 0
 	format.minDecimalDigits = 0
+	nfndMutex.Lock()
 	numberFormatsNoDecimals[pattern] = format
+	nfndMutex.Unlock()
 	return format
 }
 
