@@ -277,3 +277,260 @@ func TestPercentEn(t *testing.T) {
 	result = en.FmtPercent(12.34)
 	Equal(t, result, "1,234%")
 }
+
+func TestCurrencyTh(t *testing.T) {
+
+	th, err := ut.GetTranslator("th")
+	Equal(t, err, nil)
+
+	result, err := th.FmtCurrencySafe(ut.CurrencyStandard, "THB", 12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "THB12,345.68")
+
+	result = th.FmtCurrency(ut.CurrencyStandard, "THB", 12345.6789)
+	Equal(t, result, "THB12,345.68")
+
+	result, err = th.FmtCurrencySafe(ut.CurrencyAccounting, "THB", 12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "THB12,345.68")
+
+	result = th.FmtCurrency(ut.CurrencyAccounting, "THB", 12345.6789)
+	Equal(t, result, "THB12,345.68")
+
+	result, err = th.FmtCurrencySafe(ut.CurrencyStandard, "THB", -12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "-THB12,345.68")
+
+	result = th.FmtCurrency(ut.CurrencyStandard, "THB", -12345.6789)
+	Equal(t, result, "-THB12,345.68")
+
+	result, err = th.FmtCurrencySafe(ut.CurrencyAccounting, "THB", -12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "(THB12,345.68)")
+
+	result = th.FmtCurrency(ut.CurrencyAccounting, "THB", -12345.6789)
+	Equal(t, result, "(THB12,345.68)")
+
+	result, err = th.FmtCurrencySafe(ut.CurrencyStandard, "WHAT???", 12345.6789)
+	NotEqual(t, err, nil)
+	Equal(t, err.Error(), "**** WARNING **** unknown currency: WHAT???")
+
+	result = th.FmtCurrency(ut.CurrencyStandard, "WHAT???", 12345.6789)
+	Equal(t, result, "WHAT???12,345.68")
+
+	result, err = th.FmtCurrencySafe(ut.CurrencyAccounting, "WHAT???", 12345.6789)
+	NotEqual(t, err, nil)
+	Equal(t, err.Error(), "**** WARNING **** unknown currency: WHAT???")
+
+	result = th.FmtCurrency(ut.CurrencyAccounting, "WHAT???", 12345.6789)
+	Equal(t, result, "WHAT???12,345.68")
+
+	// try some really big numbers to make sure weird floaty stuff doesn't
+	// happen
+	result, err = th.FmtCurrencySafe(ut.CurrencyStandard, "THB", 12345000000000.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "THB12,345,000,000,000.68")
+
+	result = th.FmtCurrency(ut.CurrencyStandard, "THB", 12345000000000.6789)
+	Equal(t, result, "THB12,345,000,000,000.68")
+
+	result, err = th.FmtCurrencySafe(ut.CurrencyAccounting, "THB", 12345000000000.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "THB12,345,000,000,000.68")
+
+	result = th.FmtCurrency(ut.CurrencyAccounting, "THB", 12345000000000.6789)
+	Equal(t, result, "THB12,345,000,000,000.68")
+
+	result, err = th.FmtCurrencySafe(ut.CurrencyStandard, "THB", -12345000000000.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "-THB12,345,000,000,000.68")
+
+	result = th.FmtCurrency(ut.CurrencyStandard, "THB", -12345000000000.6789)
+	Equal(t, result, "-THB12,345,000,000,000.68")
+
+	result, err = th.FmtCurrencySafe(ut.CurrencyAccounting, "THB", -12345000000000.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "(THB12,345,000,000,000.68)")
+
+	result = th.FmtCurrency(ut.CurrencyAccounting, "THB", -12345000000000.6789)
+	Equal(t, result, "(THB12,345,000,000,000.68)")
+
+	en, err := ut.GetTranslator("en")
+	Equal(t, err, nil)
+
+	result, err = en.FmtCurrencySafe(ut.CurrencyStandard, "THB", 12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "12,345.68")
+
+	result = en.FmtCurrency(ut.CurrencyStandard, "THB", 12345.6789)
+	Equal(t, result, "12,345.68")
+
+	result, err = en.FmtCurrencySafe(ut.CurrencyAccounting, "THB", 12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "12,345.68")
+
+	result = en.FmtCurrency(ut.CurrencyAccounting, "THB", 12345.6789)
+	Equal(t, result, "12,345.68")
+
+	ar, err := ut.GetTranslator("ar")
+	Equal(t, err, nil)
+
+	result, err = ar.FmtCurrencySafe(ut.CurrencyStandard, "THB", -12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "\u200F-฿\u00A012٬345٫68")
+
+	result = ar.FmtCurrency(ut.CurrencyStandard, "THB", -12345.6789)
+	Equal(t, result, "\u200F-฿\u00A012٬345٫68")
+
+	result, err = ar.FmtCurrencySafe(ut.CurrencyAccounting, "THB", -12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "\u200F-฿\u00A012٬345٫68")
+
+	result = ar.FmtCurrency(ut.CurrencyAccounting, "THB", -12345.6789)
+	Equal(t, result, "\u200F-฿\u00A012٬345٫68")
+
+	// And one more for with some unusual symbols for good measure
+	result, err = th.FmtCurrencySafe(ut.CurrencyStandard, "THB", 0.0084)
+	Equal(t, err, nil)
+	Equal(t, result, "THB0.01")
+
+	result = th.FmtCurrency(ut.CurrencyStandard, "THB", 0.0084)
+	Equal(t, result, "THB0.01")
+}
+
+func TestCurrencyWholeTh(t *testing.T) {
+
+	th, err := ut.GetTranslator("th")
+	Equal(t, err, nil)
+
+	result, err := th.FmtCurrencyWholeSafe(ut.CurrencyStandard, "THB", 12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "THB12,346")
+
+	result = th.FmtCurrencyWhole(ut.CurrencyStandard, "THB", 12345.6789)
+	Equal(t, result, "THB12,346")
+
+	result, err = th.FmtCurrencyWholeSafe(ut.CurrencyAccounting, "THB", 12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "THB12,346")
+
+	result = th.FmtCurrencyWhole(ut.CurrencyAccounting, "THB", 12345.6789)
+	Equal(t, result, "THB12,346")
+
+	result, err = th.FmtCurrencyWholeSafe(ut.CurrencyStandard, "THB", -12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "-THB12,346")
+
+	result = th.FmtCurrencyWhole(ut.CurrencyStandard, "THB", -12345.6789)
+	Equal(t, result, "-THB12,346")
+
+	result, err = th.FmtCurrencyWholeSafe(ut.CurrencyAccounting, "THB", -12345.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "(THB12,346)")
+
+	result = th.FmtCurrencyWhole(ut.CurrencyAccounting, "THB", -12345.6789)
+	Equal(t, result, "(THB12,346)")
+
+	result, err = th.FmtCurrencyWholeSafe(ut.CurrencyStandard, "WHAT???", 12345.6789)
+	NotEqual(t, err, nil)
+	Equal(t, result, "WHAT???12,346")
+
+	result = th.FmtCurrencyWhole(ut.CurrencyStandard, "WHAT???", 12345.6789)
+	Equal(t, result, "WHAT???12,346")
+
+	// try some really big numbers to make sure weird floaty stuff doesn't
+	// happen
+	result, err = th.FmtCurrencyWholeSafe(ut.CurrencyStandard, "THB", 12345000000000.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "THB12,345,000,000,001")
+
+	result, err = th.FmtCurrencyWholeSafe(ut.CurrencyAccounting, "THB", 12345000000000.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "THB12,345,000,000,001")
+
+	result, err = th.FmtCurrencyWholeSafe(ut.CurrencyStandard, "THB", -12345000000000.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "-THB12,345,000,000,001")
+
+	result = th.FmtCurrencyWhole(ut.CurrencyStandard, "THB", -12345000000000.6789)
+	Equal(t, result, "-THB12,345,000,000,001")
+
+	result, err = th.FmtCurrencyWholeSafe(ut.CurrencyAccounting, "THB", -12345000000000.6789)
+	Equal(t, err, nil)
+	Equal(t, result, "(THB12,345,000,000,001)")
+
+	result = th.FmtCurrencyWhole(ut.CurrencyAccounting, "THB", -12345000000000.6789)
+	Equal(t, result, "(THB12,345,000,000,001)")
+}
+
+func TestNumberTh(t *testing.T) {
+
+	th, err := ut.GetTranslator("th")
+	Equal(t, err, nil)
+
+	// check basic english
+	result := th.FmtNumber(12345.6789)
+	Equal(t, result, "12,345.679")
+
+	result = th.FmtNumber(-12345.6789)
+	Equal(t, result, "-12,345.679")
+
+	result = th.FmtNumber(123456789)
+	Equal(t, result, "123,456,789")
+
+	hi, err := ut.GetTranslator("hi")
+	Equal(t, err, nil)
+
+	// check Hindi - different group sizes
+	result = hi.FmtNumber(12345.6789)
+	Equal(t, result, "12,345.679")
+
+	result = hi.FmtNumber(-12345.6789)
+	Equal(t, result, "-12,345.679")
+
+	result = hi.FmtNumber(123456789)
+	Equal(t, result, "12,34,56,789")
+
+	uz, err := ut.GetTranslator("uz")
+	Equal(t, err, nil)
+
+	// check Uzbek - something with a partial fallback
+	result = uz.FmtNumber(12345.6789)
+	Equal(t, result, "12٬345٫679")
+
+	result = uz.FmtNumber(-12345.6789)
+	Equal(t, result, "-12٬345٫679")
+
+	result = uz.FmtNumber(123456789)
+	Equal(t, result, "123٬456٬789")
+}
+
+func TestNumberWholeTh(t *testing.T) {
+
+	th, err := ut.GetTranslator("th")
+	Equal(t, err, nil)
+
+	result := th.FmtNumberWhole(12345.6789)
+	Equal(t, result, "12,346")
+
+	result = th.FmtNumberWhole(-12345.6789)
+	Equal(t, result, "-12,346")
+}
+
+func TestPercentTh(t *testing.T) {
+
+	th, err := ut.GetTranslator("th")
+	Equal(t, err, nil)
+
+	result := th.FmtPercent(0.01234)
+	Equal(t, result, "1%")
+
+	result = th.FmtPercent(0.1234)
+	Equal(t, result, "12%")
+
+	result = th.FmtPercent(1.234)
+	Equal(t, result, "123%")
+
+	result = th.FmtPercent(12.34)
+	Equal(t, result, "1,234%")
+}
