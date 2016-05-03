@@ -74,10 +74,6 @@ datetime:
       medium: '{1}, {0}'
       short: '{1}, {0}'
   formatNames:
-    eras:
-      abbreviated:
-        ad: "\u0E04.\u0E28."
-        be: "\u0E1E.\u0E28."
     months:
       abbreviated:
         "1": "\u0E21.\u0E04."
