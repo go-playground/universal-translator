@@ -197,13 +197,16 @@ func main() {
 		locs[loc] = strings.ToLower(strings.Replace(loc, "_", "", -1))
 
 		if ldml.Dates != nil && ldml.Dates.Calendars != nil {
+
 			var calendar i18n.Calendar
 			ldmlCar := ldml.Dates.Calendars.Calendar[0]
+
 			for _, cal := range ldml.Dates.Calendars.Calendar {
 				if cal.Type == "gregorian" {
 					ldmlCar = cal
 				}
 			}
+
 			if ldmlCar.DateFormats != nil {
 				for _, datefmt := range ldmlCar.DateFormats.DateFormatLength {
 					switch datefmt.Type {
@@ -370,6 +373,22 @@ func main() {
 				// 	calendar.FormatNames.Periods.Abbreviated = calendar.FormatNames.Periods.Wide
 				// }
 			}
+
+			if ldmlCar.Eras != nil {
+
+				var eras i18n.Eras
+
+				eras.BC.Full = ldmlCar.Eras.EraNames.Era[0].Data()
+				eras.BC.Abbrev = ldmlCar.Eras.EraAbbr.Era[0].Data()
+				eras.BC.Narrow = ldmlCar.Eras.EraNarrow.Era[0].Data()
+
+				eras.AD.Full = ldmlCar.Eras.EraNames.Era[1].Data()
+				eras.AD.Abbrev = ldmlCar.Eras.EraAbbr.Era[1].Data()
+				eras.AD.Narrow = ldmlCar.Eras.EraNarrow.Era[1].Data()
+
+				calendar.FormatNames.Eras = eras
+			}
+
 			calendars[loc] = calendar
 		}
 	}

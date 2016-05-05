@@ -7,6 +7,15 @@ import (
 	"time"
 )
 
+// // Era denotes the Era types
+// type Era uint8
+
+// // Era types
+// const (
+// 	AD Era = iota
+// 	BC
+// )
+
 const (
 	am = "am"
 	pm = "pm"
