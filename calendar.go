@@ -83,7 +83,6 @@ const (
 // These still need to be implemented. For now they are ignored.
 var (
 	datetimeFormatUnitCutset = []rune{
-		// datetimeFormatUnitEra,
 		datetimeForamtUnitQuarter,
 		datetimeFormatUnitTimeZone1,
 		datetimeFormatUnitTimeZone2,
@@ -307,7 +306,6 @@ func (c Calendar) formatDateTimeComponent(datetime time.Time, pattern string) (s
 // TODO: not yet implemented
 func (c Calendar) formatDateTimeComponentEra(datetime time.Time, length int) (string, error) {
 
-	fmt.Println(datetime.Year(), c.FormatNames.Eras.AD.Abbrev, c.FormatNames.Eras.BC.Abbrev)
 	if datetime.Year() < 0 {
 		return c.FormatNames.Eras.BC.Abbrev, nil
 	}

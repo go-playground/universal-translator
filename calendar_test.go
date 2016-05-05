@@ -21,7 +21,10 @@ import (
 // go test -coverprofile cover.out && go tool cover -html=cover.out -o cover.html
 //
 
-var dateTimeString = "Jan 2, 2006 at 3:04:05pm"
+var (
+	dateTimeString = "Jan 2, 2006 at 3:04:05pm"
+	bc300DateTime  = time.Date(-300, 1, 2, 3, 4, 5, 0, time.UTC)
+)
 
 func TestDateTimeEn(t *testing.T) {
 
@@ -137,25 +140,34 @@ func TestDateTimeTh(t *testing.T) {
 	datetime, err := time.Parse(dateTimeString, dateTimeString)
 	Equal(t, err, nil)
 
-	bcDateTime := time.Date(-300, 1, 2, 3, 4, 5, 0, time.UTC)
-	dt, err := th.FmtDateFullSafe(bcDateTime)
+	// test the public method
+	dt, err := th.FmtDateFullSafe(datetime)
+	Equal(t, err, nil)
+	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม ค.ศ. 2006")
+
+	dt, err = th.FmtDateFullSafe(bc300DateTime)
 	Equal(t, err, nil)
 	Equal(t, dt, "วันเสาร์ที่ 2 มกราคม ปีก่อน ค.ศ. 300")
 
-	// test the public method
-	dt, err = th.FmtDateFullSafe(datetime)
-	Equal(t, err, nil)
-	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม ค.ศ. 2006")
-
 	dt = th.FmtDateFull(datetime)
 	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม ค.ศ. 2006")
+
+	dt = th.FmtDateFull(bc300DateTime)
+	Equal(t, dt, "วันเสาร์ที่ 2 มกราคม ปีก่อน ค.ศ. 300")
 
 	dt, err = th.FmtDateLongSafe(datetime)
 	Equal(t, err, nil)
 	Equal(t, dt, "2 มกราคม ค.ศ. 2006")
 
+	dt, err = th.FmtDateLongSafe(bc300DateTime)
+	Equal(t, err, nil)
+	Equal(t, dt, "2 มกราคม ปีก่อน ค.ศ. 300")
+
 	dt = th.FmtDateLong(datetime)
 	Equal(t, dt, "2 มกราคม ค.ศ. 2006")
+
+	dt = th.FmtDateLong(bc300DateTime)
+	Equal(t, dt, "2 มกราคม ปีก่อน ค.ศ. 300")
 
 	dt, err = th.FmtDateMediumSafe(datetime)
 	Equal(t, err, nil)
@@ -203,15 +215,29 @@ func TestDateTimeTh(t *testing.T) {
 	Equal(t, err, nil)
 	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม ค.ศ. 2006 15 นาฬิกา 04 นาที 05 วินาที")
 
+	dt, err = th.FmtDateTimeFullSafe(bc300DateTime)
+	Equal(t, err, nil)
+	Equal(t, dt, "วันเสาร์ที่ 2 มกราคม ปีก่อน ค.ศ. 300 3 นาฬิกา 04 นาที 05 วินาที")
+
 	dt = th.FmtDateTimeFull(datetime)
 	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม ค.ศ. 2006 15 นาฬิกา 04 นาที 05 วินาที")
+
+	dt = th.FmtDateTimeFull(bc300DateTime)
+	Equal(t, dt, "วันเสาร์ที่ 2 มกราคม ปีก่อน ค.ศ. 300 3 นาฬิกา 04 นาที 05 วินาที")
 
 	dt, err = th.FmtDateTimeLongSafe(datetime)
 	Equal(t, err, nil)
 	Equal(t, dt, "2 มกราคม ค.ศ. 2006 15 นาฬิกา 04 นาที 05 วินาที")
 
+	dt, err = th.FmtDateTimeLongSafe(bc300DateTime)
+	Equal(t, err, nil)
+	Equal(t, dt, "2 มกราคม ปีก่อน ค.ศ. 300 3 นาฬิกา 04 นาที 05 วินาที")
+
 	dt = th.FmtDateTimeLong(datetime)
 	Equal(t, dt, "2 มกราคม ค.ศ. 2006 15 นาฬิกา 04 นาที 05 วินาที")
+
+	dt = th.FmtDateTimeLong(bc300DateTime)
+	Equal(t, dt, "2 มกราคม ปีก่อน ค.ศ. 300 3 นาฬิกา 04 นาที 05 วินาที")
 
 	dt, err = th.FmtDateTimeMediumSafe(datetime)
 	Equal(t, err, nil)
