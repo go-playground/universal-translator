@@ -7,6 +7,15 @@ import (
 	"time"
 )
 
+// // Era denotes the Era types
+// type Era uint8
+
+// // Era types
+// const (
+// 	AD Era = iota
+// 	BC
+// )
+
 const (
 	am = "am"
 	pm = "pm"
@@ -74,7 +83,6 @@ const (
 // These still need to be implemented. For now they are ignored.
 var (
 	datetimeFormatUnitCutset = []rune{
-		datetimeFormatUnitEra,
 		datetimeForamtUnitQuarter,
 		datetimeFormatUnitTimeZone1,
 		datetimeFormatUnitTimeZone2,
@@ -297,12 +305,22 @@ func (c Calendar) formatDateTimeComponent(datetime time.Time, pattern string) (s
 // formatDateTimeComponentEra renders an era component.
 // TODO: not yet implemented
 func (c Calendar) formatDateTimeComponentEra(datetime time.Time, length int) (string, error) {
-	return "", nil
+
+	if datetime.Year() < 0 {
+		return c.FormatNames.Eras.BC.Abbrev, nil
+	}
+
+	return c.FormatNames.Eras.AD.Abbrev, nil
 }
 
 // formatDateTimeComponentYear renders a year component.
 func (c Calendar) formatDateTimeComponentYear(datetime time.Time, length int) (string, error) {
 	year := datetime.Year()
+
+	if year < 0 {
+		year = year * -1
+	}
+
 	switch length {
 	case datetimeFormatLength1Plus:
 		return c.formatDateTimeComponentYearLengthWide(year), nil

@@ -304,6 +304,8 @@ import (
 	_ "github.com/go-playground/universal-translator/resources/locales/es_AR"
 	// Locale "es_BO" import that automatically registers itslef with the universal-translator package
 	_ "github.com/go-playground/universal-translator/resources/locales/es_BO"
+	// Locale "es_BR" import that automatically registers itslef with the universal-translator package
+	_ "github.com/go-playground/universal-translator/resources/locales/es_BR"
 	// Locale "es_CL" import that automatically registers itslef with the universal-translator package
 	_ "github.com/go-playground/universal-translator/resources/locales/es_CL"
 	// Locale "es_CO" import that automatically registers itslef with the universal-translator package
@@ -628,6 +630,8 @@ import (
 	_ "github.com/go-playground/universal-translator/resources/locales/pt_AO"
 	// Locale "pt_CV" import that automatically registers itslef with the universal-translator package
 	_ "github.com/go-playground/universal-translator/resources/locales/pt_CV"
+	// Locale "pt_LU" import that automatically registers itslef with the universal-translator package
+	_ "github.com/go-playground/universal-translator/resources/locales/pt_LU"
 	// Locale "pt_MO" import that automatically registers itslef with the universal-translator package
 	_ "github.com/go-playground/universal-translator/resources/locales/pt_MO"
 	// Locale "pt_MZ" import that automatically registers itslef with the universal-translator package
@@ -786,6 +790,8 @@ import (
 	_ "github.com/go-playground/universal-translator/resources/locales/yo"
 	// Locale "yo_BJ" import that automatically registers itslef with the universal-translator package
 	_ "github.com/go-playground/universal-translator/resources/locales/yo_BJ"
+	// Locale "yue" import that automatically registers itslef with the universal-translator package
+	_ "github.com/go-playground/universal-translator/resources/locales/yue"
 	// Locale "zgh" import that automatically registers itslef with the universal-translator package
 	_ "github.com/go-playground/universal-translator/resources/locales/zgh"
 	// Locale "zh" import that automatically registers itslef with the universal-translator package
