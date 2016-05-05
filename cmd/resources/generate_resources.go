@@ -378,13 +378,29 @@ func main() {
 
 				var eras i18n.Eras
 
-				eras.BC.Full = ldmlCar.Eras.EraNames.Era[0].Data()
-				eras.BC.Abbrev = ldmlCar.Eras.EraAbbr.Era[0].Data()
-				eras.BC.Narrow = ldmlCar.Eras.EraNarrow.Era[0].Data()
+				if ldmlCar.Eras.EraNames != nil && len(ldmlCar.Eras.EraNames.Era) > 0 {
+					eras.BC.Full = ldmlCar.Eras.EraNames.Era[0].Data()
+				}
 
-				eras.AD.Full = ldmlCar.Eras.EraNames.Era[1].Data()
-				eras.AD.Abbrev = ldmlCar.Eras.EraAbbr.Era[1].Data()
-				eras.AD.Narrow = ldmlCar.Eras.EraNarrow.Era[1].Data()
+				if ldmlCar.Eras.EraAbbr != nil && len(ldmlCar.Eras.EraAbbr.Era) > 0 {
+					eras.BC.Abbrev = ldmlCar.Eras.EraAbbr.Era[0].Data()
+				}
+
+				if ldmlCar.Eras.EraNarrow != nil && len(ldmlCar.Eras.EraNarrow.Era) > 0 {
+					eras.BC.Narrow = ldmlCar.Eras.EraNarrow.Era[0].Data()
+				}
+
+				if ldmlCar.Eras.EraNames != nil && len(ldmlCar.Eras.EraNames.Era) > 2 {
+					eras.AD.Full = ldmlCar.Eras.EraNames.Era[2].Data()
+				}
+
+				if ldmlCar.Eras.EraAbbr != nil && len(ldmlCar.Eras.EraAbbr.Era) > 2 {
+					eras.AD.Abbrev = ldmlCar.Eras.EraAbbr.Era[2].Data()
+				}
+
+				if ldmlCar.Eras.EraNarrow != nil && len(ldmlCar.Eras.EraNarrow.Era) > 2 {
+					eras.AD.Narrow = ldmlCar.Eras.EraNarrow.Era[2].Data()
+				}
 
 				calendar.FormatNames.Eras = eras
 			}
