@@ -53,9 +53,15 @@ type Calendar struct {
 
 // CalendarFormats contains the DateTime format information
 type CalendarFormats struct {
-	Date     CalendarDateFormat
+	DateEra  DateEra
 	Time     CalendarDateFormat
 	DateTime CalendarDateFormat
+}
+
+// DateEra contains Era Date Formats as they can vary if AD vs BC
+type DateEra struct {
+	BC CalendarDateFormat
+	AD CalendarDateFormat
 }
 
 // CalendarDateFormat contains the DateTime length format information

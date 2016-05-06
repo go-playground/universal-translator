@@ -96,22 +96,42 @@ type datetimePatternComponent struct {
 
 // FmtDateFull formats the time with the current locales full date format
 func (c Calendar) FmtDateFull(t time.Time) string {
-	return c.Format(t, c.Formats.Date.Full)
+
+	if t.Year() < 0 {
+		return c.Format(t, c.Formats.DateEra.BC.Full)
+	}
+
+	return c.Format(t, c.Formats.DateEra.AD.Full)
 }
 
 // FmtDateLong formats the time with the current locales long date format
 func (c Calendar) FmtDateLong(t time.Time) string {
-	return c.Format(t, c.Formats.Date.Long)
+
+	if t.Year() < 0 {
+		return c.Format(t, c.Formats.DateEra.BC.Long)
+	}
+
+	return c.Format(t, c.Formats.DateEra.AD.Long)
 }
 
 // FmtDateMedium formats the time with the current locales medium date format
 func (c Calendar) FmtDateMedium(t time.Time) string {
-	return c.Format(t, c.Formats.Date.Medium)
+
+	if t.Year() < 0 {
+		return c.Format(t, c.Formats.DateEra.BC.Medium)
+	}
+
+	return c.Format(t, c.Formats.DateEra.AD.Medium)
 }
 
 // FmtDateShort formats the time with the current locales short date format
 func (c Calendar) FmtDateShort(t time.Time) string {
-	return c.Format(t, c.Formats.Date.Short)
+
+	if t.Year() < 0 {
+		return c.Format(t, c.Formats.DateEra.BC.Short)
+	}
+
+	return c.Format(t, c.Formats.DateEra.AD.Short)
 }
 
 // FmtTimeFull formats the time with the current locales full time format
@@ -136,46 +156,94 @@ func (c Calendar) FmtTimeShort(t time.Time) string {
 
 // FmtDateTimeFull formats the time with the current locales full data & time format
 func (c Calendar) FmtDateTimeFull(t time.Time) string {
-	pattern := getDateTimePattern(c.Formats.DateTime.Full, c.Formats.Date.Full, c.Formats.Time.Full)
+
+	dt := c.Formats.DateEra.AD.Full
+
+	if t.Year() < 0 {
+		dt = c.Formats.DateEra.BC.Full
+	}
+
+	pattern := getDateTimePattern(c.Formats.DateTime.Full, dt, c.Formats.Time.Full)
 	return c.Format(t, pattern)
 }
 
 // FmtDateTimeLong formats the time with the current locales long data & time format
 func (c Calendar) FmtDateTimeLong(t time.Time) string {
-	pattern := getDateTimePattern(c.Formats.DateTime.Long, c.Formats.Date.Long, c.Formats.Time.Long)
+
+	dt := c.Formats.DateEra.AD.Long
+
+	if t.Year() < 0 {
+		dt = c.Formats.DateEra.BC.Long
+	}
+
+	pattern := getDateTimePattern(c.Formats.DateTime.Long, dt, c.Formats.Time.Long)
 	return c.Format(t, pattern)
 }
 
 // FmtDateTimeMedium formats the time with the current locales medium data & time format
 func (c Calendar) FmtDateTimeMedium(t time.Time) string {
-	pattern := getDateTimePattern(c.Formats.DateTime.Medium, c.Formats.Date.Medium, c.Formats.Time.Medium)
+
+	dt := c.Formats.DateEra.AD.Medium
+
+	if t.Year() < 0 {
+		dt = c.Formats.DateEra.BC.Medium
+	}
+
+	pattern := getDateTimePattern(c.Formats.DateTime.Medium, dt, c.Formats.Time.Medium)
 	return c.Format(t, pattern)
 }
 
 // FmtDateTimeShort formats the time with the current locales short data & time format
 func (c Calendar) FmtDateTimeShort(t time.Time) string {
-	pattern := getDateTimePattern(c.Formats.DateTime.Short, c.Formats.Date.Short, c.Formats.Time.Short)
+
+	dt := c.Formats.DateEra.AD.Short
+
+	if t.Year() < 0 {
+		dt = c.Formats.DateEra.BC.Short
+	}
+
+	pattern := getDateTimePattern(c.Formats.DateTime.Short, dt, c.Formats.Time.Short)
 	return c.Format(t, pattern)
 }
 
 // FmtDateFullSafe formats the time with the current locales full date format
 func (c Calendar) FmtDateFullSafe(t time.Time) (string, error) {
-	return c.FormatSafe(t, c.Formats.Date.Full)
+
+	if t.Year() < 0 {
+		return c.FormatSafe(t, c.Formats.DateEra.BC.Full)
+	}
+
+	return c.FormatSafe(t, c.Formats.DateEra.AD.Full)
 }
 
 // FmtDateLongSafe formats the time with the current locales long date format
 func (c Calendar) FmtDateLongSafe(t time.Time) (string, error) {
-	return c.FormatSafe(t, c.Formats.Date.Long)
+
+	if t.Year() < 0 {
+		return c.FormatSafe(t, c.Formats.DateEra.BC.Long)
+	}
+
+	return c.FormatSafe(t, c.Formats.DateEra.AD.Long)
 }
 
 // FmtDateMediumSafe formats the time with the current locales medium date format
 func (c Calendar) FmtDateMediumSafe(t time.Time) (string, error) {
-	return c.FormatSafe(t, c.Formats.Date.Medium)
+
+	if t.Year() < 0 {
+		return c.FormatSafe(t, c.Formats.DateEra.BC.Medium)
+	}
+
+	return c.FormatSafe(t, c.Formats.DateEra.AD.Medium)
 }
 
 // FmtDateShortSafe formats the time with the current locales short date format
 func (c Calendar) FmtDateShortSafe(t time.Time) (string, error) {
-	return c.FormatSafe(t, c.Formats.Date.Short)
+
+	if t.Year() < 0 {
+		return c.FormatSafe(t, c.Formats.DateEra.BC.Short)
+	}
+
+	return c.FormatSafe(t, c.Formats.DateEra.AD.Short)
 }
 
 // FmtTimeFullSafe formats the time with the current locales full time format
@@ -200,25 +268,53 @@ func (c Calendar) FmtTimeShortSafe(t time.Time) (string, error) {
 
 // FmtDateTimeFullSafe formats the time with the current locales full data & time format
 func (c Calendar) FmtDateTimeFullSafe(t time.Time) (string, error) {
-	pattern := getDateTimePattern(c.Formats.DateTime.Full, c.Formats.Date.Full, c.Formats.Time.Full)
+
+	dt := c.Formats.DateEra.AD.Full
+
+	if t.Year() < 0 {
+		dt = c.Formats.DateEra.BC.Full
+	}
+
+	pattern := getDateTimePattern(c.Formats.DateTime.Full, dt, c.Formats.Time.Full)
 	return c.FormatSafe(t, pattern)
 }
 
 // FmtDateTimeLongSafe formats the time with the current locales long data & time format
 func (c Calendar) FmtDateTimeLongSafe(t time.Time) (string, error) {
-	pattern := getDateTimePattern(c.Formats.DateTime.Long, c.Formats.Date.Long, c.Formats.Time.Long)
+
+	dt := c.Formats.DateEra.AD.Long
+
+	if t.Year() < 0 {
+		dt = c.Formats.DateEra.BC.Long
+	}
+
+	pattern := getDateTimePattern(c.Formats.DateTime.Long, dt, c.Formats.Time.Long)
 	return c.FormatSafe(t, pattern)
 }
 
 // FmtDateTimeMediumSafe formats the time with the current locales medium data & time format
 func (c Calendar) FmtDateTimeMediumSafe(t time.Time) (string, error) {
-	pattern := getDateTimePattern(c.Formats.DateTime.Medium, c.Formats.Date.Medium, c.Formats.Time.Medium)
+
+	dt := c.Formats.DateEra.AD.Medium
+
+	if t.Year() < 0 {
+		dt = c.Formats.DateEra.BC.Medium
+	}
+
+	pattern := getDateTimePattern(c.Formats.DateTime.Medium, dt, c.Formats.Time.Medium)
 	return c.FormatSafe(t, pattern)
 }
 
 // FmtDateTimeShortSafe formats the time with the current locales short data & time format
 func (c Calendar) FmtDateTimeShortSafe(t time.Time) (string, error) {
-	pattern := getDateTimePattern(c.Formats.DateTime.Short, c.Formats.Date.Short, c.Formats.Time.Short)
+
+	dt := c.Formats.DateEra.AD.Short
+
+	if t.Year() < 0 {
+		dt = c.Formats.DateEra.BC.Short
+	}
+
+	pattern := getDateTimePattern(c.Formats.DateTime.Short, dt, c.Formats.Time.Short)
 	return c.FormatSafe(t, pattern)
 }
 
@@ -307,10 +403,28 @@ func (c Calendar) formatDateTimeComponent(datetime time.Time, pattern string) (s
 func (c Calendar) formatDateTimeComponentEra(datetime time.Time, length int) (string, error) {
 
 	if datetime.Year() < 0 {
-		return c.FormatNames.Eras.BC.Abbrev, nil
+		switch length {
+		case datetimeFormatLength1Plus:
+			return c.FormatNames.Eras.BC.Narrow, nil
+		case datetimeFormatLength2Plus:
+			return c.FormatNames.Eras.BC.Abbrev, nil
+		case datetimeFormatLengthWide:
+			return c.FormatNames.Eras.BC.Full, nil
+		default:
+			return "", nil
+		}
 	}
 
-	return c.FormatNames.Eras.AD.Abbrev, nil
+	switch length {
+	case datetimeFormatLength1Plus:
+		return c.FormatNames.Eras.AD.Narrow, nil
+	case datetimeFormatLength2Plus:
+		return c.FormatNames.Eras.AD.Abbrev, nil
+	case datetimeFormatLengthWide:
+		return c.FormatNames.Eras.AD.Full, nil
+	default:
+		return "", nil
+	}
 }
 
 // formatDateTimeComponentYear renders a year component.

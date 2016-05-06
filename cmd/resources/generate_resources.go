@@ -211,14 +211,36 @@ func main() {
 				for _, datefmt := range ldmlCar.DateFormats.DateFormatLength {
 					switch datefmt.Type {
 					case "full":
-						calendar.Formats.Date.Full = datefmt.DateFormat[0].Pattern[0].Data()
+						calendar.Formats.DateEra.BC.Full = datefmt.DateFormat[0].Pattern[0].Data()
+						calendar.Formats.DateEra.AD.Full = calendar.Formats.DateEra.BC.Full
+
 					case "long":
-						calendar.Formats.Date.Long = datefmt.DateFormat[0].Pattern[0].Data()
+						calendar.Formats.DateEra.BC.Long = datefmt.DateFormat[0].Pattern[0].Data()
+						calendar.Formats.DateEra.AD.Long = calendar.Formats.DateEra.BC.Long
+
+						// Overrides TODO: Split Each Section into separate function, getting to big to maintain
+
 					case "medium":
-						calendar.Formats.Date.Medium = datefmt.DateFormat[0].Pattern[0].Data()
+						calendar.Formats.DateEra.BC.Medium = datefmt.DateFormat[0].Pattern[0].Data()
+						calendar.Formats.DateEra.AD.Medium = calendar.Formats.DateEra.BC.Medium
 					case "short":
-						calendar.Formats.Date.Short = datefmt.DateFormat[0].Pattern[0].Data()
+						calendar.Formats.DateEra.BC.Short = datefmt.DateFormat[0].Pattern[0].Data()
+						calendar.Formats.DateEra.AD.Short = calendar.Formats.DateEra.BC.Short
 					}
+				}
+
+				// Overrides TODO: Split Each Section into separate function, getting to big to maintain
+				switch loc {
+				case "th":
+					calendar.Formats.DateEra.BC.Full = "EEEEที่ d MMMM GGGG y"
+					calendar.Formats.DateEra.AD.Full = "EEEEที่ d MMMM y GGGG"
+					calendar.Formats.DateEra.BC.Long = "d MMMM GG y"
+					calendar.Formats.DateEra.AD.Long = "d MMMM y GG"
+				case "en":
+					calendar.Formats.DateEra.BC.Full = "EEEE, MMMM d, y GGGG"
+					calendar.Formats.DateEra.BC.Long = "MMMM d, y GG"
+					// calendar.Formats.DateEra.BC.Medium = "MMM d, y GG"
+					// calendar.Formats.DateEra.BC.Short = "M/d/yy G"
 				}
 			}
 
@@ -425,20 +447,24 @@ func main() {
 		// copy base calendar objects
 
 		// Dates
-		if calendar.Formats.Date.Full == "" {
-			calendar.Formats.Date.Full = baseCal.Formats.Date.Full
+		if calendar.Formats.DateEra.AD.Full == "" {
+			calendar.Formats.DateEra.BC.Full = baseCal.Formats.DateEra.BC.Full
+			calendar.Formats.DateEra.AD.Full = baseCal.Formats.DateEra.AD.Full
 		}
 
-		if calendar.Formats.Date.Long == "" {
-			calendar.Formats.Date.Long = baseCal.Formats.Date.Long
+		if calendar.Formats.DateEra.AD.Long == "" {
+			calendar.Formats.DateEra.BC.Long = baseCal.Formats.DateEra.BC.Long
+			calendar.Formats.DateEra.AD.Long = baseCal.Formats.DateEra.AD.Long
 		}
 
-		if calendar.Formats.Date.Medium == "" {
-			calendar.Formats.Date.Medium = baseCal.Formats.Date.Medium
+		if calendar.Formats.DateEra.AD.Medium == "" {
+			calendar.Formats.DateEra.BC.Medium = baseCal.Formats.DateEra.BC.Medium
+			calendar.Formats.DateEra.AD.Medium = baseCal.Formats.DateEra.AD.Medium
 		}
 
-		if calendar.Formats.Date.Short == "" {
-			calendar.Formats.Date.Short = baseCal.Formats.Date.Short
+		if calendar.Formats.DateEra.AD.Short == "" {
+			calendar.Formats.DateEra.BC.Short = baseCal.Formats.DateEra.BC.Short
+			calendar.Formats.DateEra.AD.Short = baseCal.Formats.DateEra.AD.Short
 		}
 
 		// times
