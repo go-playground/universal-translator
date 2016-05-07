@@ -143,14 +143,14 @@ func TestDateTimeTh(t *testing.T) {
 	// test the public method
 	dt, err := th.FmtDateFullSafe(datetime)
 	Equal(t, err, nil)
-	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม ค.ศ. 2006")
+	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม คริสต์ศักราช 2006")
 
 	dt, err = th.FmtDateFullSafe(bc300DateTime)
 	Equal(t, err, nil)
 	Equal(t, dt, "วันเสาร์ที่ 2 มกราคม 300 ปีก่อนคริสต์ศักราช")
 
 	dt = th.FmtDateFull(datetime)
-	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม ค.ศ. 2006")
+	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม คริสต์ศักราช 2006")
 
 	dt = th.FmtDateFull(bc300DateTime)
 	Equal(t, dt, "วันเสาร์ที่ 2 มกราคม 300 ปีก่อนคริสต์ศักราช")
@@ -213,14 +213,14 @@ func TestDateTimeTh(t *testing.T) {
 
 	dt, err = th.FmtDateTimeFullSafe(datetime)
 	Equal(t, err, nil)
-	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม ค.ศ. 2006 15 นาฬิกา 04 นาที 05 วินาที")
+	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม คริสต์ศักราช 2006 15 นาฬิกา 04 นาที 05 วินาที")
 
 	dt, err = th.FmtDateTimeFullSafe(bc300DateTime)
 	Equal(t, err, nil)
 	Equal(t, dt, "วันเสาร์ที่ 2 มกราคม 300 ปีก่อนคริสต์ศักราช 3 นาฬิกา 04 นาที 05 วินาที")
 
 	dt = th.FmtDateTimeFull(datetime)
-	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม ค.ศ. 2006 15 นาฬิกา 04 นาที 05 วินาที")
+	Equal(t, dt, "วันจันทร์ที่ 2 มกราคม คริสต์ศักราช 2006 15 นาฬิกา 04 นาที 05 วินาที")
 
 	dt = th.FmtDateTimeFull(bc300DateTime)
 	Equal(t, dt, "วันเสาร์ที่ 2 มกราคม 300 ปีก่อนคริสต์ศักราช 3 นาฬิกา 04 นาที 05 วินาที")
