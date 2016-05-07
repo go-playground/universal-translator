@@ -232,10 +232,10 @@ func main() {
 				// Overrides TODO: Split Each Section into separate function, getting to big to maintain
 				switch loc {
 				case "th":
-					calendar.Formats.DateEra.BC.Full = "EEEEที่ d MMMM GGGG y"
-					calendar.Formats.DateEra.AD.Full = "EEEEที่ d MMMM y GGGG"
-					calendar.Formats.DateEra.BC.Long = "d MMMM GG y"
-					calendar.Formats.DateEra.AD.Long = "d MMMM y GG"
+					calendar.Formats.DateEra.BC.Full = "EEEEที่ d MMMM y GGGG"
+					calendar.Formats.DateEra.AD.Full = "EEEEที่ d MMMM GGGG y"
+					calendar.Formats.DateEra.BC.Long = "d MMMM y GG"
+					calendar.Formats.DateEra.AD.Long = "d MMMM GG y"
 				case "en":
 					calendar.Formats.DateEra.BC.Full = "EEEE, MMMM d, y GGGG"
 					calendar.Formats.DateEra.BC.Long = "MMMM d, y GG"
