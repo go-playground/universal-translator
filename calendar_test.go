@@ -39,15 +39,29 @@ func TestDateTimeEn(t *testing.T) {
 	Equal(t, err, nil)
 	Equal(t, dt, "Monday, January 2, 2006")
 
+	dt, err = en.FmtDateFullSafe(bc300DateTime)
+	Equal(t, err, nil)
+	Equal(t, dt, "Saturday, January 2, 300 Before Christ")
+
 	dt = en.FmtDateFull(datetime)
 	Equal(t, dt, "Monday, January 2, 2006")
+
+	dt = en.FmtDateFull(bc300DateTime)
+	Equal(t, dt, "Saturday, January 2, 300 Before Christ")
 
 	dt, err = en.FmtDateLongSafe(datetime)
 	Equal(t, err, nil)
 	Equal(t, dt, "January 2, 2006")
 
+	dt, err = en.FmtDateLongSafe(bc300DateTime)
+	Equal(t, err, nil)
+	Equal(t, dt, "January 2, 300 BC")
+
 	dt = en.FmtDateLong(datetime)
 	Equal(t, dt, "January 2, 2006")
+
+	dt = en.FmtDateLong(bc300DateTime)
+	Equal(t, dt, "January 2, 300 BC")
 
 	dt, err = en.FmtDateMediumSafe(datetime)
 	Equal(t, err, nil)
@@ -95,15 +109,29 @@ func TestDateTimeEn(t *testing.T) {
 	Equal(t, err, nil)
 	Equal(t, dt, "Monday, January 2, 2006 at 3:04:05 PM")
 
+	dt, err = en.FmtDateTimeFullSafe(bc300DateTime)
+	Equal(t, err, nil)
+	Equal(t, dt, "Saturday, January 2, 300 Before Christ at 3:04:05 AM")
+
 	dt = en.FmtDateTimeFull(datetime)
 	Equal(t, dt, "Monday, January 2, 2006 at 3:04:05 PM")
+
+	dt = en.FmtDateTimeFull(bc300DateTime)
+	Equal(t, dt, "Saturday, January 2, 300 Before Christ at 3:04:05 AM")
 
 	dt, err = en.FmtDateTimeLongSafe(datetime)
 	Equal(t, err, nil)
 	Equal(t, dt, "January 2, 2006 at 3:04:05 PM")
 
+	dt, err = en.FmtDateTimeLongSafe(bc300DateTime)
+	Equal(t, err, nil)
+	Equal(t, dt, "January 2, 300 BC at 3:04:05 AM")
+
 	dt = en.FmtDateTimeLong(datetime)
 	Equal(t, dt, "January 2, 2006 at 3:04:05 PM")
+
+	dt = en.FmtDateTimeLong(bc300DateTime)
+	Equal(t, dt, "January 2, 300 BC at 3:04:05 AM")
 
 	dt, err = en.FmtDateTimeMediumSafe(datetime)
 	Equal(t, err, nil)

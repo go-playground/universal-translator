@@ -1,6 +1,6 @@
 ## universal-translator
 <img align="right" src="https://raw.githubusercontent.com/go-playground/universal-translator/master/logo.png">
-![Project status](https://img.shields.io/badge/version-0.8.1-green.svg)
+![Project status](https://img.shields.io/badge/version-0.9-green.svg)
 [![Build Status](https://semaphoreci.com/api/v1/joeybloggs/universal-translator/branches/master/badge.svg)](https://semaphoreci.com/joeybloggs/universal-translator)
 [![Coverage Status](https://coveralls.io/repos/github/go-playground/universal-translator/badge.svg?branch=master)](https://coveralls.io/github/go-playground/universal-translator?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/go-playground/universal-translator)](https://goreportcard.com/report/github.com/go-playground/universal-translator)
@@ -25,6 +25,7 @@ Features
 - [x] Date, Time & DateTime formatting
 - [x] Number, Whole Number formatting
 - [x] Currency both standard & accounting, formatting i.e. -$1,234.50 vs ($1,234.50)
+- [x] Handles BC and AD Dates. i.e. January 2, 300 BC
 - [ ] Support loading translations from files
 - [ ] Exporting translations to file, mainly for getting them professionally translated
 - [ ] Code Generation for translation files -> Go code.. i.e. after it has been professionally translated
@@ -155,6 +156,16 @@ func main() {
 	// OUTPUT: 1,234
 }
 ```
+
+Help With Tests
+---------------
+To anyone interesting in helping or contributing, I sure could use some help creating tests for each language.
+Please see issue [here](https://github.com/go-playground/universal-translator/issues/1) for details.
+
+Thanks to some help the, following languages have tests:
+
+- [x] en - English US
+- [x] th - Thai thanks to @prideloki
 
 Special Thanks
 --------------
