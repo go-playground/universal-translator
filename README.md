@@ -162,7 +162,7 @@ Help With Tests
 To anyone interesting in helping or contributing, I sure could use some help creating tests for each language.
 Please see issue [here](https://github.com/go-playground/universal-translator/issues/1) for details.
 
-Thanks to some help the, following languages have tests:
+Thanks to some help, the following languages have tests:
 
 - [x] en - English US
 - [x] th - Thai thanks to @prideloki
