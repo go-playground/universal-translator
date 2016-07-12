@@ -906,7 +906,6 @@ func main() {
 
 	wg.Wait()
 
-	// TODO: make switch with all of the locales + function to return new!
 	localesFile, err := os.Create("../../resources/locales/all.go")
 	if err != nil {
 		panic(err)
