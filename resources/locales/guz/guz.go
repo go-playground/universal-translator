@@ -5,22 +5,29 @@ import (
 )
 
 type guz struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'guz' locale
 func New() locales.Translator {
 	return &guz{
-		locale: "guz",
+		locale:  "guz",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *guz) Locale() string {
-	return l.locale
+func (t *guz) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *guz) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'guz'
+func (t *guz) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'guz'
+func (t *guz) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

@@ -5,22 +5,29 @@ import (
 )
 
 type agq struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'agq' locale
 func New() locales.Translator {
 	return &agq{
-		locale: "agq",
+		locale:  "agq",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *agq) Locale() string {
-	return l.locale
+func (t *agq) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *agq) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'agq'
+func (t *agq) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'agq'
+func (t *agq) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

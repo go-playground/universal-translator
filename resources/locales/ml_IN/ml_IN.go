@@ -5,23 +5,30 @@ import (
 )
 
 type ml_IN struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'ml_IN' locale
 func New() locales.Translator {
 	return &ml_IN{
-		locale: "ml_IN",
+		locale:  "ml_IN",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *ml_IN) Locale() string {
-	return l.locale
+func (t *ml_IN) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *ml_IN) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'ml_IN'
+func (t *ml_IN) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'ml_IN'
+func (t *ml_IN) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

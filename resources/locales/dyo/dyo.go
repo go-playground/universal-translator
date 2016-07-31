@@ -5,22 +5,29 @@ import (
 )
 
 type dyo struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'dyo' locale
 func New() locales.Translator {
 	return &dyo{
-		locale: "dyo",
+		locale:  "dyo",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *dyo) Locale() string {
-	return l.locale
+func (t *dyo) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *dyo) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'dyo'
+func (t *dyo) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'dyo'
+func (t *dyo) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

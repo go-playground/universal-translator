@@ -5,23 +5,30 @@ import (
 )
 
 type teo_UG struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'teo_UG' locale
 func New() locales.Translator {
 	return &teo_UG{
-		locale: "teo_UG",
+		locale:  "teo_UG",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *teo_UG) Locale() string {
-	return l.locale
+func (t *teo_UG) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *teo_UG) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'teo_UG'
+func (t *teo_UG) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'teo_UG'
+func (t *teo_UG) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

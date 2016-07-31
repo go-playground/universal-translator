@@ -5,32 +5,39 @@ import (
 )
 
 type ro_RO struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'ro_RO' locale
 func New() locales.Translator {
 	return &ro_RO{
-		locale: "ro_RO",
+		locale:  "ro_RO",
+		plurals: []locales.PluralRule{2, 4, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *ro_RO) Locale() string {
-	return l.locale
+func (t *ro_RO) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *ro_RO) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'ro_RO'
+func (t *ro_RO) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
-	i, err := locales.I(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
+// CardinalPluralRule returns the PluralRule given 'num' for 'ro_RO'
+func (t *ro_RO) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	v := locales.V(num)
 
 	n, err := locales.N(num)
+	if err != nil {
+		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
+	}
+
+	i, err := locales.I(num)
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}

@@ -5,23 +5,30 @@ import (
 )
 
 type sg struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'sg' locale
 func New() locales.Translator {
 	return &sg{
-		locale: "sg",
+		locale:  "sg",
+		plurals: []locales.PluralRule{6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *sg) Locale() string {
-	return l.locale
+func (t *sg) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *sg) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'sg'
+func (t *sg) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'sg'
+func (t *sg) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	return locales.PluralRuleOther, nil
 }

@@ -5,23 +5,30 @@ import (
 )
 
 type ti_ET struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'ti_ET' locale
 func New() locales.Translator {
 	return &ti_ET{
-		locale: "ti_ET",
+		locale:  "ti_ET",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *ti_ET) Locale() string {
-	return l.locale
+func (t *ti_ET) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *ti_ET) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'ti_ET'
+func (t *ti_ET) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'ti_ET'
+func (t *ti_ET) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

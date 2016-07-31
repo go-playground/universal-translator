@@ -5,32 +5,39 @@ import (
 )
 
 type bs_Cyrl struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'bs_Cyrl' locale
 func New() locales.Translator {
 	return &bs_Cyrl{
-		locale: "bs_Cyrl",
+		locale:  "bs_Cyrl",
+		plurals: []locales.PluralRule{2, 4, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *bs_Cyrl) Locale() string {
-	return l.locale
+func (t *bs_Cyrl) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *bs_Cyrl) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'bs_Cyrl'
+func (t *bs_Cyrl) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
-	v := locales.V(num)
+// CardinalPluralRule returns the PluralRule given 'num' for 'bs_Cyrl'
+func (t *bs_Cyrl) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
-	f, err := locales.F(num)
+	i, err := locales.I(num)
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}
 
-	i, err := locales.I(num)
+	v := locales.V(num)
+
+	f, err := locales.F(num)
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}

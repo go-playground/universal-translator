@@ -5,23 +5,30 @@ import (
 )
 
 type mt struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'mt' locale
 func New() locales.Translator {
 	return &mt{
-		locale: "mt",
+		locale:  "mt",
+		plurals: []locales.PluralRule{2, 4, 5, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *mt) Locale() string {
-	return l.locale
+func (t *mt) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *mt) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'mt'
+func (t *mt) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'mt'
+func (t *mt) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

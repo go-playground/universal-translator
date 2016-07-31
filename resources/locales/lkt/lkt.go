@@ -5,23 +5,30 @@ import (
 )
 
 type lkt struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'lkt' locale
 func New() locales.Translator {
 	return &lkt{
-		locale: "lkt",
+		locale:  "lkt",
+		plurals: []locales.PluralRule{6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *lkt) Locale() string {
-	return l.locale
+func (t *lkt) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *lkt) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'lkt'
+func (t *lkt) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'lkt'
+func (t *lkt) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	return locales.PluralRuleOther, nil
 }

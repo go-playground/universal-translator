@@ -5,22 +5,29 @@ import (
 )
 
 type mer_KE struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'mer_KE' locale
 func New() locales.Translator {
 	return &mer_KE{
-		locale: "mer_KE",
+		locale:  "mer_KE",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *mer_KE) Locale() string {
-	return l.locale
+func (t *mer_KE) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *mer_KE) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'mer_KE'
+func (t *mer_KE) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'mer_KE'
+func (t *mer_KE) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

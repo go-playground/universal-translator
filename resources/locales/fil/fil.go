@@ -5,25 +5,30 @@ import (
 )
 
 type fil struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'fil' locale
 func New() locales.Translator {
 	return &fil{
-		locale: "fil",
+		locale:  "fil",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *fil) Locale() string {
-	return l.locale
+func (t *fil) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *fil) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'fil'
+func (t *fil) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
-	v := locales.V(num)
+// CardinalPluralRule returns the PluralRule given 'num' for 'fil'
+func (t *fil) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	f, err := locales.F(num)
 	if err != nil {
@@ -34,6 +39,8 @@ func (l *fil) CardinalPluralRule(num string) (locales.PluralRule, error) {
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}
+
+	v := locales.V(num)
 
 	if (v == 0 && (i == 1 || i == 2 || i == 3)) || (v == 0 && (i%10 != 4 && i%10 != 6 && i%10 != 9)) || (v != 0 && (f%10 != 4 && f%10 != 6 && f%10 != 9)) {
 		return locales.PluralRuleOne, nil

@@ -5,22 +5,29 @@ import (
 )
 
 type ebu struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'ebu' locale
 func New() locales.Translator {
 	return &ebu{
-		locale: "ebu",
+		locale:  "ebu",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *ebu) Locale() string {
-	return l.locale
+func (t *ebu) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *ebu) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'ebu'
+func (t *ebu) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'ebu'
+func (t *ebu) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

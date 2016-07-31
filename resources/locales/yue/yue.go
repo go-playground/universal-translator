@@ -5,22 +5,29 @@ import (
 )
 
 type yue struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'yue' locale
 func New() locales.Translator {
 	return &yue{
-		locale: "yue",
+		locale:  "yue",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *yue) Locale() string {
-	return l.locale
+func (t *yue) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *yue) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'yue'
+func (t *yue) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'yue'
+func (t *yue) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

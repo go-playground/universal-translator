@@ -5,23 +5,30 @@ import (
 )
 
 type jmc_TZ struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'jmc_TZ' locale
 func New() locales.Translator {
 	return &jmc_TZ{
-		locale: "jmc_TZ",
+		locale:  "jmc_TZ",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *jmc_TZ) Locale() string {
-	return l.locale
+func (t *jmc_TZ) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *jmc_TZ) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'jmc_TZ'
+func (t *jmc_TZ) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'jmc_TZ'
+func (t *jmc_TZ) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

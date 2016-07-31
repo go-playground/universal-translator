@@ -5,23 +5,30 @@ import (
 )
 
 type smn_FI struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'smn_FI' locale
 func New() locales.Translator {
 	return &smn_FI{
-		locale: "smn_FI",
+		locale:  "smn_FI",
+		plurals: []locales.PluralRule{2, 3, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *smn_FI) Locale() string {
-	return l.locale
+func (t *smn_FI) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *smn_FI) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'smn_FI'
+func (t *smn_FI) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'smn_FI'
+func (t *smn_FI) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

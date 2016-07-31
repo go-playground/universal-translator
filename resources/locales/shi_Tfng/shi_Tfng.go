@@ -5,23 +5,30 @@ import (
 )
 
 type shi_Tfng struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'shi_Tfng' locale
 func New() locales.Translator {
 	return &shi_Tfng{
-		locale: "shi_Tfng",
+		locale:  "shi_Tfng",
+		plurals: []locales.PluralRule{2, 4, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *shi_Tfng) Locale() string {
-	return l.locale
+func (t *shi_Tfng) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *shi_Tfng) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'shi_Tfng'
+func (t *shi_Tfng) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'shi_Tfng'
+func (t *shi_Tfng) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

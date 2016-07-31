@@ -7,6 +7,8 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/go-playground/universal-translator/resources/locales"
+
 	"golang.org/x/text/unicode/cldr"
 
 	"text/template"
@@ -84,6 +86,7 @@ var (
 
 type translator struct {
 	Locale       string
+	Plurals      string
 	CardinalFunc string
 }
 
@@ -132,10 +135,12 @@ func main() {
 		baseLocale := strings.SplitN(l, "_", 2)[0]
 
 		trans := &translator{
-			Locale:       l,
-			CardinalFunc: parseCardinalPluralRuleFunc(cldr, baseLocale),
+			Locale: l,
 		}
 
+		trans.CardinalFunc, trans.Plurals = parseCardinalPluralRuleFunc(cldr, baseLocale)
+
+		// fmt.Println(trans.CardinalFunc, trans.Plurals)
 		// cardinalRules := getLocaleCardinalPluralRules(cldr, baseLocale)
 		// fmt.Println("CardinalRules:", l, cardinalRules)
 		// Start Plural Rules
@@ -192,7 +197,7 @@ func main() {
 
 // TODO: cleanup function logic perhaps write a lexer... but it's working right now, and
 // I'm already farther down the rabbit hole than I'd like and so pulling the chute here.
-func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results string) {
+func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results string, plurals string) {
 
 	var prCardinal *struct {
 		cldr.Common
@@ -202,6 +207,8 @@ func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results
 			Count string "xml:\"count,attr\""
 		} "xml:\"pluralRule\""
 	}
+
+	var pluralArr []locales.PluralRule
 
 	for _, p := range current.Supplemental().Plurals {
 
@@ -220,6 +227,8 @@ func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results
 
 	// no plural rules for locale
 	if prCardinal == nil {
+		plurals = "nil"
+		results = "return locales.PluralRuleUnknown,nil"
 		return
 	}
 
@@ -229,16 +238,22 @@ func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results
 	// pre parse for variables
 	for _, rule := range prCardinal.PluralRule {
 
+		ps1 := pluralStringToString(rule.Count)
+		psI := pluralStringToInt(rule.Count)
+		pluralArr = append(pluralArr, psI)
+
+		// fmt.Println(rule.Count, ps1)
+
 		data := strings.Replace(strings.Replace(strings.Replace(strings.TrimSpace(strings.SplitN(rule.Common.Data(), "@", 2)[0]), " = ", " == ", -1), " or ", " || ", -1), " and ", " && ", -1)
 
 		if len(data) == 0 {
 			if len(prCardinal.PluralRule) == 1 {
 
-				results = "return locales." + pluralStringToString(rule.Count) + ", nil"
+				results = "return locales." + ps1 + ", nil"
 
 			} else {
 
-				results += "\n\nreturn locales." + pluralStringToString(rule.Count) + ", nil"
+				results += "\n\nreturn locales." + ps1 + ", nil"
 				// results += "else {\nreturn locales." + locales.PluralStringToString(rule.Count) + ", nil\n}"
 			}
 
@@ -268,8 +283,6 @@ func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results
 		if strings.Contains(data, "t") {
 			vals[prVarFuncs["t"]] = struct{}{}
 		}
-
-		// fmt.Println(rule.Count, data)
 
 		if first {
 			results += "if "
@@ -393,7 +406,7 @@ func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results
 		results += " {\n"
 
 		// return plural rule here
-		results += "return locales." + pluralStringToString(rule.Count) + ", nil\n"
+		results += "return locales." + ps1 + ", nil\n"
 
 		results += "}"
 	}
@@ -412,7 +425,34 @@ func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results
 
 	results = pre + results
 
+	if len(pluralArr) == 0 {
+		plurals = "nil"
+	} else {
+		plurals = fmt.Sprintf("%#v", pluralArr)
+	}
+
 	return
+}
+
+// pluralStringToInt returns the enum value of 'plural' provided
+func pluralStringToInt(plural string) locales.PluralRule {
+
+	switch plural {
+	case "zero":
+		return locales.PluralRuleZero
+	case "one":
+		return locales.PluralRuleOne
+	case "two":
+		return locales.PluralRuleTwo
+	case "few":
+		return locales.PluralRuleFew
+	case "many":
+		return locales.PluralRuleMany
+	case "other":
+		return locales.PluralRuleOther
+	default:
+		return locales.PluralRuleUnknown
+	}
 }
 
 func pluralStringToString(pr string) string {

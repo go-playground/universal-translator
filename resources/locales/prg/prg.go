@@ -5,25 +5,30 @@ import (
 )
 
 type prg struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'prg' locale
 func New() locales.Translator {
 	return &prg{
-		locale: "prg",
+		locale:  "prg",
+		plurals: []locales.PluralRule{1, 2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *prg) Locale() string {
-	return l.locale
+func (t *prg) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *prg) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'prg'
+func (t *prg) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
-	v := locales.V(num)
+// CardinalPluralRule returns the PluralRule given 'num' for 'prg'
+func (t *prg) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	f, err := locales.F(num)
 	if err != nil {
@@ -34,6 +39,8 @@ func (l *prg) CardinalPluralRule(num string) (locales.PluralRule, error) {
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}
+
+	v := locales.V(num)
 
 	if (n%10 == 0) || (n%100 >= 11 && n%100 <= 19) || (v == 2 && f%100 >= 11 && f%100 <= 19) {
 		return locales.PluralRuleZero, nil

@@ -5,22 +5,29 @@ import (
 )
 
 type lrc struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'lrc' locale
 func New() locales.Translator {
 	return &lrc{
-		locale: "lrc",
+		locale:  "lrc",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *lrc) Locale() string {
-	return l.locale
+func (t *lrc) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *lrc) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'lrc'
+func (t *lrc) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'lrc'
+func (t *lrc) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

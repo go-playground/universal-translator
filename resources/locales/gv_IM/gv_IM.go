@@ -5,23 +5,30 @@ import (
 )
 
 type gv_IM struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'gv_IM' locale
 func New() locales.Translator {
 	return &gv_IM{
-		locale: "gv_IM",
+		locale:  "gv_IM",
+		plurals: []locales.PluralRule{2, 3, 4, 5, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *gv_IM) Locale() string {
-	return l.locale
+func (t *gv_IM) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *gv_IM) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'gv_IM'
+func (t *gv_IM) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'gv_IM'
+func (t *gv_IM) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	i, err := locales.I(num)
 	if err != nil {

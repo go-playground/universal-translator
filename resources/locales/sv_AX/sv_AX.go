@@ -5,23 +5,30 @@ import (
 )
 
 type sv_AX struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'sv_AX' locale
 func New() locales.Translator {
 	return &sv_AX{
-		locale: "sv_AX",
+		locale:  "sv_AX",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *sv_AX) Locale() string {
-	return l.locale
+func (t *sv_AX) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *sv_AX) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'sv_AX'
+func (t *sv_AX) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'sv_AX'
+func (t *sv_AX) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	i, err := locales.I(num)
 	if err != nil {

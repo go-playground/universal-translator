@@ -34,29 +34,43 @@ const (
 	PluralRuleOther              // other - required—general plural form—also used if the language only has a single form
 )
 
+const (
+	pluralsString = "UnknownZeroOneTwoFewManyOther"
+)
+
 // Translator encapsulates an instance of
 type Translator interface {
+
+	// Locale returns the string value of the translator
 	Locale() string
+
+	// Plurals returns an array of plural rules associated
+	// with this translator
+	Plurals() []PluralRule
+
+	// CardinalPluralRule returns the plural rule needed
+	// determined by the provided 'num' variable
+	CardinalPluralRule(num string) (PluralRule, error)
 }
 
-// PluralStringToInt returns the enum value of 'plural' provided
-func PluralStringToInt(plural string) PluralRule {
+// String returns the string value  of PluralRule
+func (p PluralRule) String() string {
 
-	switch plural {
-	case "zero":
-		return PluralRuleZero
-	case "one":
-		return PluralRuleOne
-	case "two":
-		return PluralRuleTwo
-	case "few":
-		return PluralRuleFew
-	case "many":
-		return PluralRuleMany
-	case "other":
-		return PluralRuleOther
+	switch p {
+	case PluralRuleZero:
+		return pluralsString[7:11]
+	case PluralRuleOne:
+		return pluralsString[11:14]
+	case PluralRuleTwo:
+		return pluralsString[14:17]
+	case PluralRuleFew:
+		return pluralsString[17:20]
+	case PluralRuleMany:
+		return pluralsString[20:24]
+	case PluralRuleOther:
+		return pluralsString[24:]
 	default:
-		return PluralRuleUnknown
+		return pluralsString[:7]
 	}
 }
 

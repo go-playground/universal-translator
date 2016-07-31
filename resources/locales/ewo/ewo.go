@@ -5,22 +5,29 @@ import (
 )
 
 type ewo struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'ewo' locale
 func New() locales.Translator {
 	return &ewo{
-		locale: "ewo",
+		locale:  "ewo",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *ewo) Locale() string {
-	return l.locale
+func (t *ewo) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *ewo) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'ewo'
+func (t *ewo) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'ewo'
+func (t *ewo) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

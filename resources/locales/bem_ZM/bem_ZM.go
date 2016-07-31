@@ -5,23 +5,30 @@ import (
 )
 
 type bem_ZM struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'bem_ZM' locale
 func New() locales.Translator {
 	return &bem_ZM{
-		locale: "bem_ZM",
+		locale:  "bem_ZM",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *bem_ZM) Locale() string {
-	return l.locale
+func (t *bem_ZM) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *bem_ZM) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'bem_ZM'
+func (t *bem_ZM) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'bem_ZM'
+func (t *bem_ZM) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

@@ -5,22 +5,29 @@ import (
 )
 
 type mzn_IR struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'mzn_IR' locale
 func New() locales.Translator {
 	return &mzn_IR{
-		locale: "mzn_IR",
+		locale:  "mzn_IR",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *mzn_IR) Locale() string {
-	return l.locale
+func (t *mzn_IR) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *mzn_IR) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'mzn_IR'
+func (t *mzn_IR) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'mzn_IR'
+func (t *mzn_IR) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

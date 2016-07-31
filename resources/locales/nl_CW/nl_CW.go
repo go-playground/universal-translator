@@ -5,30 +5,37 @@ import (
 )
 
 type nl_CW struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'nl_CW' locale
 func New() locales.Translator {
 	return &nl_CW{
-		locale: "nl_CW",
+		locale:  "nl_CW",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *nl_CW) Locale() string {
-	return l.locale
+func (t *nl_CW) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *nl_CW) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'nl_CW'
+func (t *nl_CW) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'nl_CW'
+func (t *nl_CW) CardinalPluralRule(num string) (locales.PluralRule, error) {
+
+	v := locales.V(num)
 
 	i, err := locales.I(num)
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}
-
-	v := locales.V(num)
 
 	if i == 1 && v == 0 {
 		return locales.PluralRuleOne, nil

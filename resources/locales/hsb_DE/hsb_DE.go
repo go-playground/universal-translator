@@ -5,32 +5,39 @@ import (
 )
 
 type hsb_DE struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'hsb_DE' locale
 func New() locales.Translator {
 	return &hsb_DE{
-		locale: "hsb_DE",
+		locale:  "hsb_DE",
+		plurals: []locales.PluralRule{2, 3, 4, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *hsb_DE) Locale() string {
-	return l.locale
+func (t *hsb_DE) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *hsb_DE) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'hsb_DE'
+func (t *hsb_DE) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
-	v := locales.V(num)
+// CardinalPluralRule returns the PluralRule given 'num' for 'hsb_DE'
+func (t *hsb_DE) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
-	f, err := locales.F(num)
+	i, err := locales.I(num)
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}
 
-	i, err := locales.I(num)
+	v := locales.V(num)
+
+	f, err := locales.F(num)
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}

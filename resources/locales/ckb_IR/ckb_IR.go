@@ -5,23 +5,30 @@ import (
 )
 
 type ckb_IR struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'ckb_IR' locale
 func New() locales.Translator {
 	return &ckb_IR{
-		locale: "ckb_IR",
+		locale:  "ckb_IR",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *ckb_IR) Locale() string {
-	return l.locale
+func (t *ckb_IR) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *ckb_IR) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'ckb_IR'
+func (t *ckb_IR) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'ckb_IR'
+func (t *ckb_IR) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

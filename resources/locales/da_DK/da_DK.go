@@ -5,28 +5,30 @@ import (
 )
 
 type da_DK struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'da_DK' locale
 func New() locales.Translator {
 	return &da_DK{
-		locale: "da_DK",
+		locale:  "da_DK",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *da_DK) Locale() string {
-	return l.locale
+func (t *da_DK) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *da_DK) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'da_DK'
+func (t *da_DK) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
-	t, err := locales.T(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
+// CardinalPluralRule returns the PluralRule given 'num' for 'da_DK'
+func (t *da_DK) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {
@@ -34,6 +36,11 @@ func (l *da_DK) CardinalPluralRule(num string) (locales.PluralRule, error) {
 	}
 
 	i, err := locales.I(num)
+	if err != nil {
+		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
+	}
+
+	t, err := locales.T(num)
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}

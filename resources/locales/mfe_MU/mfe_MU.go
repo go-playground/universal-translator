@@ -5,22 +5,29 @@ import (
 )
 
 type mfe_MU struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'mfe_MU' locale
 func New() locales.Translator {
 	return &mfe_MU{
-		locale: "mfe_MU",
+		locale:  "mfe_MU",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *mfe_MU) Locale() string {
-	return l.locale
+func (t *mfe_MU) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *mfe_MU) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'mfe_MU'
+func (t *mfe_MU) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'mfe_MU'
+func (t *mfe_MU) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

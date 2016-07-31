@@ -5,23 +5,30 @@ import (
 )
 
 type or_IN struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'or_IN' locale
 func New() locales.Translator {
 	return &or_IN{
-		locale: "or_IN",
+		locale:  "or_IN",
+		plurals: []locales.PluralRule{2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *or_IN) Locale() string {
-	return l.locale
+func (t *or_IN) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *or_IN) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'or_IN'
+func (t *or_IN) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'or_IN'
+func (t *or_IN) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

@@ -5,22 +5,29 @@ import (
 )
 
 type cu struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'cu' locale
 func New() locales.Translator {
 	return &cu{
-		locale: "cu",
+		locale:  "cu",
+		plurals: nil,
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *cu) Locale() string {
-	return l.locale
+func (t *cu) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *cu) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'cu'
+func (t *cu) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
+// CardinalPluralRule returns the PluralRule given 'num' for 'cu'
+func (t *cu) CardinalPluralRule(num string) (locales.PluralRule, error) {
+	return locales.PluralRuleUnknown, nil
 }

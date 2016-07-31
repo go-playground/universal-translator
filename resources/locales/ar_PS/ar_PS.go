@@ -5,23 +5,30 @@ import (
 )
 
 type ar_PS struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'ar_PS' locale
 func New() locales.Translator {
 	return &ar_PS{
-		locale: "ar_PS",
+		locale:  "ar_PS",
+		plurals: []locales.PluralRule{1, 2, 3, 4, 5, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *ar_PS) Locale() string {
-	return l.locale
+func (t *ar_PS) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *ar_PS) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'ar_PS'
+func (t *ar_PS) Plurals() []locales.PluralRule {
+	return t.plurals
+}
+
+// CardinalPluralRule returns the PluralRule given 'num' for 'ar_PS'
+func (t *ar_PS) CardinalPluralRule(num string) (locales.PluralRule, error) {
 
 	n, err := locales.N(num)
 	if err != nil {

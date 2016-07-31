@@ -5,30 +5,37 @@ import (
 )
 
 type lag_TZ struct {
-	locale string
+	locale  string
+	plurals []locales.PluralRule
 }
 
 // New returns a new instance of translator for the 'lag_TZ' locale
 func New() locales.Translator {
 	return &lag_TZ{
-		locale: "lag_TZ",
+		locale:  "lag_TZ",
+		plurals: []locales.PluralRule{1, 2, 6},
 	}
 }
 
 // Locale returns the current translators string locale
-func (l *lag_TZ) Locale() string {
-	return l.locale
+func (t *lag_TZ) Locale() string {
+	return t.locale
 }
 
-// CardinalPluralRule returns the PluralRule given 'num'
-func (l *lag_TZ) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// Plurals returns the list of plurals associated with 'lag_TZ'
+func (t *lag_TZ) Plurals() []locales.PluralRule {
+	return t.plurals
+}
 
-	n, err := locales.N(num)
+// CardinalPluralRule returns the PluralRule given 'num' for 'lag_TZ'
+func (t *lag_TZ) CardinalPluralRule(num string) (locales.PluralRule, error) {
+
+	i, err := locales.I(num)
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}
 
-	i, err := locales.I(num)
+	n, err := locales.N(num)
 	if err != nil {
 		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
 	}
