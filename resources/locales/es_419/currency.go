@@ -1,0 +1,5 @@
+package es_419
+
+import "github.com/go-playground/universal-translator"
+
+var currencies = ut.CurrencyFormatValue{"VEF": ut.Currency{Currency: "VEF", DisplayName: "bolívar venezolano", Symbol: "BsF"}, "VND": ut.Currency{Currency: "VND", DisplayName: "dong", Symbol: "VND"}, "AMD": ut.Currency{Currency: "AMD", DisplayName: "dram armenio", Symbol: "AMD"}, "CAD": ut.Currency{Currency: "CAD", DisplayName: "dólar canadiense", Symbol: "CAD"}, "EGP": ut.Currency{Currency: "EGP", DisplayName: "libra egipcia", Symbol: "E£"}, "EUR": ut.Currency{Currency: "EUR", DisplayName: "euro", Symbol: "EUR"}, "USD": ut.Currency{Currency: "USD", DisplayName: "dólar estadounidense", Symbol: "USD"}, "BGN": ut.Currency{Currency: "BGN", DisplayName: "lev búlgaro", Symbol: "BGN"}, "ERN": ut.Currency{Currency: "ERN", DisplayName: "nafka", Symbol: "ERN"}, "THB": ut.Currency{Currency: "THB", DisplayName: "bat", Symbol: "THB"}, "XXX": ut.Currency{Currency: "XXX", DisplayName: "(unidad de moneda desconocida)", Symbol: ""}}
