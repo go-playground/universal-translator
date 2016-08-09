@@ -1,6 +1,8 @@
 package twq_NE
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,7 +29,7 @@ func (t *twq_NE) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'twq_NE'
-func (t *twq_NE) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'twq_NE'
+func (t *twq_NE) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 	return locales.PluralRuleUnknown, nil
 }

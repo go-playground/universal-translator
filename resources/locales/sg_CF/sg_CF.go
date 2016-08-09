@@ -1,6 +1,8 @@
 package sg_CF
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,8 +29,10 @@ func (t *sg_CF) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'sg_CF'
-func (t *sg_CF) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'sg_CF'
+func (t *sg_CF) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	return locales.PluralRuleOther, nil
+	n := math.Abs(num)
+
+	return locales.PluralRuleOther
 }

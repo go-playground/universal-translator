@@ -1,6 +1,8 @@
 package kok_IN
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,7 +29,7 @@ func (t *kok_IN) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'kok_IN'
-func (t *kok_IN) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'kok_IN'
+func (t *kok_IN) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 	return locales.PluralRuleUnknown, nil
 }

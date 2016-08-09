@@ -1,6 +1,8 @@
 package lkt
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,8 +29,10 @@ func (t *lkt) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'lkt'
-func (t *lkt) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'lkt'
+func (t *lkt) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	return locales.PluralRuleOther, nil
+	n := math.Abs(num)
+
+	return locales.PluralRuleOther
 }

@@ -1,6 +1,8 @@
 package lrc_IR
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,7 +29,7 @@ func (t *lrc_IR) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'lrc_IR'
-func (t *lrc_IR) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'lrc_IR'
+func (t *lrc_IR) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 	return locales.PluralRuleUnknown, nil
 }

@@ -1,6 +1,8 @@
 package vi_VN
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,8 +29,10 @@ func (t *vi_VN) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'vi_VN'
-func (t *vi_VN) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'vi_VN'
+func (t *vi_VN) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	return locales.PluralRuleOther, nil
+	n := math.Abs(num)
+
+	return locales.PluralRuleOther
 }

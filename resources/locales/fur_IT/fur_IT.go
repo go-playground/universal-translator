@@ -1,6 +1,8 @@
 package fur_IT
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,17 +29,14 @@ func (t *fur_IT) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'fur_IT'
-func (t *fur_IT) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'fur_IT'
+func (t *fur_IT) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	n, err := locales.N(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
+	n := math.Abs(num)
 
 	if n == 1 {
-		return locales.PluralRuleOne, nil
+		return locales.PluralRuleOne
 	}
 
-	return locales.PluralRuleOther, nil
+	return locales.PluralRuleOther
 }

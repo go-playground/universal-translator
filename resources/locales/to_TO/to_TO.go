@@ -1,6 +1,8 @@
 package to_TO
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,8 +29,10 @@ func (t *to_TO) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'to_TO'
-func (t *to_TO) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'to_TO'
+func (t *to_TO) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	return locales.PluralRuleOther, nil
+	n := math.Abs(num)
+
+	return locales.PluralRuleOther
 }

@@ -1,6 +1,8 @@
 package lt
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,26 +29,19 @@ func (t *lt) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'lt'
-func (t *lt) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'lt'
+func (t *lt) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	n, err := locales.N(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
-
-	f, err := locales.F(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
+	n := math.Abs(num)
+	f := locales.F(n, v)
 
 	if n%10 == 1 && n%100 < 11 && n%100 > 19 {
-		return locales.PluralRuleOne, nil
+		return locales.PluralRuleOne
 	} else if n%10 >= 2 && n%10 <= 9 && n%100 < 11 && n%100 > 19 {
-		return locales.PluralRuleFew, nil
+		return locales.PluralRuleFew
 	} else if f != 0 {
-		return locales.PluralRuleMany, nil
+		return locales.PluralRuleMany
 	}
 
-	return locales.PluralRuleOther, nil
+	return locales.PluralRuleOther
 }

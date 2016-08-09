@@ -1,6 +1,8 @@
 package rw
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,7 +29,7 @@ func (t *rw) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'rw'
-func (t *rw) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'rw'
+func (t *rw) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 	return locales.PluralRuleUnknown, nil
 }

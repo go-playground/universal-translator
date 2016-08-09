@@ -1,6 +1,8 @@
 package kea
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,8 +29,10 @@ func (t *kea) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'kea'
-func (t *kea) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'kea'
+func (t *kea) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	return locales.PluralRuleOther, nil
+	n := math.Abs(num)
+
+	return locales.PluralRuleOther
 }

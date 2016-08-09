@@ -1,6 +1,8 @@
 package prg
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,26 +29,17 @@ func (t *prg) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'prg'
-func (t *prg) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'prg'
+func (t *prg) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	f, err := locales.F(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
-
-	n, err := locales.N(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
-
-	v := locales.V(num)
+	n := math.Abs(num)
+	f := locales.F(n, v)
 
 	if (n%10 == 0) || (n%100 >= 11 && n%100 <= 19) || (v == 2 && f%100 >= 11 && f%100 <= 19) {
-		return locales.PluralRuleZero, nil
+		return locales.PluralRuleZero
 	} else if (n%10 == 1 && n%100 != 11) || (v == 2 && f%10 == 1 && f%100 != 11) || (v != 2 && f%10 == 1) {
-		return locales.PluralRuleOne, nil
+		return locales.PluralRuleOne
 	}
 
-	return locales.PluralRuleOther, nil
+	return locales.PluralRuleOther
 }

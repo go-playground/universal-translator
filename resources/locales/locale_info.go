@@ -1,24 +1,20 @@
 package locales
 
-import (
-	"fmt"
-	"strconv"
-	"strings"
-)
+import "strconv"
 
-// ErrBadNumberValue is returned when the number passed for
-// plural rule determination cannot be parsed
-type ErrBadNumberValue struct {
-	NumberValue string
-	InnerError  error
-}
+// // ErrBadNumberValue is returned when the number passed for
+// // plural rule determination cannot be parsed
+// type ErrBadNumberValue struct {
+// 	NumberValue string
+// 	InnerError  error
+// }
 
-// Error returns ErrBadNumberValue error string
-func (e *ErrBadNumberValue) Error() string {
-	return fmt.Sprintf("Invalid Number Value '%s' %s", e.NumberValue, e.InnerError)
-}
+// // Error returns ErrBadNumberValue error string
+// func (e *ErrBadNumberValue) Error() string {
+// 	return fmt.Sprintf("Invalid Number Value '%s' %s", e.NumberValue, e.InnerError)
+// }
 
-var _ error = new(ErrBadNumberValue)
+// var _ error = new(ErrBadNumberValue)
 
 // PluralRule denotes the type of plural rules
 type PluralRule int
@@ -47,10 +43,6 @@ type Translator interface {
 	// Plurals returns an array of plural rules associated
 	// with this translator
 	Plurals() []PluralRule
-
-	// CardinalPluralRule returns the plural rule needed
-	// determined by the provided 'num' variable
-	CardinalPluralRule(num string) (PluralRule, error)
 }
 
 // String returns the string value  of PluralRule
@@ -74,107 +66,119 @@ func (p PluralRule) String() string {
 	}
 }
 
-// N returns the absolute value of the source number (integer and decimals).
-func N(num string) (float64, error) {
-
-	if num[0] == '-' {
-		num = num[1:]
-	}
-
-	f, err := strconv.ParseFloat(num, 64)
-	if err != nil {
-		return 0, err
-	}
-
-	return f, nil
-}
-
-// I returns the integer digits of N.
-func I(num string) (int64, error) {
-
-	i, err := strconv.ParseInt(num, 10, 64)
-	if err != nil {
-		return 0, err
-	}
-
-	return i, nil
-}
-
-// V returns the number of visible fraction digits in N, with trailing zeros.
-func V(num string) (v int64) {
-
-	idx := strings.Index(num, ".")
-
-	if idx != -1 {
-		v = int64(len(num[idx+1:]))
-	}
-
-	return
-}
+//
+// Precision Notes:
+//
+// must specify a precision >= 0, and here is why https://play.golang.org/p/LyL90U0Vyh
+//
+// 	v := float64(3.141)
+// 	i := float64(int64(v))
+//
+// 	fmt.Println(v - i)
+//
+// 	or
+//
+// 	s := strconv.FormatFloat(v-i, 'f', -1, 64)
+// 	fmt.Println(s)
+//
+// these will not print what you'd expect: 0.14100000000000001
+// and so this library requires a precision to be specified, or
+// inaccurate plural rules could be applied.
+//
+//
+//
+// n - absolute value of the source number (integer and decimals).
+// i - integer digits of n.
+// v - number of visible fraction digits in n, with trailing zeros.
+// w - number of visible fraction digits in n, without trailing zeros.
+// f - visible fractional digits in n, with trailing zeros.
+// t - visible fractional digits in n, without trailing zeros.
+//
+//
+// Func(num float64, v uint64) // v = digits/precision and prevents -1 as a special case as this can lead to very unexpected behaviour, see precision note's above.
+//
+// n := math.Abs(num)
+// i := int64(n)
+// v := v
+//
+//
+// w := strconv.FormatFloat(num-float64(i), 'f', int(v), 64)  // then parse backwards on string until no more zero's....
+// f := strconv.FormatFloat(n, 'f', int(v), 64) 			  // then turn everything after decimal into an int64
+// t := strconv.FormatFloat(n, 'f', int(v), 64) 			  // then parse backwards on string until no more zero's....
+//
+//
+//
+// General Inclusion Rules
+// - v will always be available inherently
+// - all require n
+// - w requires i
+//
 
 // W returns the number of visible fraction digits in N, without trailing zeros.
-func W(num string) (w int64, err error) {
+func W(n float64, v uint64) (w int64) {
 
-	idx := strings.Index(num, ".")
+	s := strconv.FormatFloat(n-float64(int64(n)), 'f', int(v), 64)
 
-	if idx != -1 {
+	// with either be '0' or '0.xxxx', so if 1 then w will be zero
+	// otherwise need to parse
+	if len(s) != 1 {
 
-		idx++
-		end := len(num[idx:]) + 1
+		s = s[2:]
+		end := len(s) + 1
 
 		for i := end; i >= 0; i-- {
-			if num[i] != '0' {
+			if s[i] != '0' {
 				end = i + 1
 				break
 			}
 		}
 
-		w = int64(len(num[idx:end]))
+		w = int64(len(s[:end]))
 	}
 
-	return w, nil
+	return
 }
 
 // F returns the visible fractional digits in N, with trailing zeros.
-func F(num string) (w int64, err error) {
+func F(n float64, v uint64) (f int64) {
 
-	idx := strings.Index(num, ".")
+	s := strconv.FormatFloat(n-float64(int64(n)), 'f', int(v), 64)
 
-	if idx != -1 {
+	// with either be '0' or '0.xxxx', so if 1 then f will be zero
+	// otherwise need to parse
+	if len(s) != 1 {
 
-		w, err = strconv.ParseInt(num[idx+1:], 10, 64)
-		if err != nil {
-			return
-		}
+		// ignoring error, because it can't fail as we generated
+		// the string internally from a real number
+		f, _ = strconv.ParseInt(s[2:], 10, 64)
 	}
 
 	return
 }
 
 // T returns the visible fractional digits in N, without trailing zeros.
-func T(num string) (t int64, err error) {
+func T(n float64, v uint64) (t int64) {
 
-	idx := strings.Index(num, ".")
+	s := strconv.FormatFloat(n-float64(int64(n)), 'f', int(v), 64)
 
-	if idx != -1 {
+	// with either be '0' or '0.xxxx', so if 1 then t will be zero
+	// otherwise need to parse
+	if len(s) != 1 {
 
-		idx++
-		end := len(num[idx:]) + 1
+		s = s[2:]
+		end := len(s) + 1
 
 		for i := end; i >= 0; i-- {
-			if num[i] != '0' {
+			if s[i] != '0' {
 				end = i + 1
 				break
 			}
 		}
 
-		t, err = strconv.ParseInt(num[idx:end], 10, 64)
-		if err != nil {
-			return
-		}
-
-		t = int64(t)
+		// ignoring error, because it can't fail as we generated
+		// the string internally from a real number
+		t, _ = strconv.ParseInt(s[:end], 10, 64)
 	}
 
-	return t, nil
+	return
 }

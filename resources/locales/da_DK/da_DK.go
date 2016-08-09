@@ -1,6 +1,8 @@
 package da_DK
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,27 +29,16 @@ func (t *da_DK) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'da_DK'
-func (t *da_DK) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'da_DK'
+func (t *da_DK) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	n, err := locales.N(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
-
-	i, err := locales.I(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
-
-	t, err := locales.T(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
+	n := math.Abs(num)
+	i := int64(n)
+	t := locales.T(n, v)
 
 	if (n == 1) || (t != 0 && (i == 0 || i == 1)) {
-		return locales.PluralRuleOne, nil
+		return locales.PluralRuleOne
 	}
 
-	return locales.PluralRuleOther, nil
+	return locales.PluralRuleOther
 }

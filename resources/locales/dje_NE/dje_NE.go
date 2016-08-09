@@ -1,6 +1,8 @@
 package dje_NE
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,7 +29,7 @@ func (t *dje_NE) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'dje_NE'
-func (t *dje_NE) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'dje_NE'
+func (t *dje_NE) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 	return locales.PluralRuleUnknown, nil
 }

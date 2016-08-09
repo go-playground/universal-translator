@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"sort"
 	"strings"
 
 	"github.com/go-playground/universal-translator/resources/locales"
@@ -50,37 +51,12 @@ const (
 
 var (
 	prVarFuncs = map[string]string{
-		"n": `n, err := locales.N(num)
-		if err != nil {
-			return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue:num, InnerError: err}
-		}
-
-		`,
-		"i": `i, err := locales.I(num)
-		if err != nil {
-			return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue:num, InnerError: err}
-		}
-
-		`,
-		"v": "v := locales.V(num)\n\n",
-		"w": `w, err := locales.W(num)
-		if err != nil {
-			return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue:num, InnerError: err}
-		}
-
-		`,
-		"f": `f, err := locales.F(num)
-		if err != nil {
-			return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue:num, InnerError: err}
-		}
-
-		`,
-		"t": `t, err := locales.T(num)
-		if err != nil {
-			return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue:num, InnerError: err}
-		}
-
-		`,
+		"n": "n := math.Abs(num)\n",
+		"i": "i := int64(n)\n",
+		// "v": "v := ...", // inherently available as argument
+		"w": "w := locales.W(n, v)\n",
+		"f": "f := locales.F(n, v)\n",
+		"t": "t := locales.T(n, v)\n",
 	}
 )
 
@@ -109,27 +85,8 @@ func main() {
 		panic(err)
 	}
 
-	// cardinalPlurals := map[string]
-
-	// for _, p := range ldr.Supplemental().Plurals {
-
-	// 	for _, pr := range p.PluralRules {
-
-	// 		fmt.Println(pr.Locales)
-
-	// 		for _, rule := range pr.PluralRule {
-	// 			fmt.Println(rule.Count, rule.Common.Data())
-	// 		}
-	// 	}
-	// }
-
 	for _, l := range cldr.Locales() {
 
-		// // work on uk for the moment
-		// if l != "uk" && l != "fil" && l != "gd" {
-		// if l != "gd" {
-		// 	continue
-		// }
 		fmt.Println(l)
 
 		baseLocale := strings.SplitN(l, "_", 2)[0]
@@ -138,36 +95,60 @@ func main() {
 			Locale: l,
 		}
 
+		// plural rules
 		trans.CardinalFunc, trans.Plurals = parseCardinalPluralRuleFunc(cldr, baseLocale)
 
-		// fmt.Println(trans.CardinalFunc, trans.Plurals)
-		// cardinalRules := getLocaleCardinalPluralRules(cldr, baseLocale)
-		// fmt.Println("CardinalRules:", l, cardinalRules)
-		// Start Plural Rules
+		// // number values
+		// ldml := cldr.RawLDML(l)
 
-		// for _, p := range cldr.Supplemental().Plurals {
+		// var decimal, group, minus, percent, permille string
 
-		// 	for _, pr := range p.PluralRules {
+		// // some just have no data...
+		// if ldml.Numbers != nil {
 
-		// 		locales := strings.Split(pr.Locales, " ")
+		// 	symbol := ldml.Numbers.Symbols[0]
 
-		// 		for _, loc := range locales {
-
-		// 			if loc == baseLocale {
-
-		// 				// plural rule found
-		// 				fmt.Println("Locale Plural Rules Found:", loc, baseLocale, l)
-		// 			}
-		// 		}
-		// 		// fmt.Println(pr.Locales)
-
-		// 		// for _, rule := range pr.PluralRule {
-		// 		// 	fmt.Println(rule.Count, rule.Common.Data())
-		// 		// }
+		// 	if len(symbol.Decimal) > 0 {
+		// 		decimal = symbol.Decimal[0].Data()
+		// 	}
+		// 	if len(symbol.Group) > 0 {
+		// 		group = symbol.Group[0].Data()
+		// 	}
+		// 	if len(symbol.MinusSign) > 0 {
+		// 		minus = symbol.MinusSign[0].Data()
+		// 	}
+		// 	if len(symbol.PercentSign) > 0 {
+		// 		percent = symbol.PercentSign[0].Data()
+		// 	}
+		// 	if len(symbol.PerMille) > 0 {
+		// 		permille = symbol.PerMille[0].Data()
 		// 	}
 		// }
 
-		// End Plural Rules
+		// var decimalFormat, currencyFormat, currencyAccountingFormat, percentageFormat string
+
+		// if len(ldml.Numbers.DecimalFormats) > 0 && len(ldml.Numbers.DecimalFormats[0].DecimalFormatLength) > 0 {
+		// 	decimalFormat = ldml.Numbers.DecimalFormats[0].DecimalFormatLength[0].DecimalFormat[0].Pattern[0].Data()
+		// }
+
+		// if len(ldml.Numbers.CurrencyFormats) > 0 && len(ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength) > 0 {
+
+		// 	currencyFormat = ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat[0].Pattern[0].Data()
+		// 	currencyAccountingFormat = currencyFormat
+
+		// 	if len(ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat) > 1 {
+		// 		currencyAccountingFormat = ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat[1].Pattern[0].Data()
+		// 	}
+		// }
+
+		// if len(ldml.Numbers.PercentFormats) > 0 && len(ldml.Numbers.PercentFormats[0].PercentFormatLength) > 0 {
+		// 	percentageFormat = ldml.Numbers.PercentFormats[0].PercentFormatLength[0].PercentFormat[0].Pattern[0].Data()
+		// }
+
+		// // parse Number values
+		// parseNumbers(decimal, group, minus, percent, permille, decimalFormat, currencyFormat, currencyAccountingFormat, percentageFormat)
+
+		// end number values
 
 		if err = os.MkdirAll(fmt.Sprintf(locDir, l), 0777); err != nil {
 			log.Fatal(err)
@@ -194,6 +175,134 @@ func main() {
 		}
 	}
 }
+
+// func parseNumbers(decimal, group, minus, percent, permille, decimalFormat, currencyFormat, currencyAccountingFormat, percentageFormat string) {
+
+// 	if includeDecimalDigits {
+
+// 		nfMutex.RLock()
+
+// 		if format, exists := numberFormats[pattern]; exists {
+// 			nfMutex.RUnlock()
+// 			return format
+// 		}
+
+// 		nfMutex.RUnlock()
+
+// 	} else {
+
+// 		nfndMutex.RLock()
+
+// 		if format, exists := numberFormatsNoDecimals[pattern]; exists {
+// 			nfndMutex.RUnlock()
+// 			return format
+// 		}
+
+// 		nfndMutex.RUnlock()
+// 	}
+
+// 	format := new(numberFormat)
+// 	patterns := strings.Split(pattern, ";")
+
+// 	matches := prefixSuffixRegex.FindAllStringSubmatch(patterns[0], -1)
+// 	if len(matches) > 0 {
+// 		if len(matches[0]) > 1 {
+// 			format.positivePrefix = matches[0][1]
+// 		}
+// 		if len(matches[0]) > 2 {
+// 			format.positiveSuffix = matches[0][2]
+// 		}
+// 	}
+
+// 	// default values for negative prefix & suffix
+// 	format.negativePrefix = string(n.Symbols.Negative) + string(format.positivePrefix)
+// 	format.negativeSuffix = format.positiveSuffix
+
+// 	// see if they are in the pattern
+// 	if len(patterns) > 1 {
+// 		matches = prefixSuffixRegex.FindAllStringSubmatch(patterns[1], -1)
+
+// 		if len(matches) > 0 {
+// 			if len(matches[0]) > 1 {
+// 				format.negativePrefix = matches[0][1]
+// 			}
+// 			if len(matches[0]) > 2 {
+// 				format.negativeSuffix = matches[0][2]
+// 			}
+// 		}
+// 	}
+
+// 	pat := patterns[0]
+
+// 	if strings.Index(pat, "%") != -1 {
+// 		format.multiplier = 100
+// 	} else if strings.Index(pat, "‰") != -1 {
+// 		format.multiplier = 1000
+// 	} else {
+// 		format.multiplier = 1
+// 	}
+
+// 	pos := strings.Index(pat, ".")
+
+// 	if pos != -1 {
+// 		pos2 := strings.LastIndex(pat, "0")
+// 		if pos2 > pos {
+// 			format.minDecimalDigits = pos2 - pos
+// 		}
+
+// 		pos3 := strings.LastIndex(pat, "#")
+// 		if pos3 >= pos2 {
+// 			format.maxDecimalDigits = pos3 - pos
+// 		} else {
+// 			format.maxDecimalDigits = format.minDecimalDigits
+// 		}
+
+// 		pat = pat[0:pos]
+// 	}
+
+// 	p := strings.Replace(pat, ",", "", -1)
+// 	pos = strings.Index(p, "0")
+// 	if pos != -1 {
+// 		format.minIntegerDigits = strings.LastIndex(p, "0") - pos + 1
+// 	}
+
+// 	p = strings.Replace(pat, "#", "0", -1)
+// 	pos = strings.LastIndex(pat, ",")
+// 	if pos != -1 {
+// 		format.groupSizeFinal = strings.LastIndex(p, "0") - pos
+// 		pos2 := strings.LastIndex(p[0:pos], ",")
+// 		if pos2 != -1 {
+// 			format.groupSizeMain = pos - pos2 - 1
+// 		} else {
+// 			format.groupSizeMain = format.groupSizeFinal
+// 		}
+// 	}
+
+// 	if includeDecimalDigits {
+// 		nfMutex.Lock()
+// 		numberFormats[pattern] = format
+// 		nfMutex.Unlock()
+// 		return format
+// 	}
+
+// 	format.maxDecimalDigits = 0
+// 	format.minDecimalDigits = 0
+// 	nfndMutex.Lock()
+// 	numberFormatsNoDecimals[pattern] = format
+// 	nfndMutex.Unlock()
+// 	return format
+// }
+
+type sortRank struct {
+	Rank  uint8
+	Value string
+}
+
+type ByRank []sortRank
+
+func (a ByRank) Len() int           { return len(a) }
+func (a ByRank) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByRank) Less(i, j int) bool { return a[i].Rank < a[j].Rank }
 
 // TODO: cleanup function logic perhaps write a lexer... but it's working right now, and
 // I'm already farther down the rabbit hole than I'd like and so pulling the chute here.
@@ -242,35 +351,35 @@ func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results
 		psI := pluralStringToInt(rule.Count)
 		pluralArr = append(pluralArr, psI)
 
-		// fmt.Println(rule.Count, ps1)
-
 		data := strings.Replace(strings.Replace(strings.Replace(strings.TrimSpace(strings.SplitN(rule.Common.Data(), "@", 2)[0]), " = ", " == ", -1), " or ", " || ", -1), " and ", " && ", -1)
 
 		if len(data) == 0 {
 			if len(prCardinal.PluralRule) == 1 {
 
-				results = "return locales." + ps1 + ", nil"
+				results = "return locales." + ps1
 
 			} else {
 
-				results += "\n\nreturn locales." + ps1 + ", nil"
+				results += "\n\nreturn locales." + ps1
 				// results += "else {\nreturn locales." + locales.PluralStringToString(rule.Count) + ", nil\n}"
 			}
 
 			continue
 		}
 
-		if strings.Contains(data, "n") {
-			vals[prVarFuncs["n"]] = struct{}{}
-		}
+		// // All need n, so always add
+		// if strings.Contains(data, "n") {
+		// 	vals[prVarFuncs["n"]] = struct{}{}
+		// }
 
 		if strings.Contains(data, "i") {
 			vals[prVarFuncs["i"]] = struct{}{}
 		}
 
-		if strings.Contains(data, "v") {
-			vals[prVarFuncs["v"]] = struct{}{}
-		}
+		// v is inherently avaialable as an argument
+		// if strings.Contains(data, "v") {
+		// 	vals[prVarFuncs["v"]] = struct{}{}
+		// }
 
 		if strings.Contains(data, "w") {
 			vals[prVarFuncs["w"]] = struct{}{}
@@ -406,21 +515,58 @@ func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results
 		results += " {\n"
 
 		// return plural rule here
-		results += "return locales." + ps1 + ", nil\n"
+		results += "return locales." + ps1 + "\n"
 
 		results += "}"
 	}
 
 	pre := "\n"
 
+	// always needed
+	vals[prVarFuncs["n"]] = struct{}{}
+
+	sorted := make([]sortRank, 0, len(vals))
+
 	for k := range vals {
-		pre += k
+		switch k[:1] {
+		case "n":
+			sorted = append(sorted, sortRank{
+				Value: prVarFuncs["n"],
+				Rank:  1,
+			})
+		case "i":
+			sorted = append(sorted, sortRank{
+				Value: prVarFuncs["i"],
+				Rank:  2,
+			})
+		case "w":
+			sorted = append(sorted, sortRank{
+				Value: prVarFuncs["w"],
+				Rank:  3,
+			})
+		case "f":
+			sorted = append(sorted, sortRank{
+				Value: prVarFuncs["f"],
+				Rank:  4,
+			})
+		case "t":
+			sorted = append(sorted, sortRank{
+				Value: prVarFuncs["t"],
+				Rank:  5,
+			})
+		}
+	}
+
+	sort.Sort(ByRank(sorted))
+
+	for _, k := range sorted {
+		pre += k.Value
 	}
 
 	pre += "\n"
 
 	if len(results) == 0 {
-		results = "return locales.PluralRuleUnknown,nil"
+		results = "return locales.PluralRuleUnknown"
 	}
 
 	results = pre + results

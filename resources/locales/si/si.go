@@ -1,6 +1,8 @@
 package si
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,27 +29,16 @@ func (t *si) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'si'
-func (t *si) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'si'
+func (t *si) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	n, err := locales.N(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
-
-	i, err := locales.I(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
-
-	f, err := locales.F(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
+	n := math.Abs(num)
+	i := int64(n)
+	f := locales.F(n, v)
 
 	if (n == 0 || n == 1) || (i == 0 && f == 1) {
-		return locales.PluralRuleOne, nil
+		return locales.PluralRuleOne
 	}
 
-	return locales.PluralRuleOther, nil
+	return locales.PluralRuleOther
 }

@@ -1,6 +1,8 @@
 package gv_IM
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,25 +29,21 @@ func (t *gv_IM) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'gv_IM'
-func (t *gv_IM) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'gv_IM'
+func (t *gv_IM) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	i, err := locales.I(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
-
-	v := locales.V(num)
+	n := math.Abs(num)
+	i := int64(n)
 
 	if v == 0 && i%10 == 1 {
-		return locales.PluralRuleOne, nil
+		return locales.PluralRuleOne
 	} else if v == 0 && i%10 == 2 {
-		return locales.PluralRuleTwo, nil
+		return locales.PluralRuleTwo
 	} else if v == 0 && (i%100 == 0 || i%100 == 20 || i%100 == 40 || i%100 == 60 || i%100 == 80) {
-		return locales.PluralRuleFew, nil
+		return locales.PluralRuleFew
 	} else if v != 0 {
-		return locales.PluralRuleMany, nil
+		return locales.PluralRuleMany
 	}
 
-	return locales.PluralRuleOther, nil
+	return locales.PluralRuleOther
 }

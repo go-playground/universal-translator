@@ -1,6 +1,8 @@
 package ar_OM
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,25 +29,22 @@ func (t *ar_OM) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'ar_OM'
-func (t *ar_OM) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'ar_OM'
+func (t *ar_OM) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	n, err := locales.N(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
+	n := math.Abs(num)
 
 	if n == 0 {
-		return locales.PluralRuleZero, nil
+		return locales.PluralRuleZero
 	} else if n == 1 {
-		return locales.PluralRuleOne, nil
+		return locales.PluralRuleOne
 	} else if n == 2 {
-		return locales.PluralRuleTwo, nil
+		return locales.PluralRuleTwo
 	} else if n%100 >= 3 && n%100 <= 10 {
-		return locales.PluralRuleFew, nil
+		return locales.PluralRuleFew
 	} else if n%100 >= 11 && n%100 <= 99 {
-		return locales.PluralRuleMany, nil
+		return locales.PluralRuleMany
 	}
 
-	return locales.PluralRuleOther, nil
+	return locales.PluralRuleOther
 }

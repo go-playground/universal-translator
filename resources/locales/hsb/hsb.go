@@ -1,6 +1,8 @@
 package hsb
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,28 +29,20 @@ func (t *hsb) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'hsb'
-func (t *hsb) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'hsb'
+func (t *hsb) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	v := locales.V(num)
-
-	f, err := locales.F(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
-
-	i, err := locales.I(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
+	n := math.Abs(num)
+	i := int64(n)
+	f := locales.F(n, v)
 
 	if (v == 0 && i%100 == 1) || (f%100 == 1) {
-		return locales.PluralRuleOne, nil
+		return locales.PluralRuleOne
 	} else if (v == 0 && i%100 == 2) || (f%100 == 2) {
-		return locales.PluralRuleTwo, nil
+		return locales.PluralRuleTwo
 	} else if (v == 0 && i%100 >= 3 && i%100 <= 4) || (f%100 >= 3 && f%100 <= 4) {
-		return locales.PluralRuleFew, nil
+		return locales.PluralRuleFew
 	}
 
-	return locales.PluralRuleOther, nil
+	return locales.PluralRuleOther
 }

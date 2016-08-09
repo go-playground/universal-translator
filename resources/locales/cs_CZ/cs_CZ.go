@@ -1,6 +1,8 @@
 package cs_CZ
 
 import (
+	"math"
+
 	"github.com/go-playground/universal-translator/resources/locales"
 )
 
@@ -27,23 +29,19 @@ func (t *cs_CZ) Plurals() []locales.PluralRule {
 	return t.plurals
 }
 
-// CardinalPluralRule returns the PluralRule given 'num' for 'cs_CZ'
-func (t *cs_CZ) CardinalPluralRule(num string) (locales.PluralRule, error) {
+// cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'cs_CZ'
+func (t *cs_CZ) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
 
-	v := locales.V(num)
-
-	i, err := locales.I(num)
-	if err != nil {
-		return locales.PluralRuleUnknown, &locales.ErrBadNumberValue{NumberValue: num, InnerError: err}
-	}
+	n := math.Abs(num)
+	i := int64(n)
 
 	if i == 1 && v == 0 {
-		return locales.PluralRuleOne, nil
+		return locales.PluralRuleOne
 	} else if i >= 2 && i <= 4 && v == 0 {
-		return locales.PluralRuleFew, nil
+		return locales.PluralRuleFew
 	} else if v != 0 {
-		return locales.PluralRuleMany, nil
+		return locales.PluralRuleMany
 	}
 
-	return locales.PluralRuleOther, nil
+	return locales.PluralRuleOther
 }
