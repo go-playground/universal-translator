@@ -1,21 +1,29 @@
 package sah
 
-import (
-	"math"
-
-	"github.com/go-playground/universal-translator/resources/locales"
-)
+import "github.com/go-playground/universal-translator/resources/locales"
 
 type sah struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'sah' locale
 func New() locales.Translator {
 	return &sah{
-		locale:  "sah",
-		plurals: []locales.PluralRule{6},
+		locale:   "sah",
+		plurals:  []locales.PluralRule{6},
+		decimal:  []byte{0x2e},
+		group:    []byte{0x2c},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 
@@ -31,8 +39,5 @@ func (t *sah) Plurals() []locales.PluralRule {
 
 // cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'sah'
 func (t *sah) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
-
-	n := math.Abs(num)
-
 	return locales.PluralRuleOther
 }

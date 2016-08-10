@@ -1,21 +1,29 @@
 package sg
 
-import (
-	"math"
-
-	"github.com/go-playground/universal-translator/resources/locales"
-)
+import "github.com/go-playground/universal-translator/resources/locales"
 
 type sg struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'sg' locale
 func New() locales.Translator {
 	return &sg{
-		locale:  "sg",
-		plurals: []locales.PluralRule{6},
+		locale:   "sg",
+		plurals:  []locales.PluralRule{6},
+		decimal:  []byte{0x2c},
+		group:    []byte{0x2e},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 
@@ -31,8 +39,5 @@ func (t *sg) Plurals() []locales.PluralRule {
 
 // cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'sg'
 func (t *sg) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
-
-	n := math.Abs(num)
-
 	return locales.PluralRuleOther
 }

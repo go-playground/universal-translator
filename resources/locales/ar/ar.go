@@ -7,15 +7,27 @@ import (
 )
 
 type ar struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'ar' locale
 func New() locales.Translator {
 	return &ar{
-		locale:  "ar",
-		plurals: []locales.PluralRule{1, 2, 3, 4, 5, 6},
+		locale:   "ar",
+		plurals:  []locales.PluralRule{1, 2, 3, 4, 5, 6},
+		decimal:  []byte{0xd9, 0xab},
+		group:    []byte{0xd9, 0xac},
+		minus:    []byte{0xe2, 0x80, 0x8f, 0x2d},
+		percent:  []byte{0xd9, 0xaa},
+		perMille: []byte{0xd8, 0x89},
+		symbol:   []byte{},
 	}
 }
 

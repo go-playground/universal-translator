@@ -7,15 +7,27 @@ import (
 )
 
 type cs_CZ struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'cs_CZ' locale
 func New() locales.Translator {
 	return &cs_CZ{
-		locale:  "cs_CZ",
-		plurals: []locales.PluralRule{2, 4, 5, 6},
+		locale:   "cs_CZ",
+		plurals:  []locales.PluralRule{2, 4, 5, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

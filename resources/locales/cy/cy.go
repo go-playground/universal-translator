@@ -7,15 +7,27 @@ import (
 )
 
 type cy struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'cy' locale
 func New() locales.Translator {
 	return &cy{
-		locale:  "cy",
-		plurals: []locales.PluralRule{1, 2, 3, 4, 5, 6},
+		locale:   "cy",
+		plurals:  []locales.PluralRule{1, 2, 3, 4, 5, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

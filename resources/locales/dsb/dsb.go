@@ -7,15 +7,27 @@ import (
 )
 
 type dsb struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'dsb' locale
 func New() locales.Translator {
 	return &dsb{
-		locale:  "dsb",
-		plurals: []locales.PluralRule{2, 3, 4, 6},
+		locale:   "dsb",
+		plurals:  []locales.PluralRule{2, 3, 4, 6},
+		decimal:  []byte{0x2c},
+		group:    []byte{0x2e},
+		minus:    []byte{0x2d},
+		percent:  []byte{0x25},
+		perMille: []byte{0xe2, 0x80, 0xb0},
+		symbol:   []byte{},
 	}
 }
 

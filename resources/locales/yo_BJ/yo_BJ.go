@@ -1,21 +1,29 @@
 package yo_BJ
 
-import (
-	"math"
-
-	"github.com/go-playground/universal-translator/resources/locales"
-)
+import "github.com/go-playground/universal-translator/resources/locales"
 
 type yo_BJ struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'yo_BJ' locale
 func New() locales.Translator {
 	return &yo_BJ{
-		locale:  "yo_BJ",
-		plurals: []locales.PluralRule{6},
+		locale:   "yo_BJ",
+		plurals:  []locales.PluralRule{6},
+		decimal:  []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x7d},
+		group:    []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x7d},
+		minus:    []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x7d},
+		percent:  []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x7d},
+		perMille: []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x7d},
+		symbol:   []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x7d},
 	}
 }
 
@@ -31,8 +39,5 @@ func (t *yo_BJ) Plurals() []locales.PluralRule {
 
 // cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'yo_BJ'
 func (t *yo_BJ) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
-
-	n := math.Abs(num)
-
 	return locales.PluralRuleOther
 }

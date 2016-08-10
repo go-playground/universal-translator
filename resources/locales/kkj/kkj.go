@@ -7,15 +7,27 @@ import (
 )
 
 type kkj struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'kkj' locale
 func New() locales.Translator {
 	return &kkj{
-		locale:  "kkj",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "kkj",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{0x2c},
+		group:    []byte{0x2e},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

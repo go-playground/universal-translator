@@ -7,15 +7,27 @@ import (
 )
 
 type ff struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'ff' locale
 func New() locales.Translator {
 	return &ff{
-		locale:  "ff",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "ff",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{0x2c},
+		group:    []byte{0xc2, 0xa0},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

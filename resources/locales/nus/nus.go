@@ -1,21 +1,29 @@
 package nus
 
-import (
-	"math"
-
-	"github.com/go-playground/universal-translator/resources/locales"
-)
+import "github.com/go-playground/universal-translator/resources/locales"
 
 type nus struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'nus' locale
 func New() locales.Translator {
 	return &nus{
-		locale:  "nus",
-		plurals: nil,
+		locale:   "nus",
+		plurals:  nil,
+		decimal:  []byte{0x2e},
+		group:    []byte{0x2c},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 
@@ -31,5 +39,5 @@ func (t *nus) Plurals() []locales.PluralRule {
 
 // cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'nus'
 func (t *nus) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
-	return locales.PluralRuleUnknown, nil
+	return locales.PluralRuleUnknown
 }

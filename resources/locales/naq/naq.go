@@ -7,15 +7,27 @@ import (
 )
 
 type naq struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'naq' locale
 func New() locales.Translator {
 	return &naq{
-		locale:  "naq",
-		plurals: []locales.PluralRule{2, 3, 6},
+		locale:   "naq",
+		plurals:  []locales.PluralRule{2, 3, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

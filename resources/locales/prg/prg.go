@@ -7,15 +7,27 @@ import (
 )
 
 type prg struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'prg' locale
 func New() locales.Translator {
 	return &prg{
-		locale:  "prg",
-		plurals: []locales.PluralRule{1, 2, 6},
+		locale:   "prg",
+		plurals:  []locales.PluralRule{1, 2, 6},
+		decimal:  []byte{0x2c},
+		group:    []byte{0xc2, 0xa0},
+		minus:    []byte{0x2d},
+		percent:  []byte{0x25},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

@@ -7,15 +7,27 @@ import (
 )
 
 type gu struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'gu' locale
 func New() locales.Translator {
 	return &gu{
-		locale:  "gu",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "gu",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{0xd9, 0xab},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

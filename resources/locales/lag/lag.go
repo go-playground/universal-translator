@@ -7,15 +7,27 @@ import (
 )
 
 type lag struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'lag' locale
 func New() locales.Translator {
 	return &lag{
-		locale:  "lag",
-		plurals: []locales.PluralRule{1, 2, 6},
+		locale:   "lag",
+		plurals:  []locales.PluralRule{1, 2, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

@@ -8,15 +8,27 @@ import (
 )
 
 type {{ .Locale }} struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale    string
+	plurals   []locales.PluralRule
+	decimal   []byte
+	group     []byte
+	minus     []byte
+	percent   []byte
+	perMille  []byte
+	symbol    []byte
 }
 
 // New returns a new instance of translator for the '{{ .Locale }}' locale
 func New() locales.Translator {
 	return &{{ .Locale }}{
-		locale:  "{{ .Locale }}",
-		plurals: {{ .Plurals }},
+		locale:   		"{{ .Locale }}",
+		plurals:  		{{ .Plurals }},
+		decimal:  		{{ .Decimal }},
+		group:    		{{ .Group }},
+		minus:    		{{ .Minus }},
+		percent:  		{{ .Percent }},
+		perMille:       {{ .PerMille }},
+		symbol:         {{ .Symbol }},
 	}
 }
 

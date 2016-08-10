@@ -7,15 +7,27 @@ import (
 )
 
 type sv struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'sv' locale
 func New() locales.Translator {
 	return &sv{
-		locale:  "sv",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "sv",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{0xe2, 0x80, 0x8f, 0xe2, 0x88, 0x92},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

@@ -7,15 +7,27 @@ import (
 )
 
 type bn_IN struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'bn_IN' locale
 func New() locales.Translator {
 	return &bn_IN{
-		locale:  "bn_IN",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "bn_IN",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

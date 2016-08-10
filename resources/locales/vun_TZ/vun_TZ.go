@@ -7,15 +7,27 @@ import (
 )
 
 type vun_TZ struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'vun_TZ' locale
 func New() locales.Translator {
 	return &vun_TZ{
-		locale:  "vun_TZ",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "vun_TZ",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

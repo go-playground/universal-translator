@@ -58,15 +58,34 @@ var (
 		"f": "f := locales.F(n, v)\n",
 		"t": "t := locales.T(n, v)\n",
 	}
+
+	translators     = make(map[string]*translator)
+	baseTranslators = make(map[string]*translator)
+	tmpl            *template.Template
 )
 
 type translator struct {
 	Locale       string
+	BaseLocale   string
 	Plurals      string
 	CardinalFunc string
+	Decimal      string
+	Group        string
+	Minus        string
+	Percent      string
+	PerMille     string
+	Symbol       string
+	// Currency     string
+	// CurrencyAbbrev string
+	// decimal  string
+	// group    string
+	// minus    string
+	// percent  string
+	// perMille string
+	// currency string
+	// currencyName   string
+	// currencyAbbrev string
 }
-
-var tmpl *template.Template
 
 func main() {
 
@@ -80,81 +99,24 @@ func main() {
 
 	// load CLDR recourses
 	var decoder cldr.Decoder
+
 	cldr, err := decoder.DecodePath("data/core")
 	if err != nil {
 		panic(err)
 	}
 
-	for _, l := range cldr.Locales() {
+	preProcess(cldr)
+	postProcess(cldr)
 
-		fmt.Println(l)
+	for _, trans := range translators {
 
-		baseLocale := strings.SplitN(l, "_", 2)[0]
+		fmt.Println("Writing Data:", trans.Locale)
 
-		trans := &translator{
-			Locale: l,
-		}
-
-		// plural rules
-		trans.CardinalFunc, trans.Plurals = parseCardinalPluralRuleFunc(cldr, baseLocale)
-
-		// // number values
-		// ldml := cldr.RawLDML(l)
-
-		// var decimal, group, minus, percent, permille string
-
-		// // some just have no data...
-		// if ldml.Numbers != nil {
-
-		// 	symbol := ldml.Numbers.Symbols[0]
-
-		// 	if len(symbol.Decimal) > 0 {
-		// 		decimal = symbol.Decimal[0].Data()
-		// 	}
-		// 	if len(symbol.Group) > 0 {
-		// 		group = symbol.Group[0].Data()
-		// 	}
-		// 	if len(symbol.MinusSign) > 0 {
-		// 		minus = symbol.MinusSign[0].Data()
-		// 	}
-		// 	if len(symbol.PercentSign) > 0 {
-		// 		percent = symbol.PercentSign[0].Data()
-		// 	}
-		// 	if len(symbol.PerMille) > 0 {
-		// 		permille = symbol.PerMille[0].Data()
-		// 	}
-		// }
-
-		// var decimalFormat, currencyFormat, currencyAccountingFormat, percentageFormat string
-
-		// if len(ldml.Numbers.DecimalFormats) > 0 && len(ldml.Numbers.DecimalFormats[0].DecimalFormatLength) > 0 {
-		// 	decimalFormat = ldml.Numbers.DecimalFormats[0].DecimalFormatLength[0].DecimalFormat[0].Pattern[0].Data()
-		// }
-
-		// if len(ldml.Numbers.CurrencyFormats) > 0 && len(ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength) > 0 {
-
-		// 	currencyFormat = ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat[0].Pattern[0].Data()
-		// 	currencyAccountingFormat = currencyFormat
-
-		// 	if len(ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat) > 1 {
-		// 		currencyAccountingFormat = ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat[1].Pattern[0].Data()
-		// 	}
-		// }
-
-		// if len(ldml.Numbers.PercentFormats) > 0 && len(ldml.Numbers.PercentFormats[0].PercentFormatLength) > 0 {
-		// 	percentageFormat = ldml.Numbers.PercentFormats[0].PercentFormatLength[0].PercentFormat[0].Pattern[0].Data()
-		// }
-
-		// // parse Number values
-		// parseNumbers(decimal, group, minus, percent, permille, decimalFormat, currencyFormat, currencyAccountingFormat, percentageFormat)
-
-		// end number values
-
-		if err = os.MkdirAll(fmt.Sprintf(locDir, l), 0777); err != nil {
+		if err = os.MkdirAll(fmt.Sprintf(locDir, trans.Locale), 0777); err != nil {
 			log.Fatal(err)
 		}
 
-		filename := fmt.Sprintf(locFilename, l, l)
+		filename := fmt.Sprintf(locFilename, trans.Locale, trans.Locale)
 
 		output, err := os.Create(filename)
 		if err != nil {
@@ -169,9 +131,226 @@ func main() {
 		output.Close()
 
 		// after file written run gofmt on file to ensure best formatting
-		cmd := exec.Command("gofmt", "-s", "-w", filename)
+		cmd := exec.Command("goimports", "-w", filename)
 		if err = cmd.Run(); err != nil {
 			log.Panic(err)
+		}
+	}
+}
+
+func postProcess(cldr *cldr.CLDR) {
+
+	var base *translator
+	var found bool
+
+	for _, trans := range translators {
+
+		fmt.Println("Post Processing:", trans.Locale)
+
+		// plural rules
+		trans.CardinalFunc, trans.Plurals = parseCardinalPluralRuleFunc(cldr, trans.BaseLocale)
+
+		// ignore base locales
+		if trans.BaseLocale == trans.Locale {
+			found = false
+		} else {
+
+			base, found = baseTranslators[trans.BaseLocale]
+		}
+
+		// Numbers
+
+		if len(trans.Decimal) == 0 {
+
+			if found {
+				trans.Decimal = fmt.Sprintf("%#v", []byte(base.Decimal))
+			}
+
+			if len(trans.Decimal) == 0 {
+				trans.Decimal = "[]byte{}"
+			}
+		}
+
+		if len(trans.Group) == 0 {
+
+			if found {
+				trans.Group = fmt.Sprintf("%#v", []byte(base.Group))
+			}
+
+			if len(trans.Group) == 0 {
+				trans.Group = "[]byte{}"
+			}
+		}
+
+		if len(trans.Minus) == 0 {
+
+			if found {
+				trans.Minus = fmt.Sprintf("%#v", []byte(base.Minus))
+			}
+
+			if len(trans.Minus) == 0 {
+				trans.Minus = "[]byte{}"
+			}
+		}
+
+		if len(trans.Percent) == 0 {
+
+			if found {
+				trans.Percent = fmt.Sprintf("%#v", []byte(base.Percent))
+			}
+
+			if len(trans.Percent) == 0 {
+				trans.Percent = "[]byte{}"
+			}
+		}
+
+		if len(trans.PerMille) == 0 {
+
+			if found {
+				trans.PerMille = fmt.Sprintf("%#v", []byte(base.PerMille))
+			}
+
+			if len(trans.PerMille) == 0 {
+				trans.PerMille = "[]byte{}"
+			}
+		}
+
+		// Currency
+
+		if len(trans.Symbol) == 0 {
+
+			if found {
+				trans.Symbol = fmt.Sprintf("%#v", []byte(base.Symbol))
+			}
+
+			if len(trans.Symbol) == 0 {
+				trans.Symbol = "[]byte{}"
+			}
+		}
+
+		// if len(trans.Currency) == 0 {
+
+		// 	if found {
+		// 		trans.Currency = fmt.Sprintf("%#v", []byte(base.Currency))
+		// 	}
+
+		// 	if len(trans.Currency) == 0 {
+		// 		trans.Currency = "[]byte{}"
+		// 	}
+		// }
+	}
+}
+
+// preprocesses maps, array etc... just requires multiple passes no choice....
+func preProcess(cldr *cldr.CLDR) {
+
+	for _, l := range cldr.Locales() {
+
+		fmt.Println("Pre Processing:", l)
+
+		split := strings.SplitN(l, "_", 2)
+		baseLocale := split[0]
+
+		trans := &translator{
+			Locale:     l,
+			BaseLocale: baseLocale,
+		}
+
+		// if is a base locale
+		if len(split) == 1 {
+			baseTranslators[baseLocale] = trans
+		}
+
+		translators[l] = trans
+
+		// get number, currency and datetime symbols
+
+		// number values
+		ldml := cldr.RawLDML(l)
+
+		// some just have no data...
+		if ldml.Numbers != nil && len(ldml.Numbers.Symbols) > 0 {
+
+			symbol := ldml.Numbers.Symbols[0]
+
+			if len(symbol.Decimal) > 0 {
+				trans.Decimal = fmt.Sprintf("%#v", []byte(symbol.Decimal[0].Data()))
+			}
+			if len(symbol.Group) > 0 {
+				trans.Group = fmt.Sprintf("%#v", []byte(symbol.Group[0].Data()))
+			}
+			if len(symbol.MinusSign) > 0 {
+				trans.Minus = fmt.Sprintf("%#v", []byte(symbol.MinusSign[0].Data()))
+			}
+			if len(symbol.PercentSign) > 0 {
+				trans.Percent = fmt.Sprintf("%#v", []byte(symbol.PercentSign[0].Data()))
+			}
+			if len(symbol.PerMille) > 0 {
+				trans.PerMille = fmt.Sprintf("%#v", []byte(symbol.PerMille[0].Data()))
+			}
+
+			// if ldml.Numbers.Currencies != nil {
+
+			// 	for _, currency := range ldml.Numbers.Currencies.Currency {
+
+			// 		if len(currency.Symbol) == 0 {
+			// 			continue
+			// 		}
+
+			// 		trans.Symbol = currency.Symbol[0].Data()
+
+			// 		if len(trans.Currency) == 0 {
+			// 			continue
+			// 		}
+
+			// 		trans.Currency = fmt.Sprintf("%#v", []byte(currency.Type))
+
+			// 		// if len(currency.DisplayName) > 0 {
+			// 		// 	trans.CurrencyName = fmt.Sprintf("%#v", []byte(currency.DisplayName[0].Data()))
+			// 		// } else {
+			// 		// 	trans.CurrencyName = "[]byte{}"
+			// 		// }
+
+			// 		// var c i18n.Currency
+
+			// 		// c.Currency = currency.Type
+
+			// 		// if len(currency.DisplayName) > 0 {
+			// 		// 	c.DisplayName = currency.DisplayName[0].Data()
+			// 		// }
+
+			// 		// if len(currency.Symbol) > 0 {
+			// 		// 	c.Symbol = currency.Symbol[0].Data()
+			// 		// }
+
+			// 		// number.Currencies[c.Currency] = c
+			// 	}
+			// }
+
+			// var decimalFormat, currencyFormat, currencyAccountingFormat, percentageFormat string
+
+			// if len(ldml.Numbers.DecimalFormats) > 0 && len(ldml.Numbers.DecimalFormats[0].DecimalFormatLength) > 0 {
+			// 	decimalFormat = ldml.Numbers.DecimalFormats[0].DecimalFormatLength[0].DecimalFormat[0].Pattern[0].Data()
+			// }
+
+			// if len(ldml.Numbers.CurrencyFormats) > 0 && len(ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength) > 0 {
+
+			// 	currencyFormat = ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat[0].Pattern[0].Data()
+			// 	currencyAccountingFormat = currencyFormat
+
+			// 	if len(ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat) > 1 {
+			// 		currencyAccountingFormat = ldml.Numbers.CurrencyFormats[0].CurrencyFormatLength[0].CurrencyFormat[1].Pattern[0].Data()
+			// 	}
+			// }
+
+			// if len(ldml.Numbers.PercentFormats) > 0 && len(ldml.Numbers.PercentFormats[0].PercentFormatLength) > 0 {
+			// 	percentageFormat = ldml.Numbers.PercentFormats[0].PercentFormatLength[0].PercentFormat[0].Pattern[0].Data()
+			// }
+
+			// // parse Number values
+			// parseNumbers(decimal, group, minus, percent, permille, decimalFormat, currencyFormat, currencyAccountingFormat, percentageFormat)
+
+			// end number values
 		}
 	}
 }
@@ -337,7 +516,7 @@ func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results
 	// no plural rules for locale
 	if prCardinal == nil {
 		plurals = "nil"
-		results = "return locales.PluralRuleUnknown,nil"
+		results = "return locales.PluralRuleUnknown"
 		return
 	}
 
@@ -567,9 +746,12 @@ func parseCardinalPluralRuleFunc(current *cldr.CLDR, baseLocale string) (results
 
 	if len(results) == 0 {
 		results = "return locales.PluralRuleUnknown"
-	}
+	} else {
 
-	results = pre + results
+		if !strings.HasPrefix(results, "return") {
+			results = pre + results
+		}
+	}
 
 	if len(pluralArr) == 0 {
 		plurals = "nil"

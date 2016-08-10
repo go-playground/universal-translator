@@ -7,15 +7,27 @@ import (
 )
 
 type ksh struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'ksh' locale
 func New() locales.Translator {
 	return &ksh{
-		locale:  "ksh",
-		plurals: []locales.PluralRule{1, 2, 6},
+		locale:   "ksh",
+		plurals:  []locales.PluralRule{1, 2, 6},
+		decimal:  []byte{0x2c},
+		group:    []byte{0xc2, 0xa0},
+		minus:    []byte{0xe2, 0x88, 0x92},
+		percent:  []byte{0x25},
+		perMille: []byte{0xe2, 0x80, 0xb0},
+		symbol:   []byte{},
 	}
 }
 

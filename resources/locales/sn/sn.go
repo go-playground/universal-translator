@@ -7,15 +7,27 @@ import (
 )
 
 type sn struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'sn' locale
 func New() locales.Translator {
 	return &sn{
-		locale:  "sn",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "sn",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

@@ -7,15 +7,27 @@ import (
 )
 
 type he struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'he' locale
 func New() locales.Translator {
 	return &he{
-		locale:  "he",
-		plurals: []locales.PluralRule{2, 3, 5, 6},
+		locale:   "he",
+		plurals:  []locales.PluralRule{2, 3, 5, 6},
+		decimal:  []byte{0x2e},
+		group:    []byte{0x2c},
+		minus:    []byte{0xe2, 0x80, 0x8e, 0x2d},
+		percent:  []byte{0x25},
+		perMille: []byte{0xe2, 0x80, 0xb0},
+		symbol:   []byte{},
 	}
 }
 

@@ -1,21 +1,29 @@
 package kok_IN
 
-import (
-	"math"
-
-	"github.com/go-playground/universal-translator/resources/locales"
-)
+import "github.com/go-playground/universal-translator/resources/locales"
 
 type kok_IN struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'kok_IN' locale
 func New() locales.Translator {
 	return &kok_IN{
-		locale:  "kok_IN",
-		plurals: nil,
+		locale:   "kok_IN",
+		plurals:  nil,
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 
@@ -31,5 +39,5 @@ func (t *kok_IN) Plurals() []locales.PluralRule {
 
 // cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'kok_IN'
 func (t *kok_IN) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
-	return locales.PluralRuleUnknown, nil
+	return locales.PluralRuleUnknown
 }

@@ -1,21 +1,29 @@
 package vai_Vaii_LR
 
-import (
-	"math"
-
-	"github.com/go-playground/universal-translator/resources/locales"
-)
+import "github.com/go-playground/universal-translator/resources/locales"
 
 type vai_Vaii_LR struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'vai_Vaii_LR' locale
 func New() locales.Translator {
 	return &vai_Vaii_LR{
-		locale:  "vai_Vaii_LR",
-		plurals: nil,
+		locale:   "vai_Vaii_LR",
+		plurals:  nil,
+		decimal:  []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x30, 0x78, 0x32, 0x65, 0x7d},
+		group:    []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x30, 0x78, 0x32, 0x63, 0x7d},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 
@@ -31,5 +39,5 @@ func (t *vai_Vaii_LR) Plurals() []locales.PluralRule {
 
 // cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'vai_Vaii_LR'
 func (t *vai_Vaii_LR) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
-	return locales.PluralRuleUnknown, nil
+	return locales.PluralRuleUnknown
 }

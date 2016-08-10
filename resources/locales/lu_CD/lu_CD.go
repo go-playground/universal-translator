@@ -1,21 +1,29 @@
 package lu_CD
 
-import (
-	"math"
-
-	"github.com/go-playground/universal-translator/resources/locales"
-)
+import "github.com/go-playground/universal-translator/resources/locales"
 
 type lu_CD struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'lu_CD' locale
 func New() locales.Translator {
 	return &lu_CD{
-		locale:  "lu_CD",
-		plurals: nil,
+		locale:   "lu_CD",
+		plurals:  nil,
+		decimal:  []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x30, 0x78, 0x32, 0x63, 0x7d},
+		group:    []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x30, 0x78, 0x32, 0x65, 0x7d},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 
@@ -31,5 +39,5 @@ func (t *lu_CD) Plurals() []locales.PluralRule {
 
 // cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'lu_CD'
 func (t *lu_CD) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
-	return locales.PluralRuleUnknown, nil
+	return locales.PluralRuleUnknown
 }

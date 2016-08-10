@@ -7,15 +7,27 @@ import (
 )
 
 type wae struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'wae' locale
 func New() locales.Translator {
 	return &wae{
-		locale:  "wae",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "wae",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{0x2c},
+		group:    []byte{0xe2, 0x80, 0x99},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

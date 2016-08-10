@@ -1,21 +1,29 @@
 package kde
 
-import (
-	"math"
-
-	"github.com/go-playground/universal-translator/resources/locales"
-)
+import "github.com/go-playground/universal-translator/resources/locales"
 
 type kde struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'kde' locale
 func New() locales.Translator {
 	return &kde{
-		locale:  "kde",
-		plurals: []locales.PluralRule{6},
+		locale:   "kde",
+		plurals:  []locales.PluralRule{6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 
@@ -31,8 +39,5 @@ func (t *kde) Plurals() []locales.PluralRule {
 
 // cardinalPluralRule returns the PluralRule given 'num' and digits/precision of 'v' for 'kde'
 func (t *kde) cardinalPluralRule(num float64, v uint64) locales.PluralRule {
-
-	n := math.Abs(num)
-
 	return locales.PluralRuleOther
 }

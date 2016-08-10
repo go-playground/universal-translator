@@ -7,15 +7,27 @@ import (
 )
 
 type nl_BE struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'nl_BE' locale
 func New() locales.Translator {
 	return &nl_BE{
-		locale:  "nl_BE",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "nl_BE",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

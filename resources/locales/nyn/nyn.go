@@ -7,15 +7,27 @@ import (
 )
 
 type nyn struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'nyn' locale
 func New() locales.Translator {
 	return &nyn{
-		locale:  "nyn",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "nyn",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

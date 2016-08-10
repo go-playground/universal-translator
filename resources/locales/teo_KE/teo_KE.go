@@ -7,15 +7,27 @@ import (
 )
 
 type teo_KE struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'teo_KE' locale
 func New() locales.Translator {
 	return &teo_KE{
-		locale:  "teo_KE",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "teo_KE",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

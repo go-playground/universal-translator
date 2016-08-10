@@ -7,15 +7,27 @@ import (
 )
 
 type om_ET struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'om_ET' locale
 func New() locales.Translator {
 	return &om_ET{
-		locale:  "om_ET",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "om_ET",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

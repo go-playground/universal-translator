@@ -7,15 +7,27 @@ import (
 )
 
 type lg_UG struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'lg_UG' locale
 func New() locales.Translator {
 	return &lg_UG{
-		locale:  "lg_UG",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "lg_UG",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{},
+		group:    []byte{},
+		minus:    []byte{},
+		percent:  []byte{},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 

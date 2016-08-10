@@ -7,15 +7,27 @@ import (
 )
 
 type nnh_CM struct {
-	locale  string
-	plurals []locales.PluralRule
+	locale   string
+	plurals  []locales.PluralRule
+	decimal  []byte
+	group    []byte
+	minus    []byte
+	percent  []byte
+	perMille []byte
+	symbol   []byte
 }
 
 // New returns a new instance of translator for the 'nnh_CM' locale
 func New() locales.Translator {
 	return &nnh_CM{
-		locale:  "nnh_CM",
-		plurals: []locales.PluralRule{2, 6},
+		locale:   "nnh_CM",
+		plurals:  []locales.PluralRule{2, 6},
+		decimal:  []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x30, 0x78, 0x32, 0x63, 0x7d},
+		group:    []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x30, 0x78, 0x32, 0x65, 0x7d},
+		minus:    []byte{},
+		percent:  []byte{0x5b, 0x5d, 0x62, 0x79, 0x74, 0x65, 0x7b, 0x30, 0x78, 0x32, 0x35, 0x7d},
+		perMille: []byte{},
+		symbol:   []byte{},
 	}
 }
 
