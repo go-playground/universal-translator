@@ -3,298 +3,377 @@ package ut
 import (
 	"errors"
 	"fmt"
-	"log"
-	"time"
+	"strconv"
+	"strings"
+
+	"github.com/go-playground/locales"
 )
 
-type translation struct {
-	text string
+const (
+	paramZero          = "{0}"
+	paramOne           = "{1}"
+	unknownTranslation = ""
+)
+
+var (
+	// ErrUnknowTranslation indicates the translation could not be found
+	ErrUnknowTranslation = errors.New("Unknown Translation")
+)
+
+// Translator is universal translators
+// translator instance which is a thin wrapper
+// around locales.Translator instance providing
+// some extra functionality
+type Translator interface {
+	locales.Translator
+
+	// adds a normal translation for a particular language/locale
+	// {#} is the only replacement type accepted and are add infintium
+	// eg. one: '{0} day left' other: '{0} days left'
+	Add(key interface{}, text string)
+
+	// adds a cardinal plural translation for a particular language/locale
+	// {0} is the only replacement type accepted and only one variable is accepted as
+	// multiple cannot be used for a plural rule determination, unless it is a range;
+	// see AddRange below.
+	// eg. in locale 'en' one: '{0} day left' other: '{0} days left'
+	AddCardinal(key interface{}, text string, rule locales.PluralRule) error
+
+	// adds an ordinal plural translation for a particular language/locale
+	// {0} is the only replacement type accepted and only one variable is accepted as
+	// multiple cannot be used for a plural rule determination, unless it is a range;
+	// see AddRange below.
+	// eg. in locale 'en' one: '{0}st day of spring' other: '{0}nd day of spring'
+	// - 1st, 2nd, 3rd...
+	AddOrdinal(key interface{}, text string, rule locales.PluralRule) error
+
+	// adds a range plural translation for a particular language/locale
+	// {0} and {1} are the only replacement types accepted and only these are accepted.
+	// eg. in locale 'nl' one: '{0}-{1} day left' other: '{0}-{1} days left'
+	AddRange(key interface{}, text string, rule locales.PluralRule) error
+
+	// creates the translation for the locale given the 'key' and params passed in
+	T(key interface{}, params ...string) string
+
+	// creates the cardinal translation for the locale given the 'key', 'num' and 'digit' arguments
+	//  and param passed in
+	C(key interface{}, num float64, digits uint64, param string) (string, error)
+
+	// creates the ordinal translation for the locale given the 'key', 'num' and 'digit' arguments
+	// and param passed in
+	O(key interface{}, num float64, digits uint64, param string) (string, error)
+
+	//  creates the range translation for the locale given the 'key', 'num1', 'digit1', 'num2' and
+	//  'digit2' arguments and 'param1' and 'param2' passed in
+	R(key interface{}, num1 float64, digits1 uint64, num2 float64, digits2 uint64, param1, param2 string) (string, error)
 }
 
-// map[key]map[plural type other, many, few, single]*translation
-type translations map[PluralRule]map[string]*translation
-type groups map[string][]*translation
+var _ Translator = new(translator)
+var _ locales.Translator = new(translator)
 
-// Translator holds the locale translation instance
-type Translator struct {
-	locale       *Locale
-	ruler        PluralRuler
-	translations translations
-	groups       groups
+type translator struct {
+	locales.Translator
+	translations        map[interface{}]*transText
+	cardinalTanslations map[interface{}][]*transText // array index is mapped to locales.PluralRule index + the locales.PluralRuleUnknown
+	ordinalTanslations  map[interface{}][]*transText
+	rangeTanslations    map[interface{}][]*transText
 }
 
-func newTranslator(loc *Locale) *Translator {
+type transText struct {
+	text    string
+	indexes []int
+}
 
-	return &Translator{
-		locale:       loc,
-		ruler:        pluralRules[loc.PluralRule],
-		translations: make(translations),
-		groups:       make(groups),
+func newTranslator(trans locales.Translator) Translator {
+	return &translator{
+		Translator:          trans,
+		translations:        make(map[interface{}]*transText), // translation text broken up by byte index
+		cardinalTanslations: make(map[interface{}][]*transText),
+		ordinalTanslations:  make(map[interface{}][]*transText),
+		rangeTanslations:    make(map[interface{}][]*transText),
 	}
 }
 
-// Add registers a new translation to the Translator using the
-// key for a unique translation and group allows for retrieving
-// translations for dev purposes later i.e. load all translations
-// for the "homepage" group
-// plural is optional, can be blank, but allows adding a plural translation
-// at the same time as a singular
-func (t *Translator) Add(rule PluralRule, group string, key string, text string) {
+// Add adds a normal translation for a particular language/locale
+// {#} is the only replacement type accepted and are add infintium
+// eg. one: '{0} day left' other: '{0} days left'
+func (t *translator) Add(key interface{}, text string) {
 
-	trans := &translation{
+	trans := &transText{
 		text: text,
 	}
 
-	if _, ok := t.translations[rule]; !ok {
-		t.translations[rule] = make(map[string]*translation)
+	var i int
+	var idx int
+	var cum int
+
+	for {
+		s := "{" + strconv.Itoa(i) + "}"
+		idx = strings.Index(text[idx:], s)
+		if idx == -1 {
+			break
+		}
+
+		trans.indexes = append(trans.indexes, idx+cum)
+		idx += len(s)
+		trans.indexes = append(trans.indexes, idx+cum)
+		cum += idx
+		i++
 	}
 
-	if _, ok := t.translations[rule][key]; ok {
-		panic(fmt.Sprintf("Translation with key %q already exists", key))
+	t.translations[key] = trans
+}
+
+// AddCardinal adds a cardinal plural translation for a particular language/locale
+// {0} is the only replacement type accepted and only one variable is accepted as
+// multiple cannot be used for a plural rule determination, unless it is a range;
+// see AddRange below.
+// eg. in locale 'en' one: '{0} day left' other: '{0} days left'
+func (t *translator) AddCardinal(key interface{}, text string, rule locales.PluralRule) error {
+
+	tarr, ok := t.cardinalTanslations[key]
+	if ok {
+		// verify not adding a conflicting record
+		if len(tarr) > 0 && tarr[rule] != nil {
+			return fmt.Errorf("warning: conflicting key '%#v' rule '%d' with text '%s', value being ignored", key, rule, text)
+		}
+
+	} else {
+		tarr = make([]*transText, 7, 7)
+		// tarr = make([]*transText, len(t.PluralsCardinal())+1, len(t.PluralsCardinal())+1)
+		t.cardinalTanslations[key] = tarr
 	}
 
-	t.translations[rule][key] = trans
-
-	if _, ok := t.groups[group]; !ok {
-		t.groups[group] = make([]*translation, 0)
+	trans := &transText{
+		text:    text,
+		indexes: make([]int, 2, 2),
 	}
 
-	t.groups[group] = append(t.groups[group], trans)
-}
+	tarr[rule] = trans
 
-// PrintPluralRules prints the supported rules for the
-// given translators locale
-func (t *Translator) PrintPluralRules() {
-	rules := pluralPluralRules[t.locale.PluralRule]
-
-	fmt.Println("Translator locale '" + t.locale.Locale + "' supported rules:")
-
-	for _, rule := range rules {
-		fmt.Println("- " + rule.String())
+	idx := strings.Index(text, paramZero)
+	if idx == -1 {
+		tarr[rule] = nil
+		return fmt.Errorf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'", paramZero)
 	}
 
-	fmt.Println("")
+	trans.indexes[0] = idx
+	trans.indexes[1] = idx + len(paramZero)
+
+	return nil
 }
 
-func (t *Translator) pluralRule(count NumberValue) (rule PluralRule) {
-	return t.ruler.FindRule(count)
-}
+// AddOrdinal adds an ordinal plural translation for a particular language/locale
+// {0} is the only replacement type accepted and only one variable is accepted as
+// multiple cannot be used for a plural rule determination, unless it is a range;
+// see AddRange below.
+// eg. in locale 'en' one: '{0}st day of spring' other: '{0}nd day of spring' - 1st, 2nd, 3rd...
+func (t *translator) AddOrdinal(key interface{}, text string, rule locales.PluralRule) error {
 
-// T translates the text associated with the given key with the
-// arguments passed in
-func (t *Translator) T(key string, a ...interface{}) string {
-	return t.P(key, 1, a...)
-}
+	tarr, ok := t.ordinalTanslations[key]
+	if ok {
+		// verify not adding a conflicting record
+		if len(tarr) > 0 && tarr[rule] != nil {
+			return fmt.Errorf("warning: conflicting key '%#v' rule '%d' with text '%s', value being ignored", key, rule, text)
+		}
 
-// TSafe translates the text associated with the given key with the
-// arguments passed in, if the key or rule cannot be found it returns an error
-func (t *Translator) TSafe(key string, a ...interface{}) (string, error) {
-	return t.PSafe(key, 1, a...)
-}
-
-// P translates the plural text associated with the given key with the
-// arguments passed in
-func (t *Translator) P(key string, count interface{}, a ...interface{}) string {
-
-	trans, err := t.PSafe(key, count, a...)
-	if err != nil {
-		log.Println(err.Error())
-		return err.Error()
+	} else {
+		tarr = make([]*transText, 7, 7)
+		t.ordinalTanslations[key] = tarr
 	}
 
-	return trans
+	trans := &transText{
+		text:    text,
+		indexes: make([]int, 2, 2),
+	}
+
+	tarr[rule] = trans
+
+	idx := strings.Index(text, paramZero)
+	if idx == -1 {
+		tarr[rule] = nil
+		return fmt.Errorf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'", paramZero)
+	}
+
+	trans.indexes[0] = idx
+	trans.indexes[1] = idx + len(paramZero)
+
+	return nil
 }
 
-// PSafe translates the plural text associated with the given key with the
-// arguments passed in, if the key or rule cannot be found it returns an error
-func (t *Translator) PSafe(key string, count interface{}, a ...interface{}) (string, error) {
+// AddRange adds a range plural translation for a particular language/locale
+// {0} and {1} are the only replacement types accepted and only these are accepted.
+// eg. in locale 'nl' one: '{0}-{1} day left' other: '{0}-{1} days left'
+func (t *translator) AddRange(key interface{}, text string, rule locales.PluralRule) error {
 
-	rule := t.ruler.FindRule(count)
+	tarr, ok := t.rangeTanslations[key]
+	if ok {
+		// verify not adding a conflicting record
+		if len(tarr) > 0 && tarr[rule] != nil {
+			return fmt.Errorf("warning: conflicting key '%#v' rule '%s' with text '%s', value being ignored", key, rule, text)
+		}
 
-	trans, ok := t.translations[rule][key]
+	} else {
+		tarr = make([]*transText, 7, 7)
+		t.rangeTanslations[key] = tarr
+	}
+
+	trans := &transText{
+		text:    text,
+		indexes: make([]int, 4, 4),
+	}
+
+	tarr[rule] = trans
+
+	idx := strings.Index(text, paramZero)
+	if idx == -1 {
+		tarr[rule] = nil
+		return fmt.Errorf("error: parameter '%s' not found, are you sure you're adding a Range Translation?", paramZero)
+	}
+
+	trans.indexes[0] = idx
+	trans.indexes[1] = idx + len(paramZero)
+
+	idx = strings.Index(text, paramOne)
+	if idx == -1 {
+		tarr[rule] = nil
+		return fmt.Errorf("error: parameter '%s' not found, a Range Translation requires two parameters", paramOne)
+	}
+
+	trans.indexes[2] = idx
+	trans.indexes[3] = idx + len(paramOne)
+
+	return nil
+}
+
+// T creates the translation for the locale given the 'key' and params passed in
+func (t *translator) T(key interface{}, params ...string) string {
+
+	trans, ok := t.translations[key]
 	if !ok {
-		return "", errors.New("***** WARNING:***** Translation Key '" + key + "' Not Found")
+		return unknownTranslation
 	}
 
-	return fmt.Sprintf(trans.text, a...), nil
+	// maybe pool these later?...
+	b := make([]byte, 0, 64)
+
+	var start, end, count int
+
+	for i := 0; i < len(trans.indexes); i++ {
+		end = trans.indexes[i]
+		b = append(b, trans.text[start:end]...)
+		b = append(b, params[count]...)
+		i++
+		start = trans.indexes[i]
+		count++
+	}
+
+	b = append(b, trans.text[start:]...)
+
+	return string(b)
 }
 
-// FmtDateFullSafe formats the time with the current locales full date format
-func (t *Translator) FmtDateFullSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtDateFullSafe(dt)
+// C creates the cardinal translation for the locale given the 'key', 'num' and 'digit' arguments and param passed in
+func (t *translator) C(key interface{}, num float64, digits uint64, param string) (string, error) {
+
+	tarr, ok := t.cardinalTanslations[key]
+	if !ok {
+		return unknownTranslation, ErrUnknowTranslation
+	}
+
+	rule := t.CardinalPluralRule(num, digits)
+
+	trans := tarr[rule]
+
+	// maybe pool these later?...
+	b := make([]byte, 0, 64)
+	b = append(b, trans.text[:trans.indexes[0]]...)
+	b = append(b, param...)
+	b = append(b, trans.text[trans.indexes[1]:]...)
+
+	return string(b), nil
 }
 
-// FmtDateLongSafe formats the time with the current locales long date format
-func (t *Translator) FmtDateLongSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtDateLongSafe(dt)
+// O creates the ordinal translation for the locale given the 'key', 'num' and 'digit' arguments and param passed in
+func (t *translator) O(key interface{}, num float64, digits uint64, param string) (string, error) {
+
+	tarr, ok := t.ordinalTanslations[key]
+	if !ok {
+		return unknownTranslation, ErrUnknowTranslation
+	}
+
+	rule := t.OrdinalPluralRule(num, digits)
+
+	trans := tarr[rule]
+
+	// maybe pool these later?...
+	b := make([]byte, 0, 64)
+	b = append(b, trans.text[:trans.indexes[0]]...)
+	b = append(b, param...)
+	b = append(b, trans.text[trans.indexes[1]:]...)
+
+	return string(b), nil
 }
 
-// FmtDateMediumSafe formats the time with the current locales medium date format
-func (t *Translator) FmtDateMediumSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtDateMediumSafe(dt)
+// R creates the range translation for the locale given the 'key', 'num1', 'digit1', 'num2' and 'digit2' arguments
+// and 'param1' and 'param2' passed in
+func (t *translator) R(key interface{}, num1 float64, digits1 uint64, num2 float64, digits2 uint64, param1, param2 string) (string, error) {
+
+	tarr, ok := t.rangeTanslations[key]
+	if !ok {
+		return unknownTranslation, ErrUnknowTranslation
+	}
+
+	rule := t.RangePluralRule(num1, digits1, num2, digits2)
+
+	trans := tarr[rule]
+
+	// maybe pool these later?...
+	b := make([]byte, 0, 64)
+	b = append(b, trans.text[:trans.indexes[0]]...)
+	b = append(b, param1...)
+	b = append(b, trans.text[trans.indexes[1]:trans.indexes[2]]...)
+	b = append(b, param2...)
+	b = append(b, trans.text[trans.indexes[3]:]...)
+
+	return string(b), nil
 }
 
-// FmtDateShortSafe formats the time with the current locales short date format
-func (t *Translator) FmtDateShortSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtDateShortSafe(dt)
-}
+// TODO: Add VerifyTranslations function to check that all plurals rules are accounted for after all have been added.
 
-// FmtDateTimeFullSafe formats the time with the current locales full data & time format
-func (t *Translator) FmtDateTimeFullSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtDateTimeFullSafe(dt)
-}
+// VerifyTranslations checks to ensures that no plural rules have been
+// missed within the translations.
+func (t *translator) VerifyTranslations() error {
 
-// FmtDateTimeLongSafe formats the time with the current locales long data & time format
-func (t *Translator) FmtDateTimeLongSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtDateTimeLongSafe(dt)
-}
+	for k, v := range t.cardinalTanslations {
 
-// FmtDateTimeMediumSafe formats the time with the current locales medium data & time format
-func (t *Translator) FmtDateTimeMediumSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtDateTimeMediumSafe(dt)
-}
+		for _, rule := range t.PluralsCardinal() {
 
-// FmtDateTimeShortSafe formats the time with the current locales short data & time format
-func (t *Translator) FmtDateTimeShortSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtDateTimeShortSafe(dt)
-}
+			if v[rule] == nil {
+				return fmt.Errorf("error: missing cardinal plural rule '%s' for translation with key '%#v", rule, k)
+			}
+		}
+	}
 
-// FmtTimeFullSafe formats the time with the current locales full time format
-func (t *Translator) FmtTimeFullSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtTimeFullSafe(dt)
-}
+	for k, v := range t.ordinalTanslations {
 
-// FmtTimeLongSafe formats the time with the current locales long time format
-func (t *Translator) FmtTimeLongSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtTimeLongSafe(dt)
-}
+		for _, rule := range t.PluralsOrdinal() {
 
-// FmtTimeMediumSafe formats the time with the current locales medium time format
-func (t *Translator) FmtTimeMediumSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtTimeMediumSafe(dt)
-}
+			if v[rule] == nil {
+				return fmt.Errorf("error: missing ordinal plural rule '%s' for translation with key '%#v", rule, k)
+			}
+		}
+	}
 
-// FmtTimeShortSafe formats the time with the current locales short time format
-func (t *Translator) FmtTimeShortSafe(dt time.Time) (string, error) {
-	return t.locale.Calendar.FmtTimeShortSafe(dt)
-}
+	for k, v := range t.rangeTanslations {
 
-// FmtDateFull formats the time with the current locales full date format
-func (t *Translator) FmtDateFull(dt time.Time) string {
-	return t.locale.Calendar.FmtDateFull(dt)
-}
+		for _, rule := range t.PluralsRange() {
 
-// FmtDateLong formats the time with the current locales long date format
-func (t *Translator) FmtDateLong(dt time.Time) string {
-	return t.locale.Calendar.FmtDateLong(dt)
-}
+			if v[rule] == nil {
+				return fmt.Errorf("error: missing range plural rule '%s' for translation with key '%#v", rule, k)
+			}
+		}
+	}
 
-// FmtDateMedium formats the time with the current locales medium date format
-func (t *Translator) FmtDateMedium(dt time.Time) string {
-	return t.locale.Calendar.FmtDateMedium(dt)
-}
-
-// FmtDateShort formats the time with the current locales short date format
-func (t *Translator) FmtDateShort(dt time.Time) string {
-	return t.locale.Calendar.FmtDateShort(dt)
-}
-
-// FmtDateTimeFull formats the time with the current locales full data & time format
-func (t *Translator) FmtDateTimeFull(dt time.Time) string {
-	return t.locale.Calendar.FmtDateTimeFull(dt)
-}
-
-// FmtDateTimeLong formats the time with the current locales long data & time format
-func (t *Translator) FmtDateTimeLong(dt time.Time) string {
-	return t.locale.Calendar.FmtDateTimeLong(dt)
-}
-
-// FmtDateTimeMedium formats the time with the current locales medium data & time format
-func (t *Translator) FmtDateTimeMedium(dt time.Time) string {
-	return t.locale.Calendar.FmtDateTimeMedium(dt)
-}
-
-// FmtDateTimeShort formats the time with the current locales short data & time format
-func (t *Translator) FmtDateTimeShort(dt time.Time) string {
-	return t.locale.Calendar.FmtDateTimeShort(dt)
-}
-
-// FmtTimeFull formats the time with the current locales full time format
-func (t *Translator) FmtTimeFull(dt time.Time) string {
-	return t.locale.Calendar.FmtTimeFull(dt)
-}
-
-// FmtTimeLong formats the time with the current locales long time format
-func (t *Translator) FmtTimeLong(dt time.Time) string {
-	return t.locale.Calendar.FmtTimeLong(dt)
-}
-
-// FmtTimeMedium formats the time with the current locales medium time format
-func (t *Translator) FmtTimeMedium(dt time.Time) string {
-	return t.locale.Calendar.FmtTimeMedium(dt)
-}
-
-// FmtTimeShort formats the time with the current locales short time format
-func (t *Translator) FmtTimeShort(dt time.Time) string {
-	return t.locale.Calendar.FmtTimeShort(dt)
-}
-
-// FmtDateTimeSafe formats the time with the current locales short time format
-func (t *Translator) FmtDateTimeSafe(dt time.Time, pattern string) (string, error) {
-	return t.locale.Calendar.FormatSafe(dt, pattern)
-}
-
-// FmtDateTime formats the time with the current locales short time format
-func (t *Translator) FmtDateTime(dt time.Time, pattern string) string {
-	return t.locale.Calendar.Format(dt, pattern)
-}
-
-// FmtCurrencySafe takes a float number and a currency key and returns a string
-// with a properly formatted currency amount with the correct currency symbol.
-// If a symbol cannot be found for the reqested currency, the the key is used
-// instead. If the currency key requested is not recognized, it is used as the
-// symbol, and an error is returned with the formatted string.
-func (t *Translator) FmtCurrencySafe(typ CurrencyType, currency string, number interface{}) (string, error) {
-	return t.locale.Number.FmtCurrencySafe(typ, currency, toFloat64(number))
-}
-
-// FmtCurrencyWholeSafe does exactly what FormatCurrency does, but it leaves off
-// any decimal places. AKA, it would return $100 rather than $100.00.
-func (t *Translator) FmtCurrencyWholeSafe(typ CurrencyType, currency string, number interface{}) (string, error) {
-	return t.locale.Number.FmtCurrencyWholeSafe(typ, currency, toFloat64(number))
-}
-
-// FmtCurrency takes a float number and a currency key and returns a string
-// with a properly formatted currency amount with the correct currency symbol.
-// If a symbol cannot be found for the reqested currency, this will panic, use
-// FmtCurrencySafe for non panicing variant.
-func (t *Translator) FmtCurrency(typ CurrencyType, currency string, number interface{}) string {
-	return t.locale.Number.FmtCurrency(typ, currency, toFloat64(number))
-}
-
-// FmtCurrencyWhole does exactly what FormatCurrency does, but it leaves off
-// any decimal places. AKA, it would return $100 rather than $100.00.
-// If a symbol cannot be found for the reqested currency, this will panic, use
-// FmtCurrencyWholeSafe for non panicing variant.
-func (t *Translator) FmtCurrencyWhole(typ CurrencyType, currency string, number interface{}) string {
-	return t.locale.Number.FmtCurrencyWhole(typ, currency, toFloat64(number))
-}
-
-// FmtNumber takes a float number and returns a properly formatted string
-// representation of that number according to the locale's number format.
-func (t *Translator) FmtNumber(number interface{}) string {
-	return t.locale.Number.FmtNumber(toFloat64(number))
-}
-
-// FmtNumberWhole does exactly what FormatNumber does, but it leaves off any
-// decimal places. AKA, it would return 100 rather than 100.01.
-func (t *Translator) FmtNumberWhole(number interface{}) string {
-	return t.locale.Number.FmtNumberWhole(toFloat64(number))
-}
-
-// FmtPercent takes a float number and returns a properly formatted string
-// representation of that number as a percentage according to the locale's
-// percentage format.
-func (t *Translator) FmtPercent(number interface{}) string {
-	return t.locale.Number.FmtPercent(toFloat64(number))
+	return nil
 }
