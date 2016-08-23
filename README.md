@@ -11,31 +11,23 @@ Universal Translator is an i18n Translator for Go/Golang using CLDR data + plura
 
 Why another i18n library?
 --------------------------
-I noticed that most libraries out there use static files for translations, which I'm not against just there is not option for coding it inline, 
-as well as having formats which do not handle all plural rules, or are overcomplicated. There is also very little in the way of helping the user
-know about what plural translations are needed for each language, no easy grouping to say, display all translations for a page...
+Because none of the plural rules seem to be correct out there, including the previous implimentation of this package,
+so I took it upon myself to create [locales](https://github.com/go-playground/locales) for everyone to use; this package 
+is a thin wrapper around [locales](https://github.com/go-playground/locales) in order to store and translate text for 
+use in your applications.
 
 Features
 --------
-- [x] Rules added from [CLDR](http://cldr.unicode.org/index/downloads) data
-- [x] Use fmt.Sprintf() for translation string parsing
-- [x] Add Translations in code
-- [x] Prints the supported plural rules for a given translators locale using translator.PrintPluralRules()
-- [x] Plural Translations
-- [x] Date, Time & DateTime formatting
-- [x] Number, Whole Number formatting
-- [x] Currency both standard & accounting, formatting i.e. -$1,234.50 vs ($1,234.50)
-- [x] Handles BC and AD Dates. i.e. January 2, 300 BC
+- [x] Rules generated from the latest [CLDR](http://cldr.unicode.org/index/downloads) data, v29
+- [x] Contains Cardinal, Ordinal and Range Plural Rules
+- [x] Contains Month, Weekday and Timezone translations built in
+- [x] Contains Date & Time formatting functions
+- [x] Contains Number, Currency, Accounting and Percent formatting functions
+- [x] Supports the "Gregorian" calendar only ( my time isn't unlimited, had to draw the line somewhere )
 - [ ] Support loading translations from files
 - [ ] Exporting translations to file, mainly for getting them professionally translated
 - [ ] Code Generation for translation files -> Go code.. i.e. after it has been professionally translated
-- [ ] Printing of grouped translations, i.e. all transations for the homepage
-- [ ] Tests for all languages, I need help with this one see below
-
-Full Language tests
---------------------
-I could sure use your help adding tests for every language, it is a huge undertaking and I just don't have the free time to do it all at the moment;
-any help would be **greatly appreciated!!!!** please see [issue](https://github.com/go-playground/universal-translator/issues/1) for details.
+- [ ] Tests for all languages, I need help with this, please see [here](https://github.com/go-playground/locales/issues/1)
 
 Installation
 -----------
@@ -44,13 +36,7 @@ Use go get
 
 ```go
 go get github.com/go-playground/universal-translator
-``` 
-
-or to update
-
-```go
-go get -u github.com/go-playground/universal-translator
-``` 
+```
 
 Usage
 -------
@@ -59,120 +45,70 @@ package main
 
 import (
 	"fmt"
-	"time"
 
+	"github.com/go-playground/locales"
 	"github.com/go-playground/universal-translator"
-
-	// DONE this way to avoid huge compile times + memory for all languages, although it would
-	// be nice for all applications to support all languages... that's not reality
-	_ "github.com/go-playground/universal-translator/resources/locales"
 )
 
+// only one instance as translators within are shared + goroutine safe
+var universalTraslator *ut.UniversalTranslator
+
 func main() {
-	trans, _ := ut.GetTranslator("en")
 
-	trans.PrintPluralRules()
-	// OUTPUT:
-	// Translator locale 'en' supported rules:
-	//- PluralRuleOne
-	//- PluralRuleOther
+	// NOTE: this example is omitting allot of error checking for brevity
 
-	// add a singular translation
-	trans.Add(ut.PluralRuleOne, "homepage", "welcome_msg", "Welcome to site %s")
+	universalTraslator, _ = ut.New("en", "en", "en_CA", "nl", "fr")
 
-	// add singular + plural translation(s)
-	trans.Add(ut.PluralRuleOne, "homepage", "day_warning", "You only have %d day left in your trial")
-	trans.Add(ut.PluralRuleOther, "homepage", "day_warning", "You only have %d day's left in your trial")
+	en := universalTraslator.GetTranslator("en")
 
-	// translate singular
-	translated := trans.T("welcome_msg", "Joey Bloggs")
-	fmt.Println(translated)
-	// OUTPUT: Welcome to site Joey Bloggs
+	// generally used after parsing an http 'Accept-Language' header
+	// and this will try to find a matching locale you support or
+	// fallback locale.
+	// en, _ := ut.FindTranslator([]string{"en", "en_CA", "nl"})
 
-	// What if something went wrong? then translated would output "" (blank)
-	// How do I catch errors?
-	translated, err := trans.TSafe("welcome_m", "Joey Bloggs")
-	fmt.Println(translated)
-	// OUTPUT: ""
-	fmt.Println(err)
-	// OUTPUT: ***** WARNING:***** Translation Key 'welcome_m' Not Found
+	// this will help
+	fmt.Println("Cardinal Plural Rules:", en.PluralsCardinal())
+	fmt.Println("Ordinal Plural Rules:", en.PluralsOrdinal())
+	fmt.Println("Range Plural Rules:", en.PluralsRange())
 
-	// NOTE: there is a Safe variant of most of the Translation and Formatting functions if you need them,
-	// for brevity will be using the non safe ones for the rest of this example
+	// add basic language only translations
+	en.Add("welcome", "Welcome {0} to our test")
 
-	// The second parameter below, count, is needed as the final variable is a varadic and would not
-	// know which one to use in applying the plural rules.
-	// translate singular/plural
-	translated = trans.P("day_warning", 3, 3)
-	fmt.Println(translated)
-	// OUTPUT: You only have 3 day's left in your trial
+	// add language translations dependant on cardinal plural rules
+	en.AddCardinal("days", "You have {0} day left to register", locales.PluralRuleOne)
+	en.AddCardinal("days", "You have {0} days left to register", locales.PluralRuleOther)
 
-	translated = trans.P("day_warning", 1, 1)
-	fmt.Println(translated)
-	// OUTPUT: You only have 1 day left in your trial
+	// add language translations dependant on ordinal plural rules
+	en.AddOrdinal("day-of-month", "{0}st", locales.PluralRuleOne)
+	en.AddOrdinal("day-of-month", "{0}nd", locales.PluralRuleTwo)
+	en.AddOrdinal("day-of-month", "{0}rd", locales.PluralRuleFew)
+	en.AddOrdinal("day-of-month", "{0}th", locales.PluralRuleOther)
 
-	// There are Full, Long, Medium and Short function for each of the following
-	dtString := "Jan 2, 2006 at 3:04:05pm"
-	dt, _ := time.Parse(dtString, dtString)
+	// add language translations dependant on range plural rules
+	// NOTE: only one plural rule for range in 'en' locale
+	en.AddRange("between", "It's {0}-{1} days away", locales.PluralRuleOther)
 
-	formatted := trans.FmtDateFull(dt)
-	fmt.Println(formatted)
-	// OUTPUT: Monday, January 2, 2006
+	// now lets use the translations we just added, in the same order we added them
 
-	formatted = trans.FmtDateShort(dt)
-	fmt.Println(formatted)
-	// OUTPUT: 1/2/06
+	fmt.Println(en.T("welcome", "Joeybloggs"))
 
-	formatted = trans.FmtTimeFull(dt)
-	fmt.Println(formatted)
-	// OUTPUT: 3:04:05 PM
+	fmt.Println(en.C("days", 1, 0, string(en.FmtNumber(1, 0)))) // you'd normally have variables defined for 1 and 0
+	fmt.Println(en.C("days", 2, 0, string(en.FmtNumber(2, 0))))
+	fmt.Println(en.C("days", 10456.25, 2, string(en.FmtNumber(10456.25, 2))))
 
-	formatted = trans.FmtDateTimeFull(dt)
-	fmt.Println(formatted)
-	// OUTPUT: Monday, January 2, 2006 at 3:04:05 PM
+	fmt.Println(en.O("day-of-month", 1, 0, string(en.FmtNumber(1, 0))))
+	fmt.Println(en.O("day-of-month", 2, 0, string(en.FmtNumber(2, 0))))
+	fmt.Println(en.O("day-of-month", 3, 0, string(en.FmtNumber(3, 0))))
+	fmt.Println(en.O("day-of-month", 4, 0, string(en.FmtNumber(4, 0))))
+	fmt.Println(en.O("day-of-month", 10456.25, 0, string(en.FmtNumber(10456.25, 0))))
 
-	formatted = trans.FmtCurrency(ut.CurrencyStandard, "USD", 1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: $1,234.50
-
-	formatted = trans.FmtCurrency(ut.CurrencyStandard, "USD", -1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: -$1,234.50
-
-	formatted = trans.FmtCurrency(ut.CurrencyAccounting, "USD", -1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: ($1,234.50)
-
-	formatted = trans.FmtCurrencyWhole(ut.CurrencyStandard, "USD", -1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: -$1,234
-
-	formatted = trans.FmtNumber(1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: 1,234.5
-
-	formatted = trans.FmtNumberWhole(1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: 1,234
+	fmt.Println(en.R("between", 0, 0, 1, 0, string(en.FmtNumber(0, 0)), string(en.FmtNumber(1, 0))))
+	fmt.Println(en.R("between", 1, 0, 2, 0, string(en.FmtNumber(1, 0)), string(en.FmtNumber(2, 0))))
+	fmt.Println(en.R("between", 1, 0, 100, 0, string(en.FmtNumber(1, 0)), string(en.FmtNumber(100, 0))))
 }
 ```
 
 Help With Tests
 ---------------
 To anyone interesting in helping or contributing, I sure could use some help creating tests for each language.
-Please see issue [here](https://github.com/go-playground/universal-translator/issues/1) for details.
-
-Thanks to some help, the following languages have tests:
-
-- [x] en - English US
-- [x] th - Thai thanks to @prideloki
-
-Special Thanks
---------------
-Special thanks to the following libraries that not only inspired, but that I borrowed a bunch of code from to create this.. ultimately there were many changes made and more to come, but without them would have taken forever to just get started.
-* [cldr](https://github.com/theplant/cldr) - A golang i18n tool using CLDR data
-* [i18n](https://github.com/vube/i18n) - golang package for basic i18n features, including message translation and number formatting
-
-Misc
--------
-Library is not at 1.0 yet, but don't forsee any major API changes; will raise to 1.0 once I've used it completely in at least one project without issue.
+Please see issue [here](https://github.com/go-playground/locales/issues/1) for details.
