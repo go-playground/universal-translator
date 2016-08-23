@@ -252,7 +252,6 @@ func (t *translator) T(key interface{}, params ...string) string {
 		return unknownTranslation
 	}
 
-	// maybe pool these later?...
 	b := make([]byte, 0, 64)
 
 	var start, end, count int
@@ -283,7 +282,6 @@ func (t *translator) C(key interface{}, num float64, digits uint64, param string
 
 	trans := tarr[rule]
 
-	// maybe pool these later?...
 	b := make([]byte, 0, 64)
 	b = append(b, trans.text[:trans.indexes[0]]...)
 	b = append(b, param...)
@@ -304,7 +302,6 @@ func (t *translator) O(key interface{}, num float64, digits uint64, param string
 
 	trans := tarr[rule]
 
-	// maybe pool these later?...
 	b := make([]byte, 0, 64)
 	b = append(b, trans.text[:trans.indexes[0]]...)
 	b = append(b, param...)
@@ -326,7 +323,6 @@ func (t *translator) R(key interface{}, num1 float64, digits1 uint64, num2 float
 
 	trans := tarr[rule]
 
-	// maybe pool these later?...
 	b := make([]byte, 0, 64)
 	b = append(b, trans.text[:trans.indexes[0]]...)
 	b = append(b, param1...)

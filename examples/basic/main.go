@@ -2,99 +2,64 @@ package main
 
 import (
 	"fmt"
-	"time"
 
+	"github.com/go-playground/locales"
 	"github.com/go-playground/universal-translator"
-
-	// DONE this way to avoid huge compile times + memory for all languages, although it would
-	// be nice for all applications to support all languages... that's not reality
-	_ "github.com/go-playground/universal-translator/resources/locales"
 )
 
+// only one instance as translators within are shared + goroutine safe
+var universalTraslator *ut.UniversalTranslator
+
 func main() {
-	trans, _ := ut.GetTranslator("en")
 
-	trans.PrintPluralRules()
-	// OUTPUT:
-	// Translator locale 'en' supported rules:
-	//- PluralRuleOne
-	//- PluralRuleOther
+	// NOTE: this example is omitting allot of error checking for brevity
 
-	// add a singular translation
-	trans.Add(ut.PluralRuleOne, "homepage", "welcome_msg", "Welcome to site %s")
+	universalTraslator, _ = ut.New("en", "en", "en_CA", "nl", "fr")
 
-	// add singular + plural translation(s)
-	trans.Add(ut.PluralRuleOne, "homepage", "day_warning", "You only have %d day left in your trial")
-	trans.Add(ut.PluralRuleOther, "homepage", "day_warning", "You only have %d day's left in your trial")
+	en := universalTraslator.GetTranslator("en")
 
-	// translate singular
-	translated := trans.T("welcome_msg", "Joey Bloggs")
-	fmt.Println(translated)
-	// OUTPUT: Welcome to site Joey Bloggs
+	// generally used after parsing an http 'Accept-Language' header
+	// and this will try to find a matching locale you support or
+	// fallback locale.
+	// en, _ := ut.FindTranslator([]string{"en", "en_CA", "nl"})
 
-	// What if something went wrong? then translated would output "" (blank)
-	// How do I catch errors?
-	translated, err := trans.TSafe("welcome_m", "Joey Bloggs")
-	fmt.Println(translated)
-	// OUTPUT: ""
-	fmt.Println(err)
-	// OUTPUT: ***** WARNING:***** Translation Key 'welcome_m' Not Found
+	// this will help
+	fmt.Println("Cardinal Plural Rules:", en.PluralsCardinal())
+	fmt.Println("Ordinal Plural Rules:", en.PluralsOrdinal())
+	fmt.Println("Range Plural Rules:", en.PluralsRange())
 
-	// NOTE: there is a Safe variant of most of the Translation and Formatting functions if you need them,
-	// for brevity will be using the non safe ones for the rest of this example
+	// add basic language only translations
+	en.Add("welcome", "Welcome {0} to our test")
 
-	// The second parameter below, count, is needed as the final variable is a varadic and would not
-	// know which one to use in applying the plural rules.
-	// translate singular/plural
-	translated = trans.P("day_warning", 3, 3)
-	fmt.Println(translated)
-	// OUTPUT: You only have 3 day's left in your trial
+	// add language translations dependant on cardinal plural rules
+	en.AddCardinal("days", "You have {0} day left to register", locales.PluralRuleOne)
+	en.AddCardinal("days", "You have {0} days left to register", locales.PluralRuleOther)
 
-	translated = trans.P("day_warning", 1, 1)
-	fmt.Println(translated)
-	// OUTPUT: You only have 1 day left in your trial
+	// add language translations dependant on ordinal plural rules
+	en.AddOrdinal("day-of-month", "{0}st", locales.PluralRuleOne)
+	en.AddOrdinal("day-of-month", "{0}nd", locales.PluralRuleTwo)
+	en.AddOrdinal("day-of-month", "{0}rd", locales.PluralRuleFew)
+	en.AddOrdinal("day-of-month", "{0}th", locales.PluralRuleOther)
 
-	// There are Full, Long, Medium and Short function for each of the following
-	dtString := "Jan 2, 2006 at 3:04:05pm"
-	dt, _ := time.Parse(dtString, dtString)
+	// add language translations dependant on range plural rules
+	// NOTE: only one plural rule for range in 'en' locale
+	en.AddRange("between", "It's {0}-{1} days away", locales.PluralRuleOther)
 
-	formatted := trans.FmtDateFull(dt)
-	fmt.Println(formatted)
-	// OUTPUT: Monday, January 2, 2006
+	// now lets use the translations we just added, in the same order we added them
 
-	formatted = trans.FmtDateShort(dt)
-	fmt.Println(formatted)
-	// OUTPUT: 1/2/06
+	fmt.Println(en.T("welcome", "Joeybloggs"))
 
-	formatted = trans.FmtTimeFull(dt)
-	fmt.Println(formatted)
-	// OUTPUT: 3:04:05 PM
+	fmt.Println(en.C("days", 1, 0, string(en.FmtNumber(1, 0)))) // you'd normally have variables defined for 1 and 0
+	fmt.Println(en.C("days", 2, 0, string(en.FmtNumber(2, 0))))
+	fmt.Println(en.C("days", 10456.25, 2, string(en.FmtNumber(10456.25, 2))))
 
-	formatted = trans.FmtDateTimeFull(dt)
-	fmt.Println(formatted)
-	// OUTPUT: Monday, January 2, 2006 at 3:04:05 PM
+	fmt.Println(en.O("day-of-month", 1, 0, string(en.FmtNumber(1, 0))))
+	fmt.Println(en.O("day-of-month", 2, 0, string(en.FmtNumber(2, 0))))
+	fmt.Println(en.O("day-of-month", 3, 0, string(en.FmtNumber(3, 0))))
+	fmt.Println(en.O("day-of-month", 4, 0, string(en.FmtNumber(4, 0))))
+	fmt.Println(en.O("day-of-month", 10456.25, 0, string(en.FmtNumber(10456.25, 0))))
 
-	formatted = trans.FmtCurrency(ut.CurrencyStandard, "USD", 1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: $1,234.50
-
-	formatted = trans.FmtCurrency(ut.CurrencyStandard, "USD", -1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: -$1,234.50
-
-	formatted = trans.FmtCurrency(ut.CurrencyAccounting, "USD", -1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: ($1,234.50)
-
-	formatted = trans.FmtCurrencyWhole(ut.CurrencyStandard, "USD", -1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: -$1,234
-
-	formatted = trans.FmtNumber(1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: 1,234.5
-
-	formatted = trans.FmtNumberWhole(1234.50)
-	fmt.Println(formatted)
-	// OUTPUT: 1,234
+	fmt.Println(en.R("between", 0, 0, 1, 0, string(en.FmtNumber(0, 0)), string(en.FmtNumber(1, 0))))
+	fmt.Println(en.R("between", 1, 0, 2, 0, string(en.FmtNumber(1, 0)), string(en.FmtNumber(2, 0))))
+	fmt.Println(en.R("between", 1, 0, 100, 0, string(en.FmtNumber(1, 0)), string(en.FmtNumber(100, 0))))
 }
