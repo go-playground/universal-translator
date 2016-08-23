@@ -97,7 +97,7 @@ func TestCardinalTranslation(t *testing.T) {
 			key:           "cardinal_test",
 			trans:         "You have a day left.",
 			rule:          locales.PluralRuleOne,
-			expected:      fmt.Errorf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'", paramZero),
+			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'", paramZero)},
 			expectedError: true,
 		},
 		{
@@ -116,7 +116,7 @@ func TestCardinalTranslation(t *testing.T) {
 			key:           "cardinal_test",
 			trans:         "You have {0} days left.",
 			rule:          locales.PluralRuleOther,
-			expected:      fmt.Errorf("warning: conflicting key '%#v' rule '%d' with text '%s', value being ignored", "cardinal_test", locales.PluralRuleOther, "You have {0} days left."),
+			expected:      &ErrConflictingTranslation{key: "cardinal_test", rule: locales.PluralRuleOther, text: "You have {0} days left."},
 			expectedError: true,
 		},
 	}
@@ -144,7 +144,7 @@ func TestCardinalTranslation(t *testing.T) {
 			num:      1,
 			digits:   0,
 			param:    string(en.FmtNumber(1, 0)),
-			expected: "You have " + string(en.FmtNumber(1, 0)) + " day left.",
+			expected: "You have 1 day left.",
 		},
 		// bad translation key
 		{
@@ -193,7 +193,7 @@ func TestOrdinalTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "st",
 			rule:          locales.PluralRuleOne,
-			expected:      fmt.Errorf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'", paramZero),
+			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'", paramZero)},
 			expectedError: true,
 		},
 		{
@@ -225,7 +225,7 @@ func TestOrdinalTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "{0}th",
 			rule:          locales.PluralRuleOther,
-			expected:      fmt.Errorf("warning: conflicting key '%#v' rule '%d' with text '%s', value being ignored", "day", locales.PluralRuleOther, "{0}th"),
+			expected:      &ErrConflictingTranslation{key: "day", rule: locales.PluralRuleOther, text: "{0}th"},
 			expectedError: true,
 		},
 	}
@@ -331,7 +331,7 @@ func TestRangeTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "er -{1} dag vertrokken",
 			rule:          locales.PluralRuleOne,
-			expected:      fmt.Errorf("error: parameter '%s' not found, are you sure you're adding a Range Translation?", paramZero),
+			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, are you sure you're adding a Range Translation?", paramZero)},
 			expectedError: true,
 		},
 		// bad translation
@@ -339,7 +339,7 @@ func TestRangeTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "er {0}- dag vertrokken",
 			rule:          locales.PluralRuleOne,
-			expected:      fmt.Errorf("error: parameter '%s' not found, a Range Translation requires two parameters", paramOne),
+			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, a Range Translation requires two parameters", paramOne)},
 			expectedError: true,
 		},
 		{
@@ -359,7 +359,7 @@ func TestRangeTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "er zijn {0}-{1} dagen over",
 			rule:          locales.PluralRuleOther,
-			expected:      fmt.Errorf("warning: conflicting key '%#v' rule '%s' with text '%s', value being ignored", "day", locales.PluralRuleOther, "er zijn {0}-{1} dagen over"),
+			expected:      &ErrConflictingTranslation{key: "day", rule: locales.PluralRuleOther, text: "er zijn {0}-{1} dagen over"},
 			expectedError: true,
 		},
 	}
@@ -441,5 +441,166 @@ func TestRangeTranslation(t *testing.T) {
 		if s != tt.expected {
 			t.Errorf("Expected '%s' Got '%s'", tt.expected, s)
 		}
+	}
+}
+
+func TestFallbackTranslator(t *testing.T) {
+
+	uni, err := New("en", "en")
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	en := uni.GetTranslator("en")
+	if en.Locale() != "en" {
+		t.Errorf("Expected '%s' Got '%s'", "en", en.Locale())
+	}
+
+	fallback := uni.GetTranslator("nl")
+	if fallback.Locale() != "en" {
+		t.Errorf("Expected '%s' Got '%s'", "en", fallback.Locale())
+	}
+
+	en = uni.FindTranslator("nl", "en")
+	if en.Locale() != "en" {
+		t.Errorf("Expected '%s' Got '%s'", "en", en.Locale())
+	}
+
+	fallback = uni.FindTranslator("nl")
+	if fallback.Locale() != "en" {
+		t.Errorf("Expected '%s' Got '%s'", "en", fallback.Locale())
+	}
+}
+
+func TestNew(t *testing.T) {
+
+	_, err := New("en", "en")
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	expected := &ErrLocaleNotFound{text: fmt.Sprintf("locale '%s' could not be found, perhaps it is not supported.", "definitly doesn't exist!")}
+
+	_, err = New("en", "definitly doesn't exist!")
+	if err == nil || err.Error() != expected.Error() {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	expected = &ErrLocaleNotFound{text: fmt.Sprintf("fallback locale '%s' could not be found", "fallback definitly doesn't exist!")}
+
+	_, err = New("fallback definitly doesn't exist!", "en")
+	if err == nil || err.Error() != expected.Error() {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+}
+
+func TestVerifyTranslations(t *testing.T) {
+
+	// dutch
+	uni, err := New("nl", "nl")
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	loc := uni.GetTranslator("nl")
+	if loc.Locale() != "nl" {
+		t.Errorf("Expected '%s' Got '%s'", "nl", loc.Locale())
+	}
+
+	// cardinal checks
+
+	err = loc.AddCardinal("day", "je {0} dag hebben verlaten", locales.PluralRuleOne)
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	// fail cardinal rules
+	expected := &ErrMissingPluralTranslation{translationType: "plural", rule: locales.PluralRuleOther, key: "day"}
+	err = loc.VerifyTranslations()
+	if err == nil || err.Error() != expected.Error() {
+		t.Errorf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// success cardinal
+	err = loc.AddCardinal("day", "je {0} dagen hebben verlaten", locales.PluralRuleOther)
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	err = loc.VerifyTranslations()
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	// range checks
+	err = loc.AddRange("day", "je {0}-{1} dagen hebben verlaten", locales.PluralRuleOther)
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	// fail range rules
+	expected = &ErrMissingPluralTranslation{translationType: "range", rule: locales.PluralRuleOne, key: "day"}
+	err = loc.VerifyTranslations()
+	if err == nil || err.Error() != expected.Error() {
+		t.Errorf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// success range
+	err = loc.AddRange("day", "je {0}-{1} dag hebben verlaten", locales.PluralRuleOne)
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	err = loc.VerifyTranslations()
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	// ok so 'nl' aka dutch, ony has one plural rule for ordinals, so going to switch to english from here which has 4
+
+	uni, err = New("en", "en")
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	loc = uni.GetTranslator("en")
+	if loc.Locale() != "en" {
+		t.Errorf("Expected '%s' Got '%s'", "en", loc.Locale())
+	}
+
+	// ordinal checks
+
+	err = loc.AddOrdinal("day", "{0}st", locales.PluralRuleOne)
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	err = loc.AddOrdinal("day", "{0}rd", locales.PluralRuleFew)
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	err = loc.AddOrdinal("day", "{0}th", locales.PluralRuleOther)
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	// fail ordinal rules
+	expected = &ErrMissingPluralTranslation{translationType: "ordinal", rule: locales.PluralRuleTwo, key: "day"}
+	err = loc.VerifyTranslations()
+	if err == nil || err.Error() != expected.Error() {
+		t.Errorf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// success ordinal
+
+	err = loc.AddOrdinal("day", "{0}nd", locales.PluralRuleTwo)
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	err = loc.VerifyTranslations()
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
 }

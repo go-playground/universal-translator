@@ -38,7 +38,7 @@ func New(fallback string, supportedLocales ...string) (*UniversalTranslator, err
 
 		tf, ok = lcMapping[lc]
 		if !ok {
-			return nil, fmt.Errorf("locale '%s' could not be found", loc)
+			return nil, &ErrLocaleNotFound{text: fmt.Sprintf("locale '%s' could not be found, perhaps it is not supported.", loc)}
 		}
 
 		if fallbackLower == lc {
@@ -51,7 +51,7 @@ func New(fallback string, supportedLocales ...string) (*UniversalTranslator, err
 	}
 
 	if t.fallback == nil {
-		return nil, fmt.Errorf("fallback locale '%s' could not be found", fallback)
+		return nil, &ErrLocaleNotFound{text: fmt.Sprintf("fallback locale '%s' could not be found", fallback)}
 	}
 
 	return t, nil
