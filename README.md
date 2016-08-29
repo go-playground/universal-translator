@@ -47,6 +47,10 @@ import (
 	"fmt"
 
 	"github.com/go-playground/locales"
+	"github.com/go-playground/locales/en"
+	"github.com/go-playground/locales/en_CA"
+	"github.com/go-playground/locales/fr"
+	"github.com/go-playground/locales/nl"
 	"github.com/go-playground/universal-translator"
 )
 
@@ -56,8 +60,8 @@ var universalTraslator *ut.UniversalTranslator
 func main() {
 
 	// NOTE: this example is omitting allot of error checking for brevity
-
-	universalTraslator, _ = ut.New("en", "en", "en_CA", "nl", "fr")
+	e := en.New()
+	universalTraslator = ut.New(e, e, en_CA.New(), nl.New(), fr.New())
 
 	en := universalTraslator.GetTranslator("en")
 
@@ -72,21 +76,22 @@ func main() {
 	fmt.Println("Range Plural Rules:", en.PluralsRange())
 
 	// add basic language only translations
-	en.Add("welcome", "Welcome {0} to our test")
+	// last param indicates if it's ok to override the translation if one already exists
+	en.Add("welcome", "Welcome {0} to our test", false)
 
 	// add language translations dependant on cardinal plural rules
-	en.AddCardinal("days", "You have {0} day left to register", locales.PluralRuleOne)
-	en.AddCardinal("days", "You have {0} days left to register", locales.PluralRuleOther)
+	en.AddCardinal("days", "You have {0} day left to register", locales.PluralRuleOne, false)
+	en.AddCardinal("days", "You have {0} days left to register", locales.PluralRuleOther, false)
 
 	// add language translations dependant on ordinal plural rules
-	en.AddOrdinal("day-of-month", "{0}st", locales.PluralRuleOne)
-	en.AddOrdinal("day-of-month", "{0}nd", locales.PluralRuleTwo)
-	en.AddOrdinal("day-of-month", "{0}rd", locales.PluralRuleFew)
-	en.AddOrdinal("day-of-month", "{0}th", locales.PluralRuleOther)
+	en.AddOrdinal("day-of-month", "{0}st", locales.PluralRuleOne, false)
+	en.AddOrdinal("day-of-month", "{0}nd", locales.PluralRuleTwo, false)
+	en.AddOrdinal("day-of-month", "{0}rd", locales.PluralRuleFew, false)
+	en.AddOrdinal("day-of-month", "{0}th", locales.PluralRuleOther, false)
 
 	// add language translations dependant on range plural rules
 	// NOTE: only one plural rule for range in 'en' locale
-	en.AddRange("between", "It's {0}-{1} days away", locales.PluralRuleOther)
+	en.AddRange("between", "It's {0}-{1} days away", locales.PluralRuleOther, false)
 
 	// now lets use the translations we just added, in the same order we added them
 
