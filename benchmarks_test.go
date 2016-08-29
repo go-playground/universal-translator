@@ -1,16 +1,22 @@
 package ut
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/go-playground/locales/en"
+)
 
 func BenchmarkBasicTranslation(b *testing.B) {
 
-	ut, _ := New("en", "en")
+	en := en.New()
+	ut := New(en, en)
 	loc := ut.FindTranslator("en")
 
 	translations := []struct {
 		key      interface{}
 		trans    string
 		expected error
+		override bool
 	}{
 		{
 			key:      "welcome",
@@ -30,16 +36,20 @@ func BenchmarkBasicTranslation(b *testing.B) {
 	}
 
 	for _, tt := range translations {
-		if err := loc.Add(tt.key, tt.trans); err != nil {
+		if err := loc.Add(tt.key, tt.trans, tt.override); err != nil {
 			b.Fatalf("adding translation '%s' failed with key '%s'", tt.trans, tt.key)
 		}
 	}
+
+	var err error
 
 	b.ResetTimer()
 
 	b.Run("", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			loc.T("welcome")
+			if _, err = loc.T("welcome"); err != nil {
+				b.Error(err)
+			}
 		}
 	})
 
@@ -48,14 +58,18 @@ func BenchmarkBasicTranslation(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 
 			for pb.Next() {
-				loc.T("welcome")
+				if _, err = loc.T("welcome"); err != nil {
+					b.Error(err)
+				}
 			}
 		})
 	})
 
 	b.Run("With1Param", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			loc.T("welcome-user", "Joeybloggs")
+			if _, err = loc.T("welcome-user", "Joeybloggs"); err != nil {
+				b.Error(err)
+			}
 		}
 	})
 
@@ -64,14 +78,18 @@ func BenchmarkBasicTranslation(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 
 			for pb.Next() {
-				loc.T("welcome-user", "Joeybloggs")
+				if _, err = loc.T("welcome-user", "Joeybloggs"); err != nil {
+					b.Error(err)
+				}
 			}
 		})
 	})
 
 	b.Run("With2Param", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			loc.T("welcome-user2", "Joeybloggs", "/dev/tty0")
+			if _, err = loc.T("welcome-user2", "Joeybloggs", "/dev/tty0"); err != nil {
+				b.Error(err)
+			}
 		}
 	})
 
@@ -80,7 +98,9 @@ func BenchmarkBasicTranslation(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 
 			for pb.Next() {
-				loc.T("welcome-user2", "Joeybloggs", "/dev/tty0")
+				if _, err = loc.T("welcome-user2", "Joeybloggs", "/dev/tty0"); err != nil {
+					b.Error(err)
+				}
 			}
 		})
 	})

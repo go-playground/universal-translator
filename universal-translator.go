@@ -1,10 +1,9 @@
 package ut
 
 import (
-	"fmt"
 	"strings"
 
-	"github.com/go-playground/locales/locales-list"
+	"github.com/go-playground/locales"
 )
 
 // UniversalTranslator holds all locale & translation data
@@ -15,46 +14,27 @@ type UniversalTranslator struct {
 
 // New returns a new UniversalTranslator instance set with
 // the fallback locale and locales it should support
-func New(fallback string, supportedLocales ...string) (*UniversalTranslator, error) {
+func New(fallback locales.Translator, supportedLocales ...locales.Translator) *UniversalTranslator {
 
 	t := &UniversalTranslator{
 		translators: make(map[string]Translator),
 	}
 
-	lcMapping := make(localeslist.LocaleMap)
+	for _, v := range supportedLocales {
 
-	for loc, tf := range localeslist.Map() {
-		lcMapping[strings.ToLower(loc)] = tf
-	}
+		trans := newTranslator(v)
+		t.translators[strings.ToLower(trans.Locale())] = newTranslator(trans)
 
-	var ok bool
-	var lc string
-	var tf localeslist.LocaleFunc
-	fallbackLower := strings.ToLower(fallback)
-
-	for _, loc := range supportedLocales {
-
-		lc = strings.ToLower(loc)
-
-		tf, ok = lcMapping[lc]
-		if !ok {
-			return nil, &ErrLocaleNotFound{text: fmt.Sprintf("locale '%s' could not be found, perhaps it is not supported.", loc)}
+		if fallback.Locale() == v.Locale() {
+			t.fallback = trans
 		}
-
-		if fallbackLower == lc {
-			t.fallback = newTranslator(tf())
-			t.translators[lc] = t.fallback
-			continue
-		}
-
-		t.translators[lc] = newTranslator(tf())
 	}
 
-	if t.fallback == nil {
-		return nil, &ErrLocaleNotFound{text: fmt.Sprintf("fallback locale '%s' could not be found", fallback)}
+	if t.fallback == nil && fallback != nil {
+		t.fallback = newTranslator(fallback)
 	}
 
-	return t, nil
+	return t
 }
 
 // FindTranslator trys to find a Translator based on an array of locales
@@ -83,4 +63,34 @@ func (t *UniversalTranslator) GetTranslator(locale string) Translator {
 	}
 
 	return t.fallback
+}
+
+// AddTranslator adds the supplied translator, if it already exists the override param
+// will be checked and if false an error will be returned, otherwise the translator will be
+// overridden; if the fallback matches the supplied translator it will be overridden as well
+// NOTE: this is normally only used when translator is embedded within a library
+func (t *UniversalTranslator) AddTranslator(translator locales.Translator, override bool) error {
+
+	lc := strings.ToLower(translator.Locale())
+	_, ok := t.translators[lc]
+	if ok && !override {
+		return &ErrExistingTranslator{locale: translator.Locale()}
+	}
+
+	trans := newTranslator(translator)
+
+	if t.fallback.Locale() == translator.Locale() {
+
+		// because it's optional to have a fallback, I don't impose that limitation
+		// don't know why you wouldn't but...
+		if !override {
+			return &ErrExistingTranslator{locale: translator.Locale()}
+		}
+
+		t.fallback = trans
+	}
+
+	t.translators[lc] = trans
+
+	return nil
 }

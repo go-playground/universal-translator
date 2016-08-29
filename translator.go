@@ -24,20 +24,14 @@ type Translator interface {
 	// adds a normal translation for a particular language/locale
 	// {#} is the only replacement type accepted and are add infintium
 	// eg. one: '{0} day left' other: '{0} days left'
-	Add(key interface{}, text string) error
-
-	// is the same as Add only it allows existing translations to be overridden
-	Overwrite(key interface{}, text string) error
+	Add(key interface{}, text string, override bool) error
 
 	// adds a cardinal plural translation for a particular language/locale
 	// {0} is the only replacement type accepted and only one variable is accepted as
 	// multiple cannot be used for a plural rule determination, unless it is a range;
 	// see AddRange below.
 	// eg. in locale 'en' one: '{0} day left' other: '{0} days left'
-	AddCardinal(key interface{}, text string, rule locales.PluralRule) error
-
-	// is the same as AddCardinal only it allows existing translations to be overridden
-	OverwriteCardinal(key interface{}, text string, rule locales.PluralRule) error
+	AddCardinal(key interface{}, text string, rule locales.PluralRule, override bool) error
 
 	// adds an ordinal plural translation for a particular language/locale
 	// {0} is the only replacement type accepted and only one variable is accepted as
@@ -45,21 +39,15 @@ type Translator interface {
 	// see AddRange below.
 	// eg. in locale 'en' one: '{0}st day of spring' other: '{0}nd day of spring'
 	// - 1st, 2nd, 3rd...
-	AddOrdinal(key interface{}, text string, rule locales.PluralRule) error
-
-	// is the same as AddOrdinal only it allows for existing translations to be overridden
-	OverwriteOrdinal(key interface{}, text string, rule locales.PluralRule) error
+	AddOrdinal(key interface{}, text string, rule locales.PluralRule, override bool) error
 
 	// adds a range plural translation for a particular language/locale
 	// {0} and {1} are the only replacement types accepted and only these are accepted.
 	// eg. in locale 'nl' one: '{0}-{1} day left' other: '{0}-{1} days left'
-	AddRange(key interface{}, text string, rule locales.PluralRule) error
-
-	// is the same as AddRange only allows an existing translation to be overridden
-	OverwriteRange(key interface{}, text string, rule locales.PluralRule) error
+	AddRange(key interface{}, text string, rule locales.PluralRule, override bool) error
 
 	// creates the translation for the locale given the 'key' and params passed in
-	T(key interface{}, params ...string) string
+	T(key interface{}, params ...string) (string, error)
 
 	// creates the cardinal translation for the locale given the 'key', 'num' and 'digit' arguments
 	//  and param passed in
@@ -107,18 +95,9 @@ func newTranslator(trans locales.Translator) Translator {
 // Add adds a normal translation for a particular language/locale
 // {#} is the only replacement type accepted and are add infintium
 // eg. one: '{0} day left' other: '{0} days left'
-func (t *translator) Add(key interface{}, text string) error {
-	return t.add(key, text, false)
-}
+func (t *translator) Add(key interface{}, text string, override bool) error {
 
-// Overwrite is the same as Add only it allows existing translations to be overridden
-func (t *translator) Overwrite(key interface{}, text string) error {
-	return t.add(key, text, true)
-}
-
-func (t *translator) add(key interface{}, text string, overwrite bool) error {
-
-	if _, ok := t.translations[key]; ok && !overwrite {
+	if _, ok := t.translations[key]; ok && !override {
 		return &ErrConflictingTranslation{key: key, text: text}
 	}
 
@@ -154,21 +133,12 @@ func (t *translator) add(key interface{}, text string, overwrite bool) error {
 // multiple cannot be used for a plural rule determination, unless it is a range;
 // see AddRange below.
 // eg. in locale 'en' one: '{0} day left' other: '{0} days left'
-func (t *translator) AddCardinal(key interface{}, text string, rule locales.PluralRule) error {
-	return t.addCardinal(key, text, rule, false)
-}
-
-// OverwriteCardinal is the same as AddCardinal only it allows existing translations to be overridden
-func (t *translator) OverwriteCardinal(key interface{}, text string, rule locales.PluralRule) error {
-	return t.addCardinal(key, text, rule, true)
-}
-
-func (t *translator) addCardinal(key interface{}, text string, rule locales.PluralRule, overwrite bool) error {
+func (t *translator) AddCardinal(key interface{}, text string, rule locales.PluralRule, override bool) error {
 
 	tarr, ok := t.cardinalTanslations[key]
 	if ok {
 		// verify not adding a conflicting record
-		if len(tarr) > 0 && tarr[rule] != nil && !overwrite {
+		if len(tarr) > 0 && tarr[rule] != nil && !override {
 			return &ErrConflictingTranslation{key: key, rule: rule, text: text}
 		}
 
@@ -201,21 +171,12 @@ func (t *translator) addCardinal(key interface{}, text string, rule locales.Plur
 // multiple cannot be used for a plural rule determination, unless it is a range;
 // see AddRange below.
 // eg. in locale 'en' one: '{0}st day of spring' other: '{0}nd day of spring' - 1st, 2nd, 3rd...
-func (t *translator) AddOrdinal(key interface{}, text string, rule locales.PluralRule) error {
-	return t.addOrdinal(key, text, rule, false)
-}
-
-// OverwriteOrdinal is the same as AddOrdinal only it allows for existing translations to be overridden
-func (t *translator) OverwriteOrdinal(key interface{}, text string, rule locales.PluralRule) error {
-	return t.addOrdinal(key, text, rule, true)
-}
-
-func (t *translator) addOrdinal(key interface{}, text string, rule locales.PluralRule, overwrite bool) error {
+func (t *translator) AddOrdinal(key interface{}, text string, rule locales.PluralRule, override bool) error {
 
 	tarr, ok := t.ordinalTanslations[key]
 	if ok {
 		// verify not adding a conflicting record
-		if len(tarr) > 0 && tarr[rule] != nil && !overwrite {
+		if len(tarr) > 0 && tarr[rule] != nil && !override {
 			return &ErrConflictingTranslation{key: key, rule: rule, text: text}
 		}
 
@@ -246,21 +207,12 @@ func (t *translator) addOrdinal(key interface{}, text string, rule locales.Plura
 // AddRange adds a range plural translation for a particular language/locale
 // {0} and {1} are the only replacement types accepted and only these are accepted.
 // eg. in locale 'nl' one: '{0}-{1} day left' other: '{0}-{1} days left'
-func (t *translator) AddRange(key interface{}, text string, rule locales.PluralRule) error {
-	return t.addRange(key, text, rule, false)
-}
-
-// OverwriteRange is the same as AddRange only allows an existing translation to be overridden
-func (t *translator) OverwriteRange(key interface{}, text string, rule locales.PluralRule) error {
-	return t.addRange(key, text, rule, true)
-}
-
-func (t *translator) addRange(key interface{}, text string, rule locales.PluralRule, overwrite bool) error {
+func (t *translator) AddRange(key interface{}, text string, rule locales.PluralRule, override bool) error {
 
 	tarr, ok := t.rangeTanslations[key]
 	if ok {
 		// verify not adding a conflicting record
-		if len(tarr) > 0 && tarr[rule] != nil && !overwrite {
+		if len(tarr) > 0 && tarr[rule] != nil && !override {
 			return &ErrConflictingTranslation{key: key, rule: rule, text: text}
 		}
 
@@ -298,11 +250,11 @@ func (t *translator) addRange(key interface{}, text string, rule locales.PluralR
 }
 
 // T creates the translation for the locale given the 'key' and params passed in
-func (t *translator) T(key interface{}, params ...string) string {
+func (t *translator) T(key interface{}, params ...string) (string, error) {
 
 	trans, ok := t.translations[key]
 	if !ok {
-		return unknownTranslation
+		return unknownTranslation, ErrUnknowTranslation
 	}
 
 	b := make([]byte, 0, 64)
@@ -320,7 +272,7 @@ func (t *translator) T(key interface{}, params ...string) string {
 
 	b = append(b, trans.text[start:]...)
 
-	return string(b)
+	return string(b), nil
 }
 
 // C creates the cardinal translation for the locale given the 'key', 'num' and 'digit' arguments and param passed in

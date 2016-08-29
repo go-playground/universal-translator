@@ -16,8 +16,18 @@ var _ error = new(ErrConflictingTranslation)
 var _ error = new(ErrRangeTranslation)
 var _ error = new(ErrOrdinalTranslation)
 var _ error = new(ErrCardinalTranslation)
-var _ error = new(ErrLocaleNotFound)
 var _ error = new(ErrMissingPluralTranslation)
+var _ error = new(ErrExistingTranslator)
+
+// ErrExistingTranslator is the error representing a conflicting translator
+type ErrExistingTranslator struct {
+	locale string
+}
+
+// Error returns ErrExistingTranslator's internal error text
+func (e *ErrExistingTranslator) Error() string {
+	return fmt.Sprintf("error: conflicting translator key '%s'", e.locale)
+}
 
 // ErrConflictingTranslation is the error representing a conflicting translation
 type ErrConflictingTranslation struct {
@@ -28,7 +38,7 @@ type ErrConflictingTranslation struct {
 
 // Error returns ErrConflictingTranslation's internal error text
 func (e *ErrConflictingTranslation) Error() string {
-	return fmt.Sprintf("warning: conflicting key '%#v' rule '%d' with text '%s', value being ignored", e.key, e.rule, e.text)
+	return fmt.Sprintf("error: conflicting key '%#v' rule '%d' with text '%s', value being ignored", e.key, e.rule, e.text)
 }
 
 // ErrRangeTranslation is the error representing a range translation error
@@ -58,16 +68,6 @@ type ErrCardinalTranslation struct {
 
 // Error returns ErrCardinalTranslation's internal error text
 func (e *ErrCardinalTranslation) Error() string {
-	return e.text
-}
-
-// ErrLocaleNotFound is the error signifying a locale which could not be found
-type ErrLocaleNotFound struct {
-	text string
-}
-
-// Error returns ErrLocaleNotFound's internal error text
-func (e *ErrLocaleNotFound) Error() string {
 	return e.text
 }
 

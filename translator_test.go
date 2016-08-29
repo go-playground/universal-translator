@@ -5,6 +5,9 @@ import (
 	"testing"
 
 	"github.com/go-playground/locales"
+	"github.com/go-playground/locales/en"
+	"github.com/go-playground/locales/en_CA"
+	"github.com/go-playground/locales/nl"
 )
 
 // NOTES:
@@ -20,11 +23,8 @@ import (
 
 func TestBasicTranslation(t *testing.T) {
 
-	uni, err := New("en", "en")
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
+	e := en.New()
+	uni := New(e, e)
 	en := uni.GetTranslator("en") // or fallback if fails to find 'en'
 
 	translations := []struct {
@@ -32,7 +32,7 @@ func TestBasicTranslation(t *testing.T) {
 		trans         string
 		expected      error
 		expectedError bool
-		overwrite     bool
+		override      bool
 	}{
 		{
 			key:      "test_trans",
@@ -61,23 +61,16 @@ func TestBasicTranslation(t *testing.T) {
 			expectedError: true,
 		},
 		{
-			key:       "test_trans",
-			trans:     "Welcome {0} to the {1}.",
-			expected:  nil,
-			overwrite: true,
+			key:      "test_trans",
+			trans:    "Welcome {0} to the {1}.",
+			expected: nil,
+			override: true,
 		},
 	}
 
 	for _, tt := range translations {
 
-		var err error
-
-		if tt.overwrite {
-			err = en.Overwrite(tt.key, tt.trans)
-		} else {
-			err = en.Add(tt.key, tt.trans)
-		}
-
+		err := en.Add(tt.key, tt.trans, tt.override)
 		if err != tt.expected {
 			if !tt.expectedError && err.Error() != tt.expected.Error() {
 				t.Errorf("Expected '%s' Got '%s'", tt.expected, err)
@@ -121,7 +114,7 @@ func TestBasicTranslation(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		s := en.T(tt.key, tt.params...)
+		s, err := en.T(tt.key, tt.params...)
 		if s != tt.expected {
 			if !tt.expectedError && err != ErrUnknowTranslation {
 				t.Errorf("Expected '%s' Got '%s'", tt.expected, s)
@@ -132,11 +125,8 @@ func TestBasicTranslation(t *testing.T) {
 
 func TestCardinalTranslation(t *testing.T) {
 
-	uni, err := New("en", "en")
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
+	e := en.New()
+	uni := New(e, e)
 	en := uni.GetTranslator("en")
 
 	translations := []struct {
@@ -145,7 +135,7 @@ func TestCardinalTranslation(t *testing.T) {
 		rule          locales.PluralRule
 		expected      error
 		expectedError bool
-		overwrite     bool
+		override      bool
 	}{
 		// bad translation
 		{
@@ -175,24 +165,17 @@ func TestCardinalTranslation(t *testing.T) {
 			expectedError: true,
 		},
 		{
-			key:       "cardinal_test",
-			trans:     "You have {0} day left.",
-			rule:      locales.PluralRuleOne,
-			expected:  nil,
-			overwrite: true,
+			key:      "cardinal_test",
+			trans:    "You have {0} day left.",
+			rule:     locales.PluralRuleOne,
+			expected: nil,
+			override: true,
 		},
 	}
 
 	for _, tt := range translations {
 
-		var err error
-
-		if tt.overwrite {
-			err = en.OverwriteCardinal(tt.key, tt.trans, tt.rule)
-		} else {
-			err = en.AddCardinal(tt.key, tt.trans, tt.rule)
-		}
-
+		err := en.AddCardinal(tt.key, tt.trans, tt.rule, tt.override)
 		if err != tt.expected {
 			if !tt.expectedError || err.Error() != tt.expected.Error() {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
@@ -243,11 +226,8 @@ func TestCardinalTranslation(t *testing.T) {
 
 func TestOrdinalTranslation(t *testing.T) {
 
-	uni, err := New("en", "en")
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
+	e := en.New()
+	uni := New(e, e)
 	en := uni.GetTranslator("en")
 
 	translations := []struct {
@@ -256,7 +236,7 @@ func TestOrdinalTranslation(t *testing.T) {
 		rule          locales.PluralRule
 		expected      error
 		expectedError bool
-		overwrite     bool
+		override      bool
 	}{
 		// bad translation
 		{
@@ -299,24 +279,17 @@ func TestOrdinalTranslation(t *testing.T) {
 			expectedError: true,
 		},
 		{
-			key:       "day",
-			trans:     "{0}st",
-			rule:      locales.PluralRuleOne,
-			expected:  nil,
-			overwrite: true,
+			key:      "day",
+			trans:    "{0}st",
+			rule:     locales.PluralRuleOne,
+			expected: nil,
+			override: true,
 		},
 	}
 
 	for _, tt := range translations {
 
-		var err error
-
-		if tt.overwrite {
-			err = en.OverwriteOrdinal(tt.key, tt.trans, tt.rule)
-		} else {
-			err = en.AddOrdinal(tt.key, tt.trans, tt.rule)
-		}
-
+		err := en.AddOrdinal(tt.key, tt.trans, tt.rule, tt.override)
 		if err != tt.expected {
 			if !tt.expectedError || err.Error() != tt.expected.Error() {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
@@ -395,10 +368,8 @@ func TestOrdinalTranslation(t *testing.T) {
 
 func TestRangeTranslation(t *testing.T) {
 
-	uni, err := New("nl", "nl")
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
+	n := nl.New()
+	uni := New(n, n)
 
 	// dutch
 	nl := uni.GetTranslator("nl")
@@ -409,7 +380,7 @@ func TestRangeTranslation(t *testing.T) {
 		rule          locales.PluralRule
 		expected      error
 		expectedError bool
-		overwrite     bool
+		override      bool
 	}{
 		// bad translation
 		{
@@ -448,22 +419,17 @@ func TestRangeTranslation(t *testing.T) {
 			expectedError: true,
 		},
 		{
-			key:       "day",
-			trans:     "er {0}-{1} dag vertrokken",
-			rule:      locales.PluralRuleOne,
-			expected:  nil,
-			overwrite: true,
+			key:      "day",
+			trans:    "er {0}-{1} dag vertrokken",
+			rule:     locales.PluralRuleOne,
+			expected: nil,
+			override: true,
 		},
 	}
 
 	for _, tt := range translations {
 
-		if tt.overwrite {
-			err = nl.OverwriteRange(tt.key, tt.trans, tt.rule)
-		} else {
-			err = nl.AddRange(tt.key, tt.trans, tt.rule)
-		}
-
+		err := nl.AddRange(tt.key, tt.trans, tt.rule, tt.override)
 		if err != tt.expected {
 			if !tt.expectedError || err.Error() != tt.expected.Error() {
 				t.Errorf("Expected '%#v' Got '%s'", tt.expected, err)
@@ -543,12 +509,10 @@ func TestRangeTranslation(t *testing.T) {
 
 func TestFallbackTranslator(t *testing.T) {
 
-	uni, err := New("en", "en")
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
+	e := en.New()
+	uni := New(e, e)
 	en := uni.GetTranslator("en")
+
 	if en.Locale() != "en" {
 		t.Errorf("Expected '%s' Got '%s'", "en", en.Locale())
 	}
@@ -569,35 +533,58 @@ func TestFallbackTranslator(t *testing.T) {
 	}
 }
 
-func TestNew(t *testing.T) {
+func TestAddTranslator(t *testing.T) {
 
-	_, err := New("en", "en")
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	e := en.New()
+	n := nl.New()
+	uni := New(e, n)
+
+	tests := []struct {
+		trans         locales.Translator
+		expected      error
+		expectedError bool
+		override      bool
+	}{
+		{
+			trans:    en_CA.New(),
+			expected: nil,
+			override: false,
+		},
+		{
+			trans:         n,
+			expected:      &ErrExistingTranslator{locale: n.Locale()},
+			expectedError: true,
+			override:      false,
+		},
+		{
+			trans:         e,
+			expected:      &ErrExistingTranslator{locale: e.Locale()},
+			expectedError: true,
+			override:      false,
+		},
+		{
+			trans:    e,
+			expected: nil,
+			override: true,
+		},
 	}
 
-	expected := &ErrLocaleNotFound{text: fmt.Sprintf("locale '%s' could not be found, perhaps it is not supported.", "definitly doesn't exist!")}
+	for _, tt := range tests {
 
-	_, err = New("en", "definitly doesn't exist!")
-	if err == nil || err.Error() != expected.Error() {
-		t.Fatalf("Expected '%s' Got '%s'", expected, err)
-	}
-
-	expected = &ErrLocaleNotFound{text: fmt.Sprintf("fallback locale '%s' could not be found", "fallback definitly doesn't exist!")}
-
-	_, err = New("fallback definitly doesn't exist!", "en")
-	if err == nil || err.Error() != expected.Error() {
-		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+		err := uni.AddTranslator(tt.trans, tt.override)
+		if err != tt.expected {
+			if !tt.expectedError || err.Error() != tt.expected.Error() {
+				t.Errorf("Expected '%s' Got '%s'", tt.expected, err)
+			}
+		}
 	}
 }
 
 func TestVerifyTranslations(t *testing.T) {
 
+	n := nl.New()
 	// dutch
-	uni, err := New("nl", "nl")
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
+	uni := New(n, n)
 
 	loc := uni.GetTranslator("nl")
 	if loc.Locale() != "nl" {
@@ -606,7 +593,7 @@ func TestVerifyTranslations(t *testing.T) {
 
 	// cardinal checks
 
-	err = loc.AddCardinal("day", "je {0} dag hebben verlaten", locales.PluralRuleOne)
+	err := loc.AddCardinal("day", "je {0} dag hebben verlaten", locales.PluralRuleOne, false)
 	if err != nil {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
@@ -619,7 +606,7 @@ func TestVerifyTranslations(t *testing.T) {
 	}
 
 	// success cardinal
-	err = loc.AddCardinal("day", "je {0} dagen hebben verlaten", locales.PluralRuleOther)
+	err = loc.AddCardinal("day", "je {0} dagen hebben verlaten", locales.PluralRuleOther, false)
 	if err != nil {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
@@ -630,7 +617,7 @@ func TestVerifyTranslations(t *testing.T) {
 	}
 
 	// range checks
-	err = loc.AddRange("day", "je {0}-{1} dagen hebben verlaten", locales.PluralRuleOther)
+	err = loc.AddRange("day", "je {0}-{1} dagen hebben verlaten", locales.PluralRuleOther, false)
 	if err != nil {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
@@ -643,7 +630,7 @@ func TestVerifyTranslations(t *testing.T) {
 	}
 
 	// success range
-	err = loc.AddRange("day", "je {0}-{1} dag hebben verlaten", locales.PluralRuleOne)
+	err = loc.AddRange("day", "je {0}-{1} dag hebben verlaten", locales.PluralRuleOne, false)
 	if err != nil {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
@@ -655,7 +642,7 @@ func TestVerifyTranslations(t *testing.T) {
 
 	// ok so 'nl' aka dutch, ony has one plural rule for ordinals, so going to switch to english from here which has 4
 
-	uni, err = New("en", "en")
+	err = uni.AddTranslator(en.New(), false)
 	if err != nil {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
@@ -667,17 +654,17 @@ func TestVerifyTranslations(t *testing.T) {
 
 	// ordinal checks
 
-	err = loc.AddOrdinal("day", "{0}st", locales.PluralRuleOne)
+	err = loc.AddOrdinal("day", "{0}st", locales.PluralRuleOne, false)
 	if err != nil {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
 
-	err = loc.AddOrdinal("day", "{0}rd", locales.PluralRuleFew)
+	err = loc.AddOrdinal("day", "{0}rd", locales.PluralRuleFew, false)
 	if err != nil {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
 
-	err = loc.AddOrdinal("day", "{0}th", locales.PluralRuleOther)
+	err = loc.AddOrdinal("day", "{0}th", locales.PluralRuleOther, false)
 	if err != nil {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
@@ -691,7 +678,7 @@ func TestVerifyTranslations(t *testing.T) {
 
 	// success ordinal
 
-	err = loc.AddOrdinal("day", "{0}nd", locales.PluralRuleTwo)
+	err = loc.AddOrdinal("day", "{0}nd", locales.PluralRuleTwo, false)
 	if err != nil {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
