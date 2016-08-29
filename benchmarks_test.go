@@ -6,9 +6,36 @@ func BenchmarkBasicTranslation(b *testing.B) {
 
 	ut, _ := New("en", "en")
 	loc := ut.FindTranslator("en")
-	loc.Add("welcome", "Welcome to the site")
-	loc.Add("welcome-user", "Welcome to the site {0}")
-	loc.Add("welcome-user2", "Welcome to the site {0}, your location is {1}")
+
+	translations := []struct {
+		key      interface{}
+		trans    string
+		expected error
+	}{
+		{
+			key:      "welcome",
+			trans:    "Welcome to the site",
+			expected: nil,
+		},
+		{
+			key:      "welcome-user",
+			trans:    "Welcome to the site {0}",
+			expected: nil,
+		},
+		{
+			key:      "welcome-user2",
+			trans:    "Welcome to the site {0}, your location is {1}",
+			expected: nil,
+		},
+	}
+
+	for _, tt := range translations {
+		if err := loc.Add(tt.key, tt.trans); err != nil {
+			b.Fatalf("adding translation '%s' failed with key '%s'", tt.trans, tt.key)
+		}
+	}
+
+	b.ResetTimer()
 
 	b.Run("", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {

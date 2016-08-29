@@ -24,7 +24,10 @@ type Translator interface {
 	// adds a normal translation for a particular language/locale
 	// {#} is the only replacement type accepted and are add infintium
 	// eg. one: '{0} day left' other: '{0} days left'
-	Add(key interface{}, text string)
+	Add(key interface{}, text string) error
+
+	// is the same as Add only it allows existing translations to be overridden
+	Overwrite(key interface{}, text string) error
 
 	// adds a cardinal plural translation for a particular language/locale
 	// {0} is the only replacement type accepted and only one variable is accepted as
@@ -32,6 +35,9 @@ type Translator interface {
 	// see AddRange below.
 	// eg. in locale 'en' one: '{0} day left' other: '{0} days left'
 	AddCardinal(key interface{}, text string, rule locales.PluralRule) error
+
+	// is the same as AddCardinal only it allows existing translations to be overridden
+	OverwriteCardinal(key interface{}, text string, rule locales.PluralRule) error
 
 	// adds an ordinal plural translation for a particular language/locale
 	// {0} is the only replacement type accepted and only one variable is accepted as
@@ -41,10 +47,16 @@ type Translator interface {
 	// - 1st, 2nd, 3rd...
 	AddOrdinal(key interface{}, text string, rule locales.PluralRule) error
 
+	// is the same as AddOrdinal only it allows for existing translations to be overridden
+	OverwriteOrdinal(key interface{}, text string, rule locales.PluralRule) error
+
 	// adds a range plural translation for a particular language/locale
 	// {0} and {1} are the only replacement types accepted and only these are accepted.
 	// eg. in locale 'nl' one: '{0}-{1} day left' other: '{0}-{1} days left'
 	AddRange(key interface{}, text string, rule locales.PluralRule) error
+
+	// is the same as AddRange only allows an existing translation to be overridden
+	OverwriteRange(key interface{}, text string, rule locales.PluralRule) error
 
 	// creates the translation for the locale given the 'key' and params passed in
 	T(key interface{}, params ...string) string
@@ -95,7 +107,20 @@ func newTranslator(trans locales.Translator) Translator {
 // Add adds a normal translation for a particular language/locale
 // {#} is the only replacement type accepted and are add infintium
 // eg. one: '{0} day left' other: '{0} days left'
-func (t *translator) Add(key interface{}, text string) {
+func (t *translator) Add(key interface{}, text string) error {
+	return t.add(key, text, false)
+}
+
+// Overwrite is the same as Add only it allows existing translations to be overridden
+func (t *translator) Overwrite(key interface{}, text string) error {
+	return t.add(key, text, true)
+}
+
+func (t *translator) add(key interface{}, text string, overwrite bool) error {
+
+	if _, ok := t.translations[key]; ok && !overwrite {
+		return &ErrConflictingTranslation{key: key, text: text}
+	}
 
 	trans := &transText{
 		text: text,
@@ -120,6 +145,8 @@ func (t *translator) Add(key interface{}, text string) {
 	}
 
 	t.translations[key] = trans
+
+	return nil
 }
 
 // AddCardinal adds a cardinal plural translation for a particular language/locale
@@ -128,17 +155,25 @@ func (t *translator) Add(key interface{}, text string) {
 // see AddRange below.
 // eg. in locale 'en' one: '{0} day left' other: '{0} days left'
 func (t *translator) AddCardinal(key interface{}, text string, rule locales.PluralRule) error {
+	return t.addCardinal(key, text, rule, false)
+}
+
+// OverwriteCardinal is the same as AddCardinal only it allows existing translations to be overridden
+func (t *translator) OverwriteCardinal(key interface{}, text string, rule locales.PluralRule) error {
+	return t.addCardinal(key, text, rule, true)
+}
+
+func (t *translator) addCardinal(key interface{}, text string, rule locales.PluralRule, overwrite bool) error {
 
 	tarr, ok := t.cardinalTanslations[key]
 	if ok {
 		// verify not adding a conflicting record
-		if len(tarr) > 0 && tarr[rule] != nil {
+		if len(tarr) > 0 && tarr[rule] != nil && !overwrite {
 			return &ErrConflictingTranslation{key: key, rule: rule, text: text}
 		}
 
 	} else {
 		tarr = make([]*transText, 7, 7)
-		// tarr = make([]*transText, len(t.PluralsCardinal())+1, len(t.PluralsCardinal())+1)
 		t.cardinalTanslations[key] = tarr
 	}
 
@@ -167,11 +202,20 @@ func (t *translator) AddCardinal(key interface{}, text string, rule locales.Plur
 // see AddRange below.
 // eg. in locale 'en' one: '{0}st day of spring' other: '{0}nd day of spring' - 1st, 2nd, 3rd...
 func (t *translator) AddOrdinal(key interface{}, text string, rule locales.PluralRule) error {
+	return t.addOrdinal(key, text, rule, false)
+}
+
+// OverwriteOrdinal is the same as AddOrdinal only it allows for existing translations to be overridden
+func (t *translator) OverwriteOrdinal(key interface{}, text string, rule locales.PluralRule) error {
+	return t.addOrdinal(key, text, rule, true)
+}
+
+func (t *translator) addOrdinal(key interface{}, text string, rule locales.PluralRule, overwrite bool) error {
 
 	tarr, ok := t.ordinalTanslations[key]
 	if ok {
 		// verify not adding a conflicting record
-		if len(tarr) > 0 && tarr[rule] != nil {
+		if len(tarr) > 0 && tarr[rule] != nil && !overwrite {
 			return &ErrConflictingTranslation{key: key, rule: rule, text: text}
 		}
 
@@ -203,11 +247,20 @@ func (t *translator) AddOrdinal(key interface{}, text string, rule locales.Plura
 // {0} and {1} are the only replacement types accepted and only these are accepted.
 // eg. in locale 'nl' one: '{0}-{1} day left' other: '{0}-{1} days left'
 func (t *translator) AddRange(key interface{}, text string, rule locales.PluralRule) error {
+	return t.addRange(key, text, rule, false)
+}
+
+// OverwriteRange is the same as AddRange only allows an existing translation to be overridden
+func (t *translator) OverwriteRange(key interface{}, text string, rule locales.PluralRule) error {
+	return t.addRange(key, text, rule, true)
+}
+
+func (t *translator) addRange(key interface{}, text string, rule locales.PluralRule, overwrite bool) error {
 
 	tarr, ok := t.rangeTanslations[key]
 	if ok {
 		// verify not adding a conflicting record
-		if len(tarr) > 0 && tarr[rule] != nil {
+		if len(tarr) > 0 && tarr[rule] != nil && !overwrite {
 			return &ErrConflictingTranslation{key: key, rule: rule, text: text}
 		}
 

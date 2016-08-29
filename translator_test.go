@@ -26,10 +26,64 @@ func TestBasicTranslation(t *testing.T) {
 	}
 
 	en := uni.GetTranslator("en") // or fallback if fails to find 'en'
-	en.Add("test_trans", "Welcome {0} to the {1}.")
-	en.Add("test_trans2", "{0} to the {1}.")
-	en.Add("test_trans3", "Welcome {0} to the {1}")
-	en.Add("test_trans4", "{0}{1}")
+
+	translations := []struct {
+		key           interface{}
+		trans         string
+		expected      error
+		expectedError bool
+		overwrite     bool
+	}{
+		{
+			key:      "test_trans",
+			trans:    "Welcome {0}",
+			expected: nil,
+		},
+		{
+			key:      "test_trans2",
+			trans:    "{0} to the {1}.",
+			expected: nil,
+		},
+		{
+			key:      "test_trans3",
+			trans:    "Welcome {0} to the {1}",
+			expected: nil,
+		},
+		{
+			key:      "test_trans4",
+			trans:    "{0}{1}",
+			expected: nil,
+		},
+		{
+			key:           "test_trans",
+			trans:         "{0}{1}",
+			expected:      &ErrConflictingTranslation{key: "bad_trans", text: "{0}{1}"},
+			expectedError: true,
+		},
+		{
+			key:       "test_trans",
+			trans:     "Welcome {0} to the {1}.",
+			expected:  nil,
+			overwrite: true,
+		},
+	}
+
+	for _, tt := range translations {
+
+		var err error
+
+		if tt.overwrite {
+			err = en.Overwrite(tt.key, tt.trans)
+		} else {
+			err = en.Add(tt.key, tt.trans)
+		}
+
+		if err != tt.expected {
+			if !tt.expectedError && err.Error() != tt.expected.Error() {
+				t.Errorf("Expected '%s' Got '%s'", tt.expected, err)
+			}
+		}
+	}
 
 	tests := []struct {
 		key           interface{}
@@ -91,6 +145,7 @@ func TestCardinalTranslation(t *testing.T) {
 		rule          locales.PluralRule
 		expected      error
 		expectedError bool
+		overwrite     bool
 	}{
 		// bad translation
 		{
@@ -102,7 +157,7 @@ func TestCardinalTranslation(t *testing.T) {
 		},
 		{
 			key:      "cardinal_test",
-			trans:    "You have {0} day left.",
+			trans:    "You have {0} day",
 			rule:     locales.PluralRuleOne,
 			expected: nil,
 		},
@@ -119,11 +174,25 @@ func TestCardinalTranslation(t *testing.T) {
 			expected:      &ErrConflictingTranslation{key: "cardinal_test", rule: locales.PluralRuleOther, text: "You have {0} days left."},
 			expectedError: true,
 		},
+		{
+			key:       "cardinal_test",
+			trans:     "You have {0} day left.",
+			rule:      locales.PluralRuleOne,
+			expected:  nil,
+			overwrite: true,
+		},
 	}
 
 	for _, tt := range translations {
 
-		err := en.AddCardinal(tt.key, tt.trans, tt.rule)
+		var err error
+
+		if tt.overwrite {
+			err = en.OverwriteCardinal(tt.key, tt.trans, tt.rule)
+		} else {
+			err = en.AddCardinal(tt.key, tt.trans, tt.rule)
+		}
+
 		if err != tt.expected {
 			if !tt.expectedError || err.Error() != tt.expected.Error() {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
@@ -187,6 +256,7 @@ func TestOrdinalTranslation(t *testing.T) {
 		rule          locales.PluralRule
 		expected      error
 		expectedError bool
+		overwrite     bool
 	}{
 		// bad translation
 		{
@@ -198,7 +268,7 @@ func TestOrdinalTranslation(t *testing.T) {
 		},
 		{
 			key:      "day",
-			trans:    "{0}st",
+			trans:    "{0}sfefewt",
 			rule:     locales.PluralRuleOne,
 			expected: nil,
 		},
@@ -228,11 +298,25 @@ func TestOrdinalTranslation(t *testing.T) {
 			expected:      &ErrConflictingTranslation{key: "day", rule: locales.PluralRuleOther, text: "{0}th"},
 			expectedError: true,
 		},
+		{
+			key:       "day",
+			trans:     "{0}st",
+			rule:      locales.PluralRuleOne,
+			expected:  nil,
+			overwrite: true,
+		},
 	}
 
 	for _, tt := range translations {
 
-		err := en.AddOrdinal(tt.key, tt.trans, tt.rule)
+		var err error
+
+		if tt.overwrite {
+			err = en.OverwriteOrdinal(tt.key, tt.trans, tt.rule)
+		} else {
+			err = en.AddOrdinal(tt.key, tt.trans, tt.rule)
+		}
+
 		if err != tt.expected {
 			if !tt.expectedError || err.Error() != tt.expected.Error() {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
@@ -325,6 +409,7 @@ func TestRangeTranslation(t *testing.T) {
 		rule          locales.PluralRule
 		expected      error
 		expectedError bool
+		overwrite     bool
 	}{
 		// bad translation
 		{
@@ -344,7 +429,7 @@ func TestRangeTranslation(t *testing.T) {
 		},
 		{
 			key:      "day",
-			trans:    "er {0}-{1} dag vertrokken",
+			trans:    "er {0}-{1} dag",
 			rule:     locales.PluralRuleOne,
 			expected: nil,
 		},
@@ -362,11 +447,23 @@ func TestRangeTranslation(t *testing.T) {
 			expected:      &ErrConflictingTranslation{key: "day", rule: locales.PluralRuleOther, text: "er zijn {0}-{1} dagen over"},
 			expectedError: true,
 		},
+		{
+			key:       "day",
+			trans:     "er {0}-{1} dag vertrokken",
+			rule:      locales.PluralRuleOne,
+			expected:  nil,
+			overwrite: true,
+		},
 	}
 
 	for _, tt := range translations {
 
-		err := nl.AddRange(tt.key, tt.trans, tt.rule)
+		if tt.overwrite {
+			err = nl.OverwriteRange(tt.key, tt.trans, tt.rule)
+		} else {
+			err = nl.AddRange(tt.key, tt.trans, tt.rule)
+		}
+
 		if err != tt.expected {
 			if !tt.expectedError || err.Error() != tt.expected.Error() {
 				t.Errorf("Expected '%#v' Got '%s'", tt.expected, err)
