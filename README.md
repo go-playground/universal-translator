@@ -6,6 +6,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/go-playground/universal-translator)](https://goreportcard.com/report/github.com/go-playground/universal-translator)
 [![GoDoc](https://godoc.org/github.com/go-playground/universal-translator?status.svg)](https://godoc.org/github.com/go-playground/universal-translator)
 ![License](https://img.shields.io/dub/l/vibe-d.svg)
+[![Gitter](https://badges.gitter.im/go-playground/universal-translator.svg)](https://gitter.im/go-playground/universal-translator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Universal Translator is an i18n Translator for Go/Golang using CLDR data + pluralization rules
 
