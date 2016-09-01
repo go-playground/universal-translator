@@ -107,19 +107,16 @@ func (t *translator) Add(key interface{}, text string, override bool) error {
 
 	var i int
 	var idx int
-	var cum int
 
 	for {
 		s := "{" + strconv.Itoa(i) + "}"
-		idx = strings.Index(text[idx:], s)
+		idx = strings.Index(text, s)
 		if idx == -1 {
 			break
 		}
 
-		trans.indexes = append(trans.indexes, idx+cum)
-		idx += len(s)
-		trans.indexes = append(trans.indexes, idx+cum)
-		cum += idx
+		trans.indexes = append(trans.indexes, idx)
+		trans.indexes = append(trans.indexes, idx+len(s))
 		i++
 	}
 
@@ -260,6 +257,8 @@ func (t *translator) T(key interface{}, params ...string) (string, error) {
 	b := make([]byte, 0, 64)
 
 	var start, end, count int
+
+	fmt.Println(trans)
 
 	for i := 0; i < len(trans.indexes); i++ {
 		end = trans.indexes[i]
