@@ -258,8 +258,6 @@ func (t *translator) T(key interface{}, params ...string) (string, error) {
 
 	var start, end, count int
 
-	fmt.Println(trans)
-
 	for i := 0; i < len(trans.indexes); i++ {
 		end = trans.indexes[i]
 		b = append(b, trans.text[start:end]...)
