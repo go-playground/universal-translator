@@ -688,3 +688,20 @@ func TestVerifyTranslations(t *testing.T) {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
 }
+
+func TestGetFallback(t *testing.T) {
+
+	// dutch
+	n := nl.New()
+	e := en.New()
+
+	uni := New(e, n)
+
+	trans := uni.GetFallback()
+
+	expected := "en"
+
+	if trans.Locale() != expected {
+		t.Errorf("Expected '%s' Got '%s'", expected, trans.Locale())
+	}
+}

@@ -23,7 +23,7 @@ func New(fallback locales.Translator, supportedLocales ...locales.Translator) *U
 	for _, v := range supportedLocales {
 
 		trans := newTranslator(v)
-		t.translators[strings.ToLower(trans.Locale())] = newTranslator(trans)
+		t.translators[strings.ToLower(trans.Locale())] = trans
 
 		if fallback.Locale() == v.Locale() {
 			t.fallback = trans
@@ -62,6 +62,11 @@ func (t *UniversalTranslator) GetTranslator(locale string) Translator {
 		return t
 	}
 
+	return t.fallback
+}
+
+// GetFallback returns the fallback locale
+func (t *UniversalTranslator) GetFallback() Translator {
 	return t.fallback
 }
 
