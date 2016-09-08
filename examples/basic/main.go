@@ -20,7 +20,7 @@ func main() {
 	e := en.New()
 	universalTraslator = ut.New(e, e, en_CA.New(), nl.New(), fr.New())
 
-	en := universalTraslator.GetTranslator("en")
+	en, _ := universalTraslator.GetTranslator("en")
 
 	// generally used after parsing an http 'Accept-Language' header
 	// and this will try to find a matching locale you support or
