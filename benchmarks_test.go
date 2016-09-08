@@ -10,7 +10,10 @@ func BenchmarkBasicTranslation(b *testing.B) {
 
 	en := en.New()
 	ut := New(en, en)
-	loc := ut.FindTranslator("en")
+	loc, found := ut.FindTranslator("en")
+	if !found {
+		b.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
 
 	translations := []struct {
 		key      interface{}

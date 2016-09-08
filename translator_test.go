@@ -25,7 +25,10 @@ func TestBasicTranslation(t *testing.T) {
 
 	e := en.New()
 	uni := New(e, e)
-	en := uni.GetTranslator("en") // or fallback if fails to find 'en'
+	en, found := uni.GetTranslator("en") // or fallback if fails to find 'en'
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
 
 	translations := []struct {
 		key           interface{}
@@ -127,7 +130,10 @@ func TestCardinalTranslation(t *testing.T) {
 
 	e := en.New()
 	uni := New(e, e)
-	en := uni.GetTranslator("en")
+	en, found := uni.GetTranslator("en")
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
 
 	translations := []struct {
 		key           interface{}
@@ -228,7 +234,10 @@ func TestOrdinalTranslation(t *testing.T) {
 
 	e := en.New()
 	uni := New(e, e)
-	en := uni.GetTranslator("en")
+	en, found := uni.GetTranslator("en")
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
 
 	translations := []struct {
 		key           interface{}
@@ -372,7 +381,10 @@ func TestRangeTranslation(t *testing.T) {
 	uni := New(n, n)
 
 	// dutch
-	nl := uni.GetTranslator("nl")
+	nl, found := uni.GetTranslator("nl")
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
 
 	translations := []struct {
 		key           interface{}
@@ -511,23 +523,26 @@ func TestFallbackTranslator(t *testing.T) {
 
 	e := en.New()
 	uni := New(e, e)
-	en := uni.GetTranslator("en")
+	en, found := uni.GetTranslator("en")
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
 
 	if en.Locale() != "en" {
 		t.Errorf("Expected '%s' Got '%s'", "en", en.Locale())
 	}
 
-	fallback := uni.GetTranslator("nl")
+	fallback, _ := uni.GetTranslator("nl")
 	if fallback.Locale() != "en" {
 		t.Errorf("Expected '%s' Got '%s'", "en", fallback.Locale())
 	}
 
-	en = uni.FindTranslator("nl", "en")
+	en, _ = uni.FindTranslator("nl", "en")
 	if en.Locale() != "en" {
 		t.Errorf("Expected '%s' Got '%s'", "en", en.Locale())
 	}
 
-	fallback = uni.FindTranslator("nl")
+	fallback, _ = uni.FindTranslator("nl")
 	if fallback.Locale() != "en" {
 		t.Errorf("Expected '%s' Got '%s'", "en", fallback.Locale())
 	}
@@ -586,7 +601,7 @@ func TestVerifyTranslations(t *testing.T) {
 	// dutch
 	uni := New(n, n)
 
-	loc := uni.GetTranslator("nl")
+	loc, _ := uni.GetTranslator("nl")
 	if loc.Locale() != "nl" {
 		t.Errorf("Expected '%s' Got '%s'", "nl", loc.Locale())
 	}
@@ -647,7 +662,7 @@ func TestVerifyTranslations(t *testing.T) {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
 	}
 
-	loc = uni.GetTranslator("en")
+	loc, _ = uni.GetTranslator("en")
 	if loc.Locale() != "en" {
 		t.Errorf("Expected '%s' Got '%s'", "en", loc.Locale())
 	}

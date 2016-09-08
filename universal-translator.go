@@ -40,29 +40,27 @@ func New(fallback locales.Translator, supportedLocales ...locales.Translator) *U
 // FindTranslator trys to find a Translator based on an array of locales
 // and returns the first one it can find, otherwise returns the
 // fallback translator.
-func (t *UniversalTranslator) FindTranslator(locales ...string) (trans Translator) {
-
-	var ok bool
+func (t *UniversalTranslator) FindTranslator(locales ...string) (trans Translator, found bool) {
 
 	for _, locale := range locales {
 
-		if trans, ok = t.translators[strings.ToLower(locale)]; ok {
+		if trans, found = t.translators[strings.ToLower(locale)]; found {
 			return
 		}
 	}
 
-	return t.fallback
+	return t.fallback, false
 }
 
 // GetTranslator returns the specified translator for the given locale,
 // or fallback if not found
-func (t *UniversalTranslator) GetTranslator(locale string) Translator {
+func (t *UniversalTranslator) GetTranslator(locale string) (trans Translator, found bool) {
 
-	if t, ok := t.translators[strings.ToLower(locale)]; ok {
-		return t
+	if trans, found = t.translators[strings.ToLower(locale)]; found {
+		return
 	}
 
-	return t.fallback
+	return t.fallback, false
 }
 
 // GetFallback returns the fallback locale
