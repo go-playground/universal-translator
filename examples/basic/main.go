@@ -54,17 +54,17 @@ func main() {
 
 	fmt.Println(en.T("welcome", "Joeybloggs"))
 
-	fmt.Println(en.C("days", 1, 0, string(en.FmtNumber(1, 0)))) // you'd normally have variables defined for 1 and 0
-	fmt.Println(en.C("days", 2, 0, string(en.FmtNumber(2, 0))))
-	fmt.Println(en.C("days", 10456.25, 2, string(en.FmtNumber(10456.25, 2))))
+	fmt.Println(en.C("days", 1, 0, en.FmtNumber(1, 0))) // you'd normally have variables defined for 1 and 0
+	fmt.Println(en.C("days", 2, 0, en.FmtNumber(2, 0)))
+	fmt.Println(en.C("days", 10456.25, 2, en.FmtNumber(10456.25, 2)))
 
-	fmt.Println(en.O("day-of-month", 1, 0, string(en.FmtNumber(1, 0))))
-	fmt.Println(en.O("day-of-month", 2, 0, string(en.FmtNumber(2, 0))))
-	fmt.Println(en.O("day-of-month", 3, 0, string(en.FmtNumber(3, 0))))
-	fmt.Println(en.O("day-of-month", 4, 0, string(en.FmtNumber(4, 0))))
-	fmt.Println(en.O("day-of-month", 10456.25, 0, string(en.FmtNumber(10456.25, 0))))
+	fmt.Println(en.O("day-of-month", 1, 0, en.FmtNumber(1, 0)))
+	fmt.Println(en.O("day-of-month", 2, 0, en.FmtNumber(2, 0)))
+	fmt.Println(en.O("day-of-month", 3, 0, en.FmtNumber(3, 0)))
+	fmt.Println(en.O("day-of-month", 4, 0, en.FmtNumber(4, 0)))
+	fmt.Println(en.O("day-of-month", 10456.25, 0, en.FmtNumber(10456.25, 0)))
 
-	fmt.Println(en.R("between", 0, 0, 1, 0, string(en.FmtNumber(0, 0)), string(en.FmtNumber(1, 0))))
-	fmt.Println(en.R("between", 1, 0, 2, 0, string(en.FmtNumber(1, 0)), string(en.FmtNumber(2, 0))))
-	fmt.Println(en.R("between", 1, 0, 100, 0, string(en.FmtNumber(1, 0)), string(en.FmtNumber(100, 0))))
+	fmt.Println(en.R("between", 0, 0, 1, 0, en.FmtNumber(0, 0), en.FmtNumber(1, 0)))
+	fmt.Println(en.R("between", 1, 0, 2, 0, en.FmtNumber(1, 0), en.FmtNumber(2, 0)))
+	fmt.Println(en.R("between", 1, 0, 100, 0, en.FmtNumber(1, 0), en.FmtNumber(100, 0)))
 }

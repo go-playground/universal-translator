@@ -1,6 +1,6 @@
 ## universal-translator
 <img align="right" src="https://raw.githubusercontent.com/go-playground/universal-translator/master/logo.png">
-![Project status](https://img.shields.io/badge/version-0.12.2-green.svg)
+![Project status](https://img.shields.io/badge/version-0.13.2-green.svg)
 [![Build Status](https://semaphoreci.com/api/v1/joeybloggs/universal-translator/branches/master/badge.svg)](https://semaphoreci.com/joeybloggs/universal-translator)
 [![Coverage Status](https://coveralls.io/repos/github/go-playground/universal-translator/badge.svg)](https://coveralls.io/github/go-playground/universal-translator)
 [![Go Report Card](https://goreportcard.com/badge/github.com/go-playground/universal-translator)](https://goreportcard.com/report/github.com/go-playground/universal-translator)
@@ -64,7 +64,7 @@ func main() {
 	e := en.New()
 	universalTraslator = ut.New(e, e, en_CA.New(), nl.New(), fr.New())
 
-	en := universalTraslator.GetTranslator("en")
+	en, _ := universalTraslator.GetTranslator("en")
 
 	// generally used after parsing an http 'Accept-Language' header
 	// and this will try to find a matching locale you support or
@@ -98,19 +98,19 @@ func main() {
 
 	fmt.Println(en.T("welcome", "Joeybloggs"))
 
-	fmt.Println(en.C("days", 1, 0, string(en.FmtNumber(1, 0)))) // you'd normally have variables defined for 1 and 0
-	fmt.Println(en.C("days", 2, 0, string(en.FmtNumber(2, 0))))
-	fmt.Println(en.C("days", 10456.25, 2, string(en.FmtNumber(10456.25, 2))))
+	fmt.Println(en.C("days", 1, 0, en.FmtNumber(1, 0))) // you'd normally have variables defined for 1 and 0
+	fmt.Println(en.C("days", 2, 0, en.FmtNumber(2, 0)))
+	fmt.Println(en.C("days", 10456.25, 2, en.FmtNumber(10456.25, 2)))
 
-	fmt.Println(en.O("day-of-month", 1, 0, string(en.FmtNumber(1, 0))))
-	fmt.Println(en.O("day-of-month", 2, 0, string(en.FmtNumber(2, 0))))
-	fmt.Println(en.O("day-of-month", 3, 0, string(en.FmtNumber(3, 0))))
-	fmt.Println(en.O("day-of-month", 4, 0, string(en.FmtNumber(4, 0))))
-	fmt.Println(en.O("day-of-month", 10456.25, 0, string(en.FmtNumber(10456.25, 0))))
+	fmt.Println(en.O("day-of-month", 1, 0, en.FmtNumber(1, 0)))
+	fmt.Println(en.O("day-of-month", 2, 0, en.FmtNumber(2, 0)))
+	fmt.Println(en.O("day-of-month", 3, 0, en.FmtNumber(3, 0)))
+	fmt.Println(en.O("day-of-month", 4, 0, en.FmtNumber(4, 0)))
+	fmt.Println(en.O("day-of-month", 10456.25, 0, en.FmtNumber(10456.25, 0)))
 
-	fmt.Println(en.R("between", 0, 0, 1, 0, string(en.FmtNumber(0, 0)), string(en.FmtNumber(1, 0))))
-	fmt.Println(en.R("between", 1, 0, 2, 0, string(en.FmtNumber(1, 0)), string(en.FmtNumber(2, 0))))
-	fmt.Println(en.R("between", 1, 0, 100, 0, string(en.FmtNumber(1, 0)), string(en.FmtNumber(100, 0))))
+	fmt.Println(en.R("between", 0, 0, 1, 0, en.FmtNumber(0, 0), en.FmtNumber(1, 0)))
+	fmt.Println(en.R("between", 1, 0, 2, 0, en.FmtNumber(1, 0), en.FmtNumber(2, 0)))
+	fmt.Println(en.R("between", 1, 0, 100, 0, en.FmtNumber(1, 0), en.FmtNumber(100, 0)))
 }
 ```
 
@@ -118,3 +118,7 @@ Help With Tests
 ---------------
 To anyone interesting in helping or contributing, I sure could use some help creating tests for each language.
 Please see issue [here](https://github.com/go-playground/locales/issues/1) for details.
+
+License
+------
+Distributed under MIT License, please see license file in code for more details.
