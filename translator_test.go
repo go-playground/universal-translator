@@ -43,6 +43,11 @@ func TestBasicTranslation(t *testing.T) {
 			expected: nil,
 		},
 		{
+			key:      -1,
+			trans:    "Welcome {0}",
+			expected: nil,
+		},
+		{
 			key:      "test_trans2",
 			trans:    "{0} to the {1}.",
 			expected: nil,
@@ -60,7 +65,13 @@ func TestBasicTranslation(t *testing.T) {
 		{
 			key:           "test_trans",
 			trans:         "{0}{1}",
-			expected:      &ErrConflictingTranslation{key: "bad_trans", text: "{0}{1}"},
+			expected:      &ErrConflictingTranslation{key: "test_trans", text: "{0}{1}"},
+			expectedError: true,
+		},
+		{
+			key:           -1,
+			trans:         "{0}{1}",
+			expected:      &ErrConflictingTranslation{key: -1, text: "{0}{1}"},
 			expectedError: true,
 		},
 		{
@@ -75,8 +86,12 @@ func TestBasicTranslation(t *testing.T) {
 
 		err := en.Add(tt.key, tt.trans, tt.override)
 		if err != tt.expected {
-			if !tt.expectedError && err.Error() != tt.expected.Error() {
+			if !tt.expectedError {
 				t.Errorf("Expected '%s' Got '%s'", tt.expected, err)
+			} else {
+				if err.Error() != tt.expected.Error() {
+					t.Errorf("Expected '%s' Got '%s'", tt.expected.Error(), err.Error())
+				}
 			}
 		}
 	}
@@ -701,6 +716,32 @@ func TestVerifyTranslations(t *testing.T) {
 	err = loc.VerifyTranslations()
 	if err != nil {
 		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+}
+
+func TestVerifyTranslationsWithNonStringKeys(t *testing.T) {
+
+	n := nl.New()
+	// dutch
+	uni := New(n, n)
+
+	loc, _ := uni.GetTranslator("nl")
+	if loc.Locale() != "nl" {
+		t.Errorf("Expected '%s' Got '%s'", "nl", loc.Locale())
+	}
+
+	// cardinal checks
+
+	err := loc.AddCardinal(-1, "je {0} dag hebben verlaten", locales.PluralRuleOne, false)
+	if err != nil {
+		t.Fatalf("Expected '<nil>' Got '%s'", err)
+	}
+
+	// fail cardinal rules
+	expected := &ErrMissingPluralTranslation{translationType: "plural", rule: locales.PluralRuleOther, key: -1}
+	err = loc.VerifyTranslations()
+	if err == nil || err.Error() != expected.Error() {
+		t.Errorf("Expected '%s' Got '%s'", expected, err)
 	}
 }
 

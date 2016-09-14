@@ -26,7 +26,7 @@ type ErrExistingTranslator struct {
 
 // Error returns ErrExistingTranslator's internal error text
 func (e *ErrExistingTranslator) Error() string {
-	return fmt.Sprintf("error: conflicting translator key '%s'", e.locale)
+	return fmt.Sprintf("error: conflicting translator for locale '%s'", e.locale)
 }
 
 // ErrConflictingTranslation is the error representing a conflicting translation
@@ -38,7 +38,12 @@ type ErrConflictingTranslation struct {
 
 // Error returns ErrConflictingTranslation's internal error text
 func (e *ErrConflictingTranslation) Error() string {
-	return fmt.Sprintf("error: conflicting key '%#v' rule '%d' with text '%s', value being ignored", e.key, e.rule, e.text)
+
+	if _, ok := e.key.(string); !ok {
+		return fmt.Sprintf("error: conflicting key '%#v' rule '%s' with text '%s', value being ignored", e.key, e.rule, e.text)
+	}
+
+	return fmt.Sprintf("error: conflicting key '%s' rule '%s' with text '%s', value being ignored", e.key, e.rule, e.text)
 }
 
 // ErrRangeTranslation is the error representing a range translation error
@@ -81,5 +86,10 @@ type ErrMissingPluralTranslation struct {
 
 // Error returns ErrMissingPluralTranslation's internal error text
 func (e *ErrMissingPluralTranslation) Error() string {
-	return fmt.Sprintf("error: missing %s plural rule '%s' for translation with key '%#v", e.translationType, e.rule, e.key)
+
+	if _, ok := e.key.(string); !ok {
+		return fmt.Sprintf("error: missing '%s' plural rule '%s' for translation with key '%#v'", e.translationType, e.rule, e.key)
+	}
+
+	return fmt.Sprintf("error: missing '%s' plural rule '%s' for translation with key '%s'", e.translationType, e.rule, e.key)
 }
