@@ -12,7 +12,7 @@ Universal Translator is an i18n Translator for Go/Golang using CLDR data + plura
 
 Why another i18n library?
 --------------------------
-Because none of the plural rules seem to be correct out there, including the previous implimentation of this package,
+Because none of the plural rules seem to be correct out there, including the previous implementation of this package,
 so I took it upon myself to create [locales](https://github.com/go-playground/locales) for everyone to use; this package 
 is a thin wrapper around [locales](https://github.com/go-playground/locales) in order to store and translate text for 
 use in your applications.
