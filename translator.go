@@ -22,7 +22,7 @@ type Translator interface {
 	locales.Translator
 
 	// adds a normal translation for a particular language/locale
-	// {#} is the only replacement type accepted and are add infintium
+	// {#} is the only replacement type accepted and are ad infinitum
 	// eg. one: '{0} day left' other: '{0} days left'
 	Add(key interface{}, text string, override bool) error
 
@@ -93,7 +93,7 @@ func newTranslator(trans locales.Translator) Translator {
 }
 
 // Add adds a normal translation for a particular language/locale
-// {#} is the only replacement type accepted and are add infintium
+// {#} is the only replacement type accepted and are ad infinitum
 // eg. one: '{0} day left' other: '{0} days left'
 func (t *translator) Add(key interface{}, text string, override bool) error {
 
