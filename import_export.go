@@ -2,17 +2,18 @@ package ut
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+
+	"io"
 
 	"github.com/go-playground/locales"
 )
 
 type translation struct {
 	Locale           string      `json:"locale"`
-	Key              interface{} `json:"key"`
+	Key              interface{} `json:"key"` // either string or integer
 	Translation      string      `json:"trans"`
 	PluralType       string      `json:"type,omitempty"`
 	PluralRule       string      `json:"rule,omitempty"`
@@ -139,48 +140,13 @@ func (t *UniversalTranslator) Import(format ExportFormat, dirnameOrFilename stri
 
 	processFn := func(filename string) error {
 
-		b, err := ioutil.ReadFile(filename)
+		f, err := os.Open(filename)
 		if err != nil {
 			return err
 		}
+		defer f.Close()
 
-		var trans []translation
-
-		switch format {
-		case JSON:
-			err = json.Unmarshal(b, &trans)
-		}
-
-		if err != nil {
-			return err
-		}
-
-		for _, tl := range trans {
-
-			locale, found := t.FindTranslator(tl.Locale)
-			if !found {
-				return fmt.Errorf("locale '%s' not registered for translation in file '%s'", tl.Locale, filename)
-			}
-
-			pr := stringToPR(tl.PluralRule)
-
-			if pr == locales.PluralRuleUnknown {
-				return locale.Add(tl.Key, tl.Translation, tl.OverrideExisting)
-			}
-
-			switch tl.PluralType {
-			case cardinalType:
-				return locale.AddCardinal(tl.Key, tl.Translation, pr, tl.OverrideExisting)
-			case ordinalType:
-				return locale.AddOrdinal(tl.Key, tl.Translation, pr, tl.OverrideExisting)
-			case rangeType:
-				return locale.AddRange(tl.Key, tl.Translation, pr, tl.OverrideExisting)
-			default:
-				return fmt.Errorf("bad plural rule '%#v', incorrect plural information found for translation in file '%s'", tl, filename)
-			}
-		}
-
-		return nil
+		return t.ImportByReader(format, f)
 	}
 
 	if !fi.IsDir() {
@@ -199,6 +165,53 @@ func (t *UniversalTranslator) Import(format ExportFormat, dirnameOrFilename stri
 	}
 
 	return filepath.Walk(dirnameOrFilename, walker)
+}
+
+// ImportByReader imports a files contexts
+func (t *UniversalTranslator) ImportByReader(format ExportFormat, reader io.Reader) error {
+
+	b, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return err
+	}
+
+	var trans []translation
+
+	switch format {
+	case JSON:
+		err = json.Unmarshal(b, &trans)
+	}
+
+	if err != nil {
+		return err
+	}
+
+	for _, tl := range trans {
+
+		locale, found := t.FindTranslator(tl.Locale)
+		if !found {
+			return &ErrMissingLocale{locale: tl.Locale}
+		}
+
+		pr := stringToPR(tl.PluralRule)
+
+		if pr == locales.PluralRuleUnknown {
+			return locale.Add(tl.Key, tl.Translation, tl.OverrideExisting)
+		}
+
+		switch tl.PluralType {
+		case cardinalType:
+			return locale.AddCardinal(tl.Key, tl.Translation, pr, tl.OverrideExisting)
+		case ordinalType:
+			return locale.AddOrdinal(tl.Key, tl.Translation, pr, tl.OverrideExisting)
+		case rangeType:
+			return locale.AddRange(tl.Key, tl.Translation, pr, tl.OverrideExisting)
+		default:
+			return &ErrBadPluralDefinition{tl: tl}
+		}
+	}
+
+	return nil
 }
 
 func stringToPR(s string) locales.PluralRule {

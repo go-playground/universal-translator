@@ -93,3 +93,27 @@ func (e *ErrMissingPluralTranslation) Error() string {
 
 	return fmt.Sprintf("error: missing '%s' plural rule '%s' for translation with key '%s'", e.translationType, e.rule, e.key)
 }
+
+// import/export errors
+
+// ErrMissingLocale is the error representing an expected locale that could
+// not be found aka locale not registered with the UniversalTranslator Instance
+type ErrMissingLocale struct {
+	locale string
+}
+
+// Error returns ErrMissingLocale's internal error text
+func (e *ErrMissingLocale) Error() string {
+	return fmt.Sprintf("error: locale '%s' not registered.", e.locale)
+}
+
+// ErrBadPluralDefinition is the error representing an incorrect plural definition
+// usually found within translations defined within files during the import process.
+type ErrBadPluralDefinition struct {
+	tl translation
+}
+
+// Error returns ErrBadPluralDefinition's internal error text
+func (e *ErrBadPluralDefinition) Error() string {
+	return fmt.Sprintf("error: bad plural definition '%#v'", e.tl)
+}

@@ -243,6 +243,8 @@ func TestCardinalTranslation(t *testing.T) {
 			t.Errorf("Expected '%s' Got '%s'", tt.expected, s)
 		}
 	}
+
+	uni.Export(JSON, "test.json")
 }
 
 func TestOrdinalTranslation(t *testing.T) {
