@@ -66,13 +66,13 @@ func TestExportImportBasic(t *testing.T) {
 		{
 			key:           "test_trans",
 			trans:         "{0}{1}",
-			expected:      &ErrConflictingTranslation{key: "test_trans", text: "{0}{1}"},
+			expected:      &ErrConflictingTranslation{locale: en.Locale(), key: "test_trans", text: "{0}{1}"},
 			expectedError: true,
 		},
 		{
 			key:           -1,
 			trans:         "{0}{1}",
-			expected:      &ErrConflictingTranslation{key: -1, text: "{0}{1}"},
+			expected:      &ErrConflictingTranslation{locale: en.Locale(), key: -1, text: "{0}{1}"},
 			expectedError: true,
 		},
 		{
@@ -181,7 +181,7 @@ func TestExportImportCardinal(t *testing.T) {
 			key:           "cardinal_test",
 			trans:         "You have a day left.",
 			rule:          locales.PluralRuleOne,
-			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'", paramZero)},
+			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'. locale: '%s' key: '%v' text: '%s'", paramZero, en.Locale(), "cardinal_test", "You have a day left.")},
 			expectedError: true,
 		},
 		{
@@ -200,7 +200,7 @@ func TestExportImportCardinal(t *testing.T) {
 			key:           "cardinal_test",
 			trans:         "You have {0} days left.",
 			rule:          locales.PluralRuleOther,
-			expected:      &ErrConflictingTranslation{key: "cardinal_test", rule: locales.PluralRuleOther, text: "You have {0} days left."},
+			expected:      &ErrConflictingTranslation{locale: en.Locale(), key: "cardinal_test", rule: locales.PluralRuleOther, text: "You have {0} days left."},
 			expectedError: true,
 		},
 		{
@@ -217,7 +217,7 @@ func TestExportImportCardinal(t *testing.T) {
 		err := en.AddCardinal(tt.key, tt.trans, tt.rule, tt.override)
 		if err != tt.expected {
 			if !tt.expectedError || err.Error() != tt.expected.Error() {
-				t.Errorf("Expected '<nil>' Got '%s'", err)
+				t.Errorf("Expected '%s' Got '%s'", tt.expected, err)
 			}
 		}
 	}
@@ -301,7 +301,7 @@ func TestExportImportOrdinal(t *testing.T) {
 			key:           "day",
 			trans:         "st",
 			rule:          locales.PluralRuleOne,
-			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'", paramZero)},
+			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'. locale: '%s' key: '%v' text: '%s'", paramZero, en.Locale(), "day", "st")},
 			expectedError: true,
 		},
 		{
@@ -333,7 +333,7 @@ func TestExportImportOrdinal(t *testing.T) {
 			key:           "day",
 			trans:         "{0}th",
 			rule:          locales.PluralRuleOther,
-			expected:      &ErrConflictingTranslation{key: "day", rule: locales.PluralRuleOther, text: "{0}th"},
+			expected:      &ErrConflictingTranslation{locale: en.Locale(), key: "day", rule: locales.PluralRuleOther, text: "{0}th"},
 			expectedError: true,
 		},
 		{
@@ -464,7 +464,7 @@ func TestExportImportRange(t *testing.T) {
 			key:           "day",
 			trans:         "er -{1} dag vertrokken",
 			rule:          locales.PluralRuleOne,
-			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, are you sure you're adding a Range Translation?", paramZero)},
+			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, are you sure you're adding a Range Translation? locale: '%s' key: '%s' text: '%s'", paramZero, nl.Locale(), "day", "er -{1} dag vertrokken")},
 			expectedError: true,
 		},
 		// bad translation
@@ -472,7 +472,7 @@ func TestExportImportRange(t *testing.T) {
 			key:           "day",
 			trans:         "er {0}- dag vertrokken",
 			rule:          locales.PluralRuleOne,
-			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, a Range Translation requires two parameters", paramOne)},
+			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, a Range Translation requires two parameters. locale: '%s' key: '%s' text: '%s'", paramOne, nl.Locale(), "day", "er {0}- dag vertrokken")},
 			expectedError: true,
 		},
 		{
@@ -492,7 +492,7 @@ func TestExportImportRange(t *testing.T) {
 			key:           "day",
 			trans:         "er zijn {0}-{1} dagen over",
 			rule:          locales.PluralRuleOther,
-			expected:      &ErrConflictingTranslation{key: "day", rule: locales.PluralRuleOther, text: "er zijn {0}-{1} dagen over"},
+			expected:      &ErrConflictingTranslation{locale: nl.Locale(), key: "day", rule: locales.PluralRuleOther, text: "er zijn {0}-{1} dagen over"},
 			expectedError: true,
 		},
 		{
@@ -677,7 +677,7 @@ func TestBadImport(t *testing.T) {
 
 	// test bad parameter basic translation
 	filename = "testdata/bad-translation1.json"
-	expected = "error: bad parameter syntax, missing parameter '{0}'"
+	expected = "error: bad parameter syntax, missing parameter '{0}' in translation. locale: 'en' key: 'test_trans3' text: 'Welcome {lettersnotpermitted} to the {1}'"
 	err = uni.Import(JSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
@@ -685,7 +685,7 @@ func TestBadImport(t *testing.T) {
 
 	// test missing bracket basic translation
 	filename = "testdata/bad-translation2.json"
-	expected = "error: missing bracket, '{' or '}', in translation"
+	expected = "error: missing bracket '{}', in translation. locale: 'en' key: 'test_trans3' text: 'Welcome {0 to the {1}'"
 	err = uni.Import(JSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
@@ -709,7 +709,7 @@ func TestBadImport(t *testing.T) {
 
 	// test bad plural rule for locale
 	filename = "testdata/bad-translation5.json"
-	expected = "error: cardinal plural rule 'Many' does not exist for locale 'en'"
+	expected = "error: cardinal plural rule 'Many' does not exist for locale 'en' key: 'cardinal_test' text: 'You have {0} day left.'"
 	err = uni.Import(JSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)

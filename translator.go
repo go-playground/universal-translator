@@ -98,14 +98,14 @@ func newTranslator(trans locales.Translator) Translator {
 func (t *translator) Add(key interface{}, text string, override bool) error {
 
 	if _, ok := t.translations[key]; ok && !override {
-		return &ErrConflictingTranslation{key: key, text: text}
+		return &ErrConflictingTranslation{locale: t.Locale(), key: key, text: text}
 	}
 
 	lb := strings.Count(text, "{")
 	rb := strings.Count(text, "}")
 
 	if lb != rb {
-		return &ErrMissingBracket{}
+		return &ErrMissingBracket{locale: t.Locale(), key: key, text: text}
 	}
 
 	trans := &transText{
@@ -118,7 +118,7 @@ func (t *translator) Add(key interface{}, text string, override bool) error {
 		s := "{" + strconv.Itoa(i) + "}"
 		idx = strings.Index(text, s)
 		if idx == -1 {
-			return &ErrBadParamSyntax{param: s}
+			return &ErrBadParamSyntax{locale: t.Locale(), param: s, key: key, text: text}
 		}
 
 		trans.indexes = append(trans.indexes, idx)
@@ -148,14 +148,14 @@ func (t *translator) AddCardinal(key interface{}, text string, rule locales.Plur
 	}
 
 	if !verified {
-		return &ErrCardinalTranslation{text: fmt.Sprintf("error: cardinal plural rule '%s' does not exist for locale '%s'", rule, t.Locale())}
+		return &ErrCardinalTranslation{text: fmt.Sprintf("error: cardinal plural rule '%s' does not exist for locale '%s' key: '%v' text: '%s'", rule, t.Locale(), key, text)}
 	}
 
 	tarr, ok := t.cardinalTanslations[key]
 	if ok {
 		// verify not adding a conflicting record
 		if len(tarr) > 0 && tarr[rule] != nil && !override {
-			return &ErrConflictingTranslation{key: key, rule: rule, text: text}
+			return &ErrConflictingTranslation{locale: t.Locale(), key: key, rule: rule, text: text}
 		}
 
 	} else {
@@ -173,7 +173,7 @@ func (t *translator) AddCardinal(key interface{}, text string, rule locales.Plur
 	idx := strings.Index(text, paramZero)
 	if idx == -1 {
 		tarr[rule] = nil
-		return &ErrCardinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'", paramZero)}
+		return &ErrCardinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'. locale: '%s' key: '%v' text: '%s'", paramZero, t.Locale(), key, text)}
 	}
 
 	trans.indexes[0] = idx
@@ -200,14 +200,14 @@ func (t *translator) AddOrdinal(key interface{}, text string, rule locales.Plura
 	}
 
 	if !verified {
-		return &ErrOrdinalTranslation{text: fmt.Sprintf("error: ordinal plural rule '%s' does not exist for locale '%s'", rule, t.Locale())}
+		return &ErrOrdinalTranslation{text: fmt.Sprintf("error: ordinal plural rule '%s' does not exist for locale '%s' key: '%v' text: '%s'", rule, t.Locale(), key, text)}
 	}
 
 	tarr, ok := t.ordinalTanslations[key]
 	if ok {
 		// verify not adding a conflicting record
 		if len(tarr) > 0 && tarr[rule] != nil && !override {
-			return &ErrConflictingTranslation{key: key, rule: rule, text: text}
+			return &ErrConflictingTranslation{locale: t.Locale(), key: key, rule: rule, text: text}
 		}
 
 	} else {
@@ -225,7 +225,7 @@ func (t *translator) AddOrdinal(key interface{}, text string, rule locales.Plura
 	idx := strings.Index(text, paramZero)
 	if idx == -1 {
 		tarr[rule] = nil
-		return &ErrOrdinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'", paramZero)}
+		return &ErrOrdinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'. locale: '%s' key: '%v' text: '%s'", paramZero, t.Locale(), key, text)}
 	}
 
 	trans.indexes[0] = idx
@@ -250,14 +250,14 @@ func (t *translator) AddRange(key interface{}, text string, rule locales.PluralR
 	}
 
 	if !verified {
-		return &ErrRangeTranslation{text: fmt.Sprintf("error: range plural rule '%s' does not exist for locale '%s'", rule, t.Locale())}
+		return &ErrRangeTranslation{text: fmt.Sprintf("error: range plural rule '%s' does not exist for locale '%s' key: '%v' text: '%s'", rule, t.Locale(), key, text)}
 	}
 
 	tarr, ok := t.rangeTanslations[key]
 	if ok {
 		// verify not adding a conflicting record
 		if len(tarr) > 0 && tarr[rule] != nil && !override {
-			return &ErrConflictingTranslation{key: key, rule: rule, text: text}
+			return &ErrConflictingTranslation{locale: t.Locale(), key: key, rule: rule, text: text}
 		}
 
 	} else {
@@ -275,7 +275,7 @@ func (t *translator) AddRange(key interface{}, text string, rule locales.PluralR
 	idx := strings.Index(text, paramZero)
 	if idx == -1 {
 		tarr[rule] = nil
-		return &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, are you sure you're adding a Range Translation?", paramZero)}
+		return &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, are you sure you're adding a Range Translation? locale: '%s' key: '%v' text: '%s'", paramZero, t.Locale(), key, text)}
 	}
 
 	trans.indexes[0] = idx
@@ -284,7 +284,7 @@ func (t *translator) AddRange(key interface{}, text string, rule locales.PluralR
 	idx = strings.Index(text, paramOne)
 	if idx == -1 {
 		tarr[rule] = nil
-		return &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, a Range Translation requires two parameters", paramOne)}
+		return &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, a Range Translation requires two parameters. locale: '%s' key: '%v' text: '%s'", paramOne, t.Locale(), key, text)}
 	}
 
 	trans.indexes[2] = idx
@@ -391,7 +391,7 @@ func (t *translator) VerifyTranslations() error {
 		for _, rule := range t.PluralsCardinal() {
 
 			if v[rule] == nil {
-				return &ErrMissingPluralTranslation{translationType: "plural", rule: rule, key: k}
+				return &ErrMissingPluralTranslation{locale: t.Locale(), translationType: "plural", rule: rule, key: k}
 			}
 		}
 	}
@@ -401,7 +401,7 @@ func (t *translator) VerifyTranslations() error {
 		for _, rule := range t.PluralsOrdinal() {
 
 			if v[rule] == nil {
-				return &ErrMissingPluralTranslation{translationType: "ordinal", rule: rule, key: k}
+				return &ErrMissingPluralTranslation{locale: t.Locale(), translationType: "ordinal", rule: rule, key: k}
 			}
 		}
 	}
@@ -411,7 +411,7 @@ func (t *translator) VerifyTranslations() error {
 		for _, rule := range t.PluralsRange() {
 
 			if v[rule] == nil {
-				return &ErrMissingPluralTranslation{translationType: "range", rule: rule, key: k}
+				return &ErrMissingPluralTranslation{locale: t.Locale(), translationType: "range", rule: rule, key: k}
 			}
 		}
 	}

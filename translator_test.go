@@ -65,13 +65,13 @@ func TestBasicTranslation(t *testing.T) {
 		{
 			key:           "test_trans",
 			trans:         "{0}{1}",
-			expected:      &ErrConflictingTranslation{key: "test_trans", text: "{0}{1}"},
+			expected:      &ErrConflictingTranslation{locale: en.Locale(), key: "test_trans", text: "{0}{1}"},
 			expectedError: true,
 		},
 		{
 			key:           -1,
 			trans:         "{0}{1}",
-			expected:      &ErrConflictingTranslation{key: -1, text: "{0}{1}"},
+			expected:      &ErrConflictingTranslation{locale: en.Locale(), key: -1, text: "{0}{1}"},
 			expectedError: true,
 		},
 		{
@@ -163,7 +163,7 @@ func TestCardinalTranslation(t *testing.T) {
 			key:           "cardinal_test",
 			trans:         "You have a day left.",
 			rule:          locales.PluralRuleOne,
-			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'", paramZero)},
+			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'. locale: '%s' key: '%v' text: '%s'", paramZero, en.Locale(), "cardinal_test", "You have a day left.")},
 			expectedError: true,
 		},
 		// bad translation
@@ -171,7 +171,7 @@ func TestCardinalTranslation(t *testing.T) {
 			key:           "cardinal_test",
 			trans:         "You have a day left few.",
 			rule:          locales.PluralRuleFew,
-			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: cardinal plural rule '%s' does not exist for locale '%s'", locales.PluralRuleFew, en.Locale())},
+			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: cardinal plural rule '%s' does not exist for locale '%s' key: '%s' text: '%s'", locales.PluralRuleFew, en.Locale(), "cardinal_test", "You have a day left few.")},
 			expectedError: true,
 		},
 		{
@@ -190,7 +190,7 @@ func TestCardinalTranslation(t *testing.T) {
 			key:           "cardinal_test",
 			trans:         "You have {0} days left.",
 			rule:          locales.PluralRuleOther,
-			expected:      &ErrConflictingTranslation{key: "cardinal_test", rule: locales.PluralRuleOther, text: "You have {0} days left."},
+			expected:      &ErrConflictingTranslation{locale: en.Locale(), key: "cardinal_test", rule: locales.PluralRuleOther, text: "You have {0} days left."},
 			expectedError: true,
 		},
 		{
@@ -275,7 +275,7 @@ func TestOrdinalTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "st",
 			rule:          locales.PluralRuleOne,
-			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'", paramZero)},
+			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'. locale: '%s' key: '%v' text: '%s'", paramZero, en.Locale(), "day", "st")},
 			expectedError: true,
 		},
 		// bad translation
@@ -283,7 +283,7 @@ func TestOrdinalTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "st",
 			rule:          locales.PluralRuleMany,
-			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: ordinal plural rule '%s' does not exist for locale '%s'", locales.PluralRuleMany, en.Locale())},
+			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: ordinal plural rule '%s' does not exist for locale '%s' key: '%s' text: '%s'", locales.PluralRuleMany, en.Locale(), "day", "st")},
 			expectedError: true,
 		},
 		{
@@ -315,7 +315,7 @@ func TestOrdinalTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "{0}th",
 			rule:          locales.PluralRuleOther,
-			expected:      &ErrConflictingTranslation{key: "day", rule: locales.PluralRuleOther, text: "{0}th"},
+			expected:      &ErrConflictingTranslation{locale: en.Locale(), key: "day", rule: locales.PluralRuleOther, text: "{0}th"},
 			expectedError: true,
 		},
 		{
@@ -430,7 +430,7 @@ func TestRangeTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "er -{1} dag vertrokken",
 			rule:          locales.PluralRuleOne,
-			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, are you sure you're adding a Range Translation?", paramZero)},
+			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, are you sure you're adding a Range Translation? locale: '%s' key: '%s' text: '%s'", paramZero, nl.Locale(), "day", "er -{1} dag vertrokken")},
 			expectedError: true,
 		},
 		// bad translation
@@ -438,7 +438,7 @@ func TestRangeTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "er {0}- dag vertrokken",
 			rule:          locales.PluralRuleMany,
-			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: range plural rule '%s' does not exist for locale '%s'", locales.PluralRuleMany, nl.Locale())},
+			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: range plural rule '%s' does not exist for locale '%s' key: '%s' text: '%s'", locales.PluralRuleMany, nl.Locale(), "day", "er {0}- dag vertrokken")},
 			expectedError: true,
 		},
 		// bad translation
@@ -446,7 +446,7 @@ func TestRangeTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "er {0}- dag vertrokken",
 			rule:          locales.PluralRuleOne,
-			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, a Range Translation requires two parameters", paramOne)},
+			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, a Range Translation requires two parameters. locale: '%s' key: '%s' text: '%s'", paramOne, nl.Locale(), "day", "er {0}- dag vertrokken")},
 			expectedError: true,
 		},
 		{
@@ -466,7 +466,7 @@ func TestRangeTranslation(t *testing.T) {
 			key:           "day",
 			trans:         "er zijn {0}-{1} dagen over",
 			rule:          locales.PluralRuleOther,
-			expected:      &ErrConflictingTranslation{key: "day", rule: locales.PluralRuleOther, text: "er zijn {0}-{1} dagen over"},
+			expected:      &ErrConflictingTranslation{locale: nl.Locale(), key: "day", rule: locales.PluralRuleOther, text: "er zijn {0}-{1} dagen over"},
 			expectedError: true,
 		},
 		{
@@ -653,7 +653,7 @@ func TestVerifyTranslations(t *testing.T) {
 	}
 
 	// fail cardinal rules
-	expected := &ErrMissingPluralTranslation{translationType: "plural", rule: locales.PluralRuleOther, key: "day"}
+	expected := &ErrMissingPluralTranslation{locale: loc.Locale(), translationType: "plural", rule: locales.PluralRuleOther, key: "day"}
 	err = loc.VerifyTranslations()
 	if err == nil || err.Error() != expected.Error() {
 		t.Errorf("Expected '%s' Got '%s'", expected, err)
@@ -677,7 +677,7 @@ func TestVerifyTranslations(t *testing.T) {
 	}
 
 	// fail range rules
-	expected = &ErrMissingPluralTranslation{translationType: "range", rule: locales.PluralRuleOne, key: "day"}
+	expected = &ErrMissingPluralTranslation{locale: loc.Locale(), translationType: "range", rule: locales.PluralRuleOne, key: "day"}
 	err = loc.VerifyTranslations()
 	if err == nil || err.Error() != expected.Error() {
 		t.Errorf("Expected '%s' Got '%s'", expected, err)
@@ -724,7 +724,7 @@ func TestVerifyTranslations(t *testing.T) {
 	}
 
 	// fail ordinal rules
-	expected = &ErrMissingPluralTranslation{translationType: "ordinal", rule: locales.PluralRuleTwo, key: "day"}
+	expected = &ErrMissingPluralTranslation{locale: loc.Locale(), translationType: "ordinal", rule: locales.PluralRuleTwo, key: "day"}
 	err = loc.VerifyTranslations()
 	if err == nil || err.Error() != expected.Error() {
 		t.Errorf("Expected '%s' Got '%s'", expected, err)
@@ -762,7 +762,7 @@ func TestVerifyTranslationsWithNonStringKeys(t *testing.T) {
 	}
 
 	// fail cardinal rules
-	expected := &ErrMissingPluralTranslation{translationType: "plural", rule: locales.PluralRuleOther, key: -1}
+	expected := &ErrMissingPluralTranslation{locale: loc.Locale(), translationType: "plural", rule: locales.PluralRuleOther, key: -1}
 	err = loc.VerifyTranslations()
 	if err == nil || err.Error() != expected.Error() {
 		t.Errorf("Expected '%s' Got '%s'", expected, err)

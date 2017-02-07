@@ -31,19 +31,20 @@ func (e *ErrExistingTranslator) Error() string {
 
 // ErrConflictingTranslation is the error representing a conflicting translation
 type ErrConflictingTranslation struct {
-	key  interface{}
-	rule locales.PluralRule
-	text string
+	locale string
+	key    interface{}
+	rule   locales.PluralRule
+	text   string
 }
 
 // Error returns ErrConflictingTranslation's internal error text
 func (e *ErrConflictingTranslation) Error() string {
 
 	if _, ok := e.key.(string); !ok {
-		return fmt.Sprintf("error: conflicting key '%#v' rule '%s' with text '%s', value being ignored", e.key, e.rule, e.text)
+		return fmt.Sprintf("error: conflicting key '%#v' rule '%s' with text '%s' for locale '%s', value being ignored", e.key, e.rule, e.text, e.locale)
 	}
 
-	return fmt.Sprintf("error: conflicting key '%s' rule '%s' with text '%s', value being ignored", e.key, e.rule, e.text)
+	return fmt.Sprintf("error: conflicting key '%s' rule '%s' with text '%s' for locale '%s', value being ignored", e.key, e.rule, e.text, e.locale)
 }
 
 // ErrRangeTranslation is the error representing a range translation error
@@ -79,6 +80,7 @@ func (e *ErrCardinalTranslation) Error() string {
 // ErrMissingPluralTranslation is the error signifying a missing translation given
 // the locales plural rules.
 type ErrMissingPluralTranslation struct {
+	locale          string
 	key             interface{}
 	rule            locales.PluralRule
 	translationType string
@@ -88,31 +90,37 @@ type ErrMissingPluralTranslation struct {
 func (e *ErrMissingPluralTranslation) Error() string {
 
 	if _, ok := e.key.(string); !ok {
-		return fmt.Sprintf("error: missing '%s' plural rule '%s' for translation with key '%#v'", e.translationType, e.rule, e.key)
+		return fmt.Sprintf("error: missing '%s' plural rule '%s' for translation with key '%#v' and locale '%s'", e.translationType, e.rule, e.key, e.locale)
 	}
 
-	return fmt.Sprintf("error: missing '%s' plural rule '%s' for translation with key '%s'", e.translationType, e.rule, e.key)
+	return fmt.Sprintf("error: missing '%s' plural rule '%s' for translation with key '%s' and locale '%s'", e.translationType, e.rule, e.key, e.locale)
 }
 
 // ErrMissingBracket is the error representing a missing bracket in a translation
 // eg. This is a {0 <-- missing ending '}'
 type ErrMissingBracket struct {
+	locale string
+	key    interface{}
+	text   string
 }
 
 // Error returns ErrMissingBracket error message
 func (e *ErrMissingBracket) Error() string {
-	return fmt.Sprint("error: missing bracket, '{' or '}', in translation")
+	return fmt.Sprintf("error: missing bracket '{}', in translation. locale: '%s' key: '%v' text: '%s'", e.locale, e.key, e.text)
 }
 
 // ErrBadParamSyntax is the error representing a bad parameter definition in a translation
 // eg. This is a {must-be-int}
 type ErrBadParamSyntax struct {
-	param string
+	locale string
+	param  string
+	key    interface{}
+	text   string
 }
 
 // Error returns ErrBadParamSyntax error message
 func (e *ErrBadParamSyntax) Error() string {
-	return fmt.Sprintf("error: bad parameter syntax, missing parameter '%s'", e.param)
+	return fmt.Sprintf("error: bad parameter syntax, missing parameter '%s' in translation. locale: '%s' key: '%v' text: '%s'", e.param, e.locale, e.key, e.text)
 }
 
 // import/export errors
