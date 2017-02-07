@@ -288,7 +288,7 @@ func TestOrdinalTranslation(t *testing.T) {
 		},
 		{
 			key:      "day",
-			trans:    "{0}sfefewt",
+			trans:    "{0}st",
 			rule:     locales.PluralRuleOne,
 			expected: nil,
 		},
@@ -783,5 +783,76 @@ func TestGetFallback(t *testing.T) {
 
 	if trans.Locale() != expected {
 		t.Errorf("Expected '%s' Got '%s'", expected, trans.Locale())
+	}
+}
+
+func TestVerifyUTTranslations(t *testing.T) {
+
+	e := en.New()
+	uni := New(e, e)
+	en, found := uni.GetTranslator("en")
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
+
+	translations := []struct {
+		key           interface{}
+		trans         string
+		rule          locales.PluralRule
+		expected      error
+		expectedError bool
+		override      bool
+	}{
+		{
+			key:      "day",
+			trans:    "{0}st",
+			rule:     locales.PluralRuleOne,
+			expected: nil,
+		},
+		{
+			key:      "day",
+			trans:    "{0}nd",
+			rule:     locales.PluralRuleTwo,
+			expected: nil,
+		},
+		{
+			key:      "day",
+			trans:    "{0}rd",
+			rule:     locales.PluralRuleFew,
+			expected: nil,
+		},
+		// intentionally leaving out plural other
+		// {
+		// 	key:      "day",
+		// 	trans:    "{0}th",
+		// 	rule:     locales.PluralRuleOther,
+		// 	expected: nil,
+		// },
+	}
+
+	for _, tt := range translations {
+
+		err := en.AddOrdinal(tt.key, tt.trans, tt.rule, tt.override)
+		if err != tt.expected {
+			if !tt.expectedError || err.Error() != tt.expected.Error() {
+				t.Errorf("Expected '<nil>' Got '%s'", err)
+			}
+		}
+	}
+
+	expected := "error: missing 'ordinal' plural rule 'Other' for translation with key 'day' and locale 'en'"
+	err := uni.VerifyTranslations()
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	err = en.AddOrdinal("day", "{0}th", locales.PluralRuleOther, false)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+
+	err = uni.VerifyTranslations()
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
 }

@@ -97,3 +97,17 @@ func (t *UniversalTranslator) AddTranslator(translator locales.Translator, overr
 
 	return nil
 }
+
+// VerifyTranslations runs through all locales and identifies any issues
+// eg. missing plural rules for a locale
+func (t *UniversalTranslator) VerifyTranslations() (err error) {
+
+	for _, trans := range t.translators {
+		err = trans.VerifyTranslations()
+		if err != nil {
+			return
+		}
+	}
+
+	return
+}
