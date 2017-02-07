@@ -94,6 +94,27 @@ func (e *ErrMissingPluralTranslation) Error() string {
 	return fmt.Sprintf("error: missing '%s' plural rule '%s' for translation with key '%s'", e.translationType, e.rule, e.key)
 }
 
+// ErrMissingBracket is the error representing a missing bracket in a translation
+// eg. This is a {0 <-- missing ending '}'
+type ErrMissingBracket struct {
+}
+
+// Error returns ErrMissingBracket error message
+func (e *ErrMissingBracket) Error() string {
+	return fmt.Sprint("error: missing bracket, '{' or '}', in translation")
+}
+
+// ErrBadParamSyntax is the error representing a bad parameter definition in a translation
+// eg. This is a {must-be-int}
+type ErrBadParamSyntax struct {
+	param string
+}
+
+// Error returns ErrBadParamSyntax error message
+func (e *ErrBadParamSyntax) Error() string {
+	return fmt.Sprintf("error: bad parameter syntax, missing parameter '%s'", e.param)
+}
+
 // import/export errors
 
 // ErrMissingLocale is the error representing an expected locale that could

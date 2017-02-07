@@ -154,20 +154,29 @@ func (t *UniversalTranslator) Import(format ExportFormat, dirnameOrFilename stri
 	}
 
 	// recursively go through directory
-
 	walker := func(path string, info os.FileInfo, err error) error {
 
 		if info.IsDir() {
 			return nil
 		}
 
-		return processFn(dirnameOrFilename)
+		switch format {
+		case JSON:
+			// skip non JSON files
+			if filepath.Ext(info.Name()) != ".json" {
+				return nil
+			}
+		}
+
+		return processFn(path)
 	}
 
 	return filepath.Walk(dirnameOrFilename, walker)
 }
 
-// ImportByReader imports a files contexts
+// ImportByReader imports the the translations found within the contents read from the supplied reader.
+//
+// NOTE: generally used when assets have been embedded into the binary and are already in memory.
 func (t *UniversalTranslator) ImportByReader(format ExportFormat, reader io.Reader) error {
 
 	b, err := ioutil.ReadAll(reader)
@@ -196,18 +205,28 @@ func (t *UniversalTranslator) ImportByReader(format ExportFormat, reader io.Read
 		pr := stringToPR(tl.PluralRule)
 
 		if pr == locales.PluralRuleUnknown {
-			return locale.Add(tl.Key, tl.Translation, tl.OverrideExisting)
+
+			err = locale.Add(tl.Key, tl.Translation, tl.OverrideExisting)
+			if err != nil {
+				return err
+			}
+
+			continue
 		}
 
 		switch tl.PluralType {
 		case cardinalType:
-			return locale.AddCardinal(tl.Key, tl.Translation, pr, tl.OverrideExisting)
+			err = locale.AddCardinal(tl.Key, tl.Translation, pr, tl.OverrideExisting)
 		case ordinalType:
-			return locale.AddOrdinal(tl.Key, tl.Translation, pr, tl.OverrideExisting)
+			err = locale.AddOrdinal(tl.Key, tl.Translation, pr, tl.OverrideExisting)
 		case rangeType:
-			return locale.AddRange(tl.Key, tl.Translation, pr, tl.OverrideExisting)
+			err = locale.AddRange(tl.Key, tl.Translation, pr, tl.OverrideExisting)
 		default:
 			return &ErrBadPluralDefinition{tl: tl}
+		}
+
+		if err != nil {
+			return err
 		}
 	}
 

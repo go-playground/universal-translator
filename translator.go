@@ -101,23 +101,28 @@ func (t *translator) Add(key interface{}, text string, override bool) error {
 		return &ErrConflictingTranslation{key: key, text: text}
 	}
 
+	lb := strings.Count(text, "{")
+	rb := strings.Count(text, "}")
+
+	if lb != rb {
+		return &ErrMissingBracket{}
+	}
+
 	trans := &transText{
 		text: text,
 	}
 
-	var i int
 	var idx int
 
-	for {
+	for i := 0; i < lb; i++ {
 		s := "{" + strconv.Itoa(i) + "}"
 		idx = strings.Index(text, s)
 		if idx == -1 {
-			break
+			return &ErrBadParamSyntax{param: s}
 		}
 
 		trans.indexes = append(trans.indexes, idx)
 		trans.indexes = append(trans.indexes, idx+len(s))
-		i++
 	}
 
 	t.translations[key] = trans
@@ -131,6 +136,20 @@ func (t *translator) Add(key interface{}, text string, override bool) error {
 // see AddRange below.
 // eg. in locale 'en' one: '{0} day left' other: '{0} days left'
 func (t *translator) AddCardinal(key interface{}, text string, rule locales.PluralRule, override bool) error {
+
+	var verified bool
+
+	// verify plural rule exists for locale
+	for _, pr := range t.PluralsCardinal() {
+		if pr == rule {
+			verified = true
+			break
+		}
+	}
+
+	if !verified {
+		return &ErrCardinalTranslation{text: fmt.Sprintf("error: cardinal plural rule '%s' does not exist for locale '%s'", rule, t.Locale())}
+	}
 
 	tarr, ok := t.cardinalTanslations[key]
 	if ok {
@@ -170,6 +189,20 @@ func (t *translator) AddCardinal(key interface{}, text string, rule locales.Plur
 // eg. in locale 'en' one: '{0}st day of spring' other: '{0}nd day of spring' - 1st, 2nd, 3rd...
 func (t *translator) AddOrdinal(key interface{}, text string, rule locales.PluralRule, override bool) error {
 
+	var verified bool
+
+	// verify plural rule exists for locale
+	for _, pr := range t.PluralsOrdinal() {
+		if pr == rule {
+			verified = true
+			break
+		}
+	}
+
+	if !verified {
+		return &ErrOrdinalTranslation{text: fmt.Sprintf("error: ordinal plural rule '%s' does not exist for locale '%s'", rule, t.Locale())}
+	}
+
 	tarr, ok := t.ordinalTanslations[key]
 	if ok {
 		// verify not adding a conflicting record
@@ -205,6 +238,20 @@ func (t *translator) AddOrdinal(key interface{}, text string, rule locales.Plura
 // {0} and {1} are the only replacement types accepted and only these are accepted.
 // eg. in locale 'nl' one: '{0}-{1} day left' other: '{0}-{1} days left'
 func (t *translator) AddRange(key interface{}, text string, rule locales.PluralRule, override bool) error {
+
+	var verified bool
+
+	// verify plural rule exists for locale
+	for _, pr := range t.PluralsRange() {
+		if pr == rule {
+			verified = true
+			break
+		}
+	}
+
+	if !verified {
+		return &ErrRangeTranslation{text: fmt.Sprintf("error: range plural rule '%s' does not exist for locale '%s'", rule, t.Locale())}
+	}
 
 	tarr, ok := t.rangeTanslations[key]
 	if ok {

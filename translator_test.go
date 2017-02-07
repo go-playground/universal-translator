@@ -166,6 +166,14 @@ func TestCardinalTranslation(t *testing.T) {
 			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'", paramZero)},
 			expectedError: true,
 		},
+		// bad translation
+		{
+			key:           "cardinal_test",
+			trans:         "You have a day left few.",
+			rule:          locales.PluralRuleFew,
+			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: cardinal plural rule '%s' does not exist for locale '%s'", locales.PluralRuleFew, en.Locale())},
+			expectedError: true,
+		},
 		{
 			key:      "cardinal_test",
 			trans:    "You have {0} day",
@@ -243,8 +251,6 @@ func TestCardinalTranslation(t *testing.T) {
 			t.Errorf("Expected '%s' Got '%s'", tt.expected, s)
 		}
 	}
-
-	uni.Export(JSON, "test.json")
 }
 
 func TestOrdinalTranslation(t *testing.T) {
@@ -270,6 +276,14 @@ func TestOrdinalTranslation(t *testing.T) {
 			trans:         "st",
 			rule:          locales.PluralRuleOne,
 			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'", paramZero)},
+			expectedError: true,
+		},
+		// bad translation
+		{
+			key:           "day",
+			trans:         "st",
+			rule:          locales.PluralRuleMany,
+			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: ordinal plural rule '%s' does not exist for locale '%s'", locales.PluralRuleMany, en.Locale())},
 			expectedError: true,
 		},
 		{
@@ -417,6 +431,14 @@ func TestRangeTranslation(t *testing.T) {
 			trans:         "er -{1} dag vertrokken",
 			rule:          locales.PluralRuleOne,
 			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, are you sure you're adding a Range Translation?", paramZero)},
+			expectedError: true,
+		},
+		// bad translation
+		{
+			key:           "day",
+			trans:         "er {0}- dag vertrokken",
+			rule:          locales.PluralRuleMany,
+			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: range plural rule '%s' does not exist for locale '%s'", locales.PluralRuleMany, nl.Locale())},
 			expectedError: true,
 		},
 		// bad translation
