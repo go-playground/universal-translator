@@ -16,7 +16,7 @@ var universalTraslator *ut.UniversalTranslator
 
 func main() {
 
-	// NOTE: this example is omitting allot of error checking for brevity
+	// NOTE: this example is omitting a lot of error checking for brevity
 	e := en.New()
 	universalTraslator = ut.New(e, e, en_CA.New(), nl.New(), fr.New())
 
