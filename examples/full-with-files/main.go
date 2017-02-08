@@ -195,7 +195,7 @@ func translatorMiddleware(next http.HandlerFunc) http.HandlerFunc {
 
 func setup() {
 
-	err := utrans.Import(ut.JSON, "translations")
+	err := utrans.Import(ut.FormatJSON, "translations")
 	if err != nil {
 		log.Fatal(err)
 	}

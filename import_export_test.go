@@ -101,14 +101,14 @@ func TestExportImportBasic(t *testing.T) {
 	dirname := "testdata/translations"
 	defer os.RemoveAll(dirname)
 
-	err := uni.Export(JSON, dirname)
+	err := uni.Export(FormatJSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
 
 	uni = New(e, e)
 
-	err = uni.Import(JSON, dirname)
+	err = uni.Import(FormatJSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
@@ -230,14 +230,14 @@ func TestExportImportCardinal(t *testing.T) {
 	dirname := "testdata/translations"
 	defer os.RemoveAll(dirname)
 
-	err := uni.Export(JSON, dirname)
+	err := uni.Export(FormatJSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
 
 	uni = New(e, e)
 
-	err = uni.Import(JSON, dirname)
+	err = uni.Import(FormatJSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
@@ -367,14 +367,14 @@ func TestExportImportOrdinal(t *testing.T) {
 	dirname := "testdata/translations"
 	defer os.RemoveAll(dirname)
 
-	err := uni.Export(JSON, dirname)
+	err := uni.Export(FormatJSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
 
 	uni = New(e, e)
 
-	err = uni.Import(JSON, dirname)
+	err = uni.Import(FormatJSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
@@ -530,14 +530,14 @@ func TestExportImportRange(t *testing.T) {
 	dirname := "testdata/translations"
 	defer os.RemoveAll(dirname)
 
-	err := uni.Export(JSON, dirname)
+	err := uni.Export(FormatJSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
 
 	uni = New(n, n)
 
-	err = uni.Import(JSON, dirname)
+	err = uni.Import(FormatJSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
@@ -623,7 +623,7 @@ func TestImportRecursive(t *testing.T) {
 	uni := New(e, e)
 
 	dirname := "testdata/nested1"
-	err := uni.Import(JSON, dirname)
+	err := uni.Import(FormatJSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
@@ -687,7 +687,7 @@ func TestBadImport(t *testing.T) {
 
 	filename := "testdata/non-existant-file.json"
 	expected := "stat testdata/non-existant-file.json: no such file or directory"
-	err := uni.Import(JSON, filename)
+	err := uni.Import(FormatJSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
@@ -695,7 +695,7 @@ func TestBadImport(t *testing.T) {
 	// test bad parameter basic translation
 	filename = "testdata/bad-translation1.json"
 	expected = "error: bad parameter syntax, missing parameter '{0}' in translation. locale: 'en' key: 'test_trans3' text: 'Welcome {lettersnotpermitted} to the {1}'"
-	err = uni.Import(JSON, filename)
+	err = uni.Import(FormatJSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
@@ -703,7 +703,7 @@ func TestBadImport(t *testing.T) {
 	// test missing bracket basic translation
 	filename = "testdata/bad-translation2.json"
 	expected = "error: missing bracket '{}', in translation. locale: 'en' key: 'test_trans3' text: 'Welcome {0 to the {1}'"
-	err = uni.Import(JSON, filename)
+	err = uni.Import(FormatJSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
@@ -711,7 +711,7 @@ func TestBadImport(t *testing.T) {
 	// test missing locale basic translation
 	filename = "testdata/bad-translation3.json"
 	expected = "error: locale 'nl' not registered."
-	err = uni.Import(JSON, filename)
+	err = uni.Import(FormatJSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
@@ -719,7 +719,7 @@ func TestBadImport(t *testing.T) {
 	// test bad plural definition
 	filename = "testdata/bad-translation4.json"
 	expected = "error: bad plural definition 'ut.translation{Locale:\"en\", Key:\"cardinal_test\", Translation:\"You have {0} day left.\", PluralType:\"NotAPluralType\", PluralRule:\"One\", OverrideExisting:false}'"
-	err = uni.Import(JSON, filename)
+	err = uni.Import(FormatJSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
@@ -727,7 +727,7 @@ func TestBadImport(t *testing.T) {
 	// test bad plural rule for locale
 	filename = "testdata/bad-translation5.json"
 	expected = "error: cardinal plural rule 'Many' does not exist for locale 'en' key: 'cardinal_test' text: 'You have {0} day left.'"
-	err = uni.Import(JSON, filename)
+	err = uni.Import(FormatJSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
@@ -735,7 +735,7 @@ func TestBadImport(t *testing.T) {
 	// test invalid JSON
 	filename = "testdata/bad-translation6.json"
 	expected = "invalid character ']' after object key:value pair"
-	err = uni.Import(JSON, filename)
+	err = uni.Import(FormatJSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
@@ -748,7 +748,7 @@ func TestBadImport(t *testing.T) {
 	f.Close()
 
 	expected = "read testdata/bad-translation6.json: bad file descriptor"
-	err = uni.ImportByReader(JSON, f)
+	err = uni.ImportByReader(FormatJSON, f)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
@@ -775,14 +775,14 @@ func TestBadExport(t *testing.T) {
 	en.Add("day", "this is a day", false)
 
 	expected := "open testdata/readonly/en.json: permission denied"
-	err = uni.Export(JSON, dirname)
+	err = uni.Export(FormatJSON, dirname)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
 
 	// test exporting into directory inside readonly directory
 	expected = "stat testdata/readonly/inner: permission denied"
-	err = uni.Export(JSON, filepath.Join(dirname, "inner"))
+	err = uni.Export(FormatJSON, filepath.Join(dirname, "inner"))
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}

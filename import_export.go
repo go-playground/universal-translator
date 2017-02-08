@@ -27,18 +27,18 @@ const (
 	rangeType    = "Range"
 )
 
-// ExportFormat is the format of the file import or export
-type ExportFormat uint8
+// ImportExportFormat is the format of the file import or export
+type ImportExportFormat uint8
 
 // supported Export Formats
 const (
-	JSON ExportFormat = iota
+	FormatJSON ImportExportFormat = iota
 )
 
 // Export writes the translations out to a file on disk.
 //
 // NOTE: this currently only works with string or int translations keys.
-func (t *UniversalTranslator) Export(format ExportFormat, dirname string) error {
+func (t *UniversalTranslator) Export(format ImportExportFormat, dirname string) error {
 
 	_, err := os.Stat(dirname)
 	fmt.Println(dirname, err, os.IsNotExist(err))
@@ -129,7 +129,7 @@ func (t *UniversalTranslator) Export(format ExportFormat, dirname string) error 
 		}
 
 		switch format {
-		case JSON:
+		case FormatJSON:
 			b, err = json.MarshalIndent(trans, "", "    ")
 			ext = ".json"
 		}
@@ -152,7 +152,7 @@ func (t *UniversalTranslator) Export(format ExportFormat, dirname string) error 
 // Import reads the translations out of a file or directory on disk.
 //
 // NOTE: this currently only works with string or int translations keys.
-func (t *UniversalTranslator) Import(format ExportFormat, dirnameOrFilename string) error {
+func (t *UniversalTranslator) Import(format ImportExportFormat, dirnameOrFilename string) error {
 
 	fi, err := os.Stat(dirnameOrFilename)
 	if err != nil {
@@ -182,7 +182,7 @@ func (t *UniversalTranslator) Import(format ExportFormat, dirnameOrFilename stri
 		}
 
 		switch format {
-		case JSON:
+		case FormatJSON:
 			// skip non JSON files
 			if filepath.Ext(info.Name()) != ".json" {
 				return nil
@@ -198,7 +198,7 @@ func (t *UniversalTranslator) Import(format ExportFormat, dirnameOrFilename stri
 // ImportByReader imports the the translations found within the contents read from the supplied reader.
 //
 // NOTE: generally used when assets have been embedded into the binary and are already in memory.
-func (t *UniversalTranslator) ImportByReader(format ExportFormat, reader io.Reader) error {
+func (t *UniversalTranslator) ImportByReader(format ImportExportFormat, reader io.Reader) error {
 
 	b, err := ioutil.ReadAll(reader)
 	if err != nil {
@@ -208,7 +208,7 @@ func (t *UniversalTranslator) ImportByReader(format ExportFormat, reader io.Read
 	var trans []translation
 
 	switch format {
-	case JSON:
+	case FormatJSON:
 		err = json.Unmarshal(b, &trans)
 	}
 
