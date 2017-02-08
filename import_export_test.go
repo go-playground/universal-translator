@@ -2,11 +2,13 @@ package ut
 
 import (
 	"fmt"
+	"path/filepath"
 	"testing"
+
+	"os"
 
 	"github.com/go-playground/locales"
 	"github.com/go-playground/locales/en"
-	"github.com/go-playground/locales/en_CA"
 	"github.com/go-playground/locales/nl"
 )
 
@@ -21,7 +23,7 @@ import (
 // go test -coverprofile cover.out && go tool cover -html=cover.out -o cover.html
 //
 
-func TestBasicTranslation(t *testing.T) {
+func TestExportImportBasic(t *testing.T) {
 
 	e := en.New()
 	uni := New(e, e)
@@ -96,6 +98,26 @@ func TestBasicTranslation(t *testing.T) {
 		}
 	}
 
+	dirname := "testdata/translations"
+	defer os.RemoveAll(dirname)
+
+	err := uni.Export(FormatJSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+
+	uni = New(e, e)
+
+	err = uni.Import(FormatJSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+
+	en, found = uni.GetTranslator("en") // or fallback if fails to find 'en'
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
+
 	tests := []struct {
 		key           interface{}
 		params        []string
@@ -132,16 +154,17 @@ func TestBasicTranslation(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+
 		s, err := en.T(tt.key, tt.params...)
 		if s != tt.expected {
-			if !tt.expectedError && err != ErrUnknowTranslation {
+			if !tt.expectedError || (tt.expectedError && err != ErrUnknowTranslation) {
 				t.Errorf("Expected '%s' Got '%s'", tt.expected, s)
 			}
 		}
 	}
 }
 
-func TestCardinalTranslation(t *testing.T) {
+func TestExportImportCardinal(t *testing.T) {
 
 	e := en.New()
 	uni := New(e, e)
@@ -164,14 +187,6 @@ func TestCardinalTranslation(t *testing.T) {
 			trans:         "You have a day left.",
 			rule:          locales.PluralRuleOne,
 			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddCardinal'. locale: '%s' key: '%v' text: '%s'", paramZero, en.Locale(), "cardinal_test", "You have a day left.")},
-			expectedError: true,
-		},
-		// bad translation
-		{
-			key:           "cardinal_test",
-			trans:         "You have a day left few.",
-			rule:          locales.PluralRuleFew,
-			expected:      &ErrCardinalTranslation{text: fmt.Sprintf("error: cardinal plural rule '%s' does not exist for locale '%s' key: '%s' text: '%s'", locales.PluralRuleFew, en.Locale(), "cardinal_test", "You have a day left few.")},
 			expectedError: true,
 		},
 		{
@@ -207,9 +222,29 @@ func TestCardinalTranslation(t *testing.T) {
 		err := en.AddCardinal(tt.key, tt.trans, tt.rule, tt.override)
 		if err != tt.expected {
 			if !tt.expectedError || err.Error() != tt.expected.Error() {
-				t.Errorf("Expected '<nil>' Got '%s'", err)
+				t.Errorf("Expected '%s' Got '%s'", tt.expected, err)
 			}
 		}
+	}
+
+	dirname := "testdata/translations"
+	defer os.RemoveAll(dirname)
+
+	err := uni.Export(FormatJSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+
+	uni = New(e, e)
+
+	err = uni.Import(FormatJSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+
+	en, found = uni.GetTranslator("en") // or fallback if fails to find 'en'
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
 	}
 
 	tests := []struct {
@@ -253,7 +288,7 @@ func TestCardinalTranslation(t *testing.T) {
 	}
 }
 
-func TestOrdinalTranslation(t *testing.T) {
+func TestExportImportOrdinal(t *testing.T) {
 
 	e := en.New()
 	uni := New(e, e)
@@ -278,17 +313,9 @@ func TestOrdinalTranslation(t *testing.T) {
 			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: parameter '%s' not found, may want to use 'Add' instead of 'AddOrdinal'. locale: '%s' key: '%v' text: '%s'", paramZero, en.Locale(), "day", "st")},
 			expectedError: true,
 		},
-		// bad translation
-		{
-			key:           "day",
-			trans:         "st",
-			rule:          locales.PluralRuleMany,
-			expected:      &ErrOrdinalTranslation{text: fmt.Sprintf("error: ordinal plural rule '%s' does not exist for locale '%s' key: '%s' text: '%s'", locales.PluralRuleMany, en.Locale(), "day", "st")},
-			expectedError: true,
-		},
 		{
 			key:      "day",
-			trans:    "{0}st",
+			trans:    "{0}sfefewt",
 			rule:     locales.PluralRuleOne,
 			expected: nil,
 		},
@@ -335,6 +362,26 @@ func TestOrdinalTranslation(t *testing.T) {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
 			}
 		}
+	}
+
+	dirname := "testdata/translations"
+	defer os.RemoveAll(dirname)
+
+	err := uni.Export(FormatJSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+
+	uni = New(e, e)
+
+	err = uni.Import(FormatJSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+
+	en, found = uni.GetTranslator("en") // or fallback if fails to find 'en'
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
 	}
 
 	tests := []struct {
@@ -406,7 +453,7 @@ func TestOrdinalTranslation(t *testing.T) {
 	}
 }
 
-func TestRangeTranslation(t *testing.T) {
+func TestExportImportRange(t *testing.T) {
 
 	n := nl.New()
 	uni := New(n, n)
@@ -431,14 +478,6 @@ func TestRangeTranslation(t *testing.T) {
 			trans:         "er -{1} dag vertrokken",
 			rule:          locales.PluralRuleOne,
 			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: parameter '%s' not found, are you sure you're adding a Range Translation? locale: '%s' key: '%s' text: '%s'", paramZero, nl.Locale(), "day", "er -{1} dag vertrokken")},
-			expectedError: true,
-		},
-		// bad translation
-		{
-			key:           "day",
-			trans:         "er {0}- dag vertrokken",
-			rule:          locales.PluralRuleMany,
-			expected:      &ErrRangeTranslation{text: fmt.Sprintf("error: range plural rule '%s' does not exist for locale '%s' key: '%s' text: '%s'", locales.PluralRuleMany, nl.Locale(), "day", "er {0}- dag vertrokken")},
 			expectedError: true,
 		},
 		// bad translation
@@ -486,6 +525,26 @@ func TestRangeTranslation(t *testing.T) {
 				t.Errorf("Expected '%#v' Got '%s'", tt.expected, err)
 			}
 		}
+	}
+
+	dirname := "testdata/translations"
+	defer os.RemoveAll(dirname)
+
+	err := uni.Export(FormatJSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+
+	uni = New(n, n)
+
+	err = uni.Import(FormatJSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+
+	nl, found = uni.GetTranslator("nl") // or fallback if fails to find 'en'
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
 	}
 
 	tests := []struct {
@@ -558,301 +617,173 @@ func TestRangeTranslation(t *testing.T) {
 	}
 }
 
-func TestFallbackTranslator(t *testing.T) {
+func TestImportRecursive(t *testing.T) {
 
 	e := en.New()
 	uni := New(e, e)
-	en, found := uni.GetTranslator("en")
+
+	dirname := "testdata/nested1"
+	err := uni.Import(FormatJSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+
+	en, found := uni.GetTranslator("en") // or fallback if fails to find 'en'
 	if !found {
 		t.Fatalf("Expected '%t' Got '%t'", true, found)
 	}
 
-	if en.Locale() != "en" {
-		t.Errorf("Expected '%s' Got '%s'", "en", en.Locale())
-	}
-
-	fallback, _ := uni.GetTranslator("nl")
-	if fallback.Locale() != "en" {
-		t.Errorf("Expected '%s' Got '%s'", "en", fallback.Locale())
-	}
-
-	en, _ = uni.FindTranslator("nl", "en")
-	if en.Locale() != "en" {
-		t.Errorf("Expected '%s' Got '%s'", "en", en.Locale())
-	}
-
-	fallback, _ = uni.FindTranslator("nl")
-	if fallback.Locale() != "en" {
-		t.Errorf("Expected '%s' Got '%s'", "en", fallback.Locale())
-	}
-}
-
-func TestAddTranslator(t *testing.T) {
-
-	e := en.New()
-	n := nl.New()
-	uni := New(e, n)
-
 	tests := []struct {
-		trans         locales.Translator
-		expected      error
+		key           interface{}
+		params        []string
+		expected      string
 		expectedError bool
-		override      bool
 	}{
 		{
-			trans:    en_CA.New(),
-			expected: nil,
-			override: false,
+			key:      "test_trans",
+			params:   []string{"Joeybloggs", "The Test"},
+			expected: "Welcome Joeybloggs to the The Test.",
 		},
 		{
-			trans:         n,
-			expected:      &ErrExistingTranslator{locale: n.Locale()},
+			key:      "test_trans2",
+			params:   []string{"Joeybloggs", "The Test"},
+			expected: "Joeybloggs to the The Test.",
+		},
+		{
+			key:      "test_trans3",
+			params:   []string{"Joeybloggs", "The Test"},
+			expected: "Welcome Joeybloggs to the The Test",
+		},
+		{
+			key:      "test_trans4",
+			params:   []string{"Joeybloggs", "The Test"},
+			expected: "JoeybloggsThe Test",
+		},
+		// bad translation
+		{
+			key:           "non-existant-key",
+			params:        []string{"Joeybloggs", "The Test"},
+			expected:      "",
 			expectedError: true,
-			override:      false,
-		},
-		{
-			trans:         e,
-			expected:      &ErrExistingTranslator{locale: e.Locale()},
-			expectedError: true,
-			override:      false,
-		},
-		{
-			trans:    e,
-			expected: nil,
-			override: true,
 		},
 	}
 
 	for _, tt := range tests {
 
-		err := uni.AddTranslator(tt.trans, tt.override)
-		if err != tt.expected {
-			if !tt.expectedError || err.Error() != tt.expected.Error() {
-				t.Errorf("Expected '%s' Got '%s'", tt.expected, err)
+		s, err := en.T(tt.key, tt.params...)
+		if s != tt.expected {
+			if !tt.expectedError || (tt.expectedError && err != ErrUnknowTranslation) {
+				t.Errorf("Expected '%s' Got '%s'", tt.expected, s)
 			}
 		}
 	}
 }
 
-func TestVerifyTranslations(t *testing.T) {
+func TestBadImport(t *testing.T) {
 
-	n := nl.New()
-	// dutch
-	uni := New(n, n)
-
-	loc, _ := uni.GetTranslator("nl")
-	if loc.Locale() != "nl" {
-		t.Errorf("Expected '%s' Got '%s'", "nl", loc.Locale())
-	}
-
-	// cardinal checks
-
-	err := loc.AddCardinal("day", "je {0} dag hebben verlaten", locales.PluralRuleOne, false)
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	// fail cardinal rules
-	expected := &ErrMissingPluralTranslation{locale: loc.Locale(), translationType: "plural", rule: locales.PluralRuleOther, key: "day"}
-	err = loc.VerifyTranslations()
-	if err == nil || err.Error() != expected.Error() {
-		t.Errorf("Expected '%s' Got '%s'", expected, err)
-	}
-
-	// success cardinal
-	err = loc.AddCardinal("day", "je {0} dagen hebben verlaten", locales.PluralRuleOther, false)
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	err = loc.VerifyTranslations()
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	// range checks
-	err = loc.AddRange("day", "je {0}-{1} dagen hebben verlaten", locales.PluralRuleOther, false)
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	// fail range rules
-	expected = &ErrMissingPluralTranslation{locale: loc.Locale(), translationType: "range", rule: locales.PluralRuleOne, key: "day"}
-	err = loc.VerifyTranslations()
-	if err == nil || err.Error() != expected.Error() {
-		t.Errorf("Expected '%s' Got '%s'", expected, err)
-	}
-
-	// success range
-	err = loc.AddRange("day", "je {0}-{1} dag hebben verlaten", locales.PluralRuleOne, false)
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	err = loc.VerifyTranslations()
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	// ok so 'nl' aka dutch, ony has one plural rule for ordinals, so going to switch to english from here which has 4
-
-	err = uni.AddTranslator(en.New(), false)
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	loc, _ = uni.GetTranslator("en")
-	if loc.Locale() != "en" {
-		t.Errorf("Expected '%s' Got '%s'", "en", loc.Locale())
-	}
-
-	// ordinal checks
-
-	err = loc.AddOrdinal("day", "{0}st", locales.PluralRuleOne, false)
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	err = loc.AddOrdinal("day", "{0}rd", locales.PluralRuleFew, false)
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	err = loc.AddOrdinal("day", "{0}th", locales.PluralRuleOther, false)
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	// fail ordinal rules
-	expected = &ErrMissingPluralTranslation{locale: loc.Locale(), translationType: "ordinal", rule: locales.PluralRuleTwo, key: "day"}
-	err = loc.VerifyTranslations()
-	if err == nil || err.Error() != expected.Error() {
-		t.Errorf("Expected '%s' Got '%s'", expected, err)
-	}
-
-	// success ordinal
-
-	err = loc.AddOrdinal("day", "{0}nd", locales.PluralRuleTwo, false)
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	err = loc.VerifyTranslations()
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-}
-
-func TestVerifyTranslationsWithNonStringKeys(t *testing.T) {
-
-	n := nl.New()
-	// dutch
-	uni := New(n, n)
-
-	loc, _ := uni.GetTranslator("nl")
-	if loc.Locale() != "nl" {
-		t.Errorf("Expected '%s' Got '%s'", "nl", loc.Locale())
-	}
-
-	// cardinal checks
-
-	err := loc.AddCardinal(-1, "je {0} dag hebben verlaten", locales.PluralRuleOne, false)
-	if err != nil {
-		t.Fatalf("Expected '<nil>' Got '%s'", err)
-	}
-
-	// fail cardinal rules
-	expected := &ErrMissingPluralTranslation{locale: loc.Locale(), translationType: "plural", rule: locales.PluralRuleOther, key: -1}
-	err = loc.VerifyTranslations()
-	if err == nil || err.Error() != expected.Error() {
-		t.Errorf("Expected '%s' Got '%s'", expected, err)
-	}
-}
-
-func TestGetFallback(t *testing.T) {
-
-	// dutch
-	n := nl.New()
-	e := en.New()
-
-	uni := New(e, n)
-
-	trans := uni.GetFallback()
-
-	expected := "en"
-
-	if trans.Locale() != expected {
-		t.Errorf("Expected '%s' Got '%s'", expected, trans.Locale())
-	}
-}
-
-func TestVerifyUTTranslations(t *testing.T) {
-
+	// test non existant file
 	e := en.New()
 	uni := New(e, e)
-	en, found := uni.GetTranslator("en")
-	if !found {
-		t.Fatalf("Expected '%t' Got '%t'", true, found)
-	}
 
-	translations := []struct {
-		key           interface{}
-		trans         string
-		rule          locales.PluralRule
-		expected      error
-		expectedError bool
-		override      bool
-	}{
-		{
-			key:      "day",
-			trans:    "{0}st",
-			rule:     locales.PluralRuleOne,
-			expected: nil,
-		},
-		{
-			key:      "day",
-			trans:    "{0}nd",
-			rule:     locales.PluralRuleTwo,
-			expected: nil,
-		},
-		{
-			key:      "day",
-			trans:    "{0}rd",
-			rule:     locales.PluralRuleFew,
-			expected: nil,
-		},
-		// intentionally leaving out plural other
-		// {
-		// 	key:      "day",
-		// 	trans:    "{0}th",
-		// 	rule:     locales.PluralRuleOther,
-		// 	expected: nil,
-		// },
-	}
-
-	for _, tt := range translations {
-
-		err := en.AddOrdinal(tt.key, tt.trans, tt.rule, tt.override)
-		if err != tt.expected {
-			if !tt.expectedError || err.Error() != tt.expected.Error() {
-				t.Errorf("Expected '<nil>' Got '%s'", err)
-			}
-		}
-	}
-
-	expected := "error: missing 'ordinal' plural rule 'Other' for translation with key 'day' and locale 'en'"
-	err := uni.VerifyTranslations()
+	filename := "testdata/non-existant-file.json"
+	expected := "stat testdata/non-existant-file.json: no such file or directory"
+	err := uni.Import(FormatJSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
 
-	err = en.AddOrdinal("day", "{0}th", locales.PluralRuleOther, false)
+	// test bad parameter basic translation
+	filename = "testdata/bad-translation1.json"
+	expected = "error: bad parameter syntax, missing parameter '{0}' in translation. locale: 'en' key: 'test_trans3' text: 'Welcome {lettersnotpermitted} to the {1}'"
+	err = uni.Import(FormatJSON, filename)
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// test missing bracket basic translation
+	filename = "testdata/bad-translation2.json"
+	expected = "error: missing bracket '{}', in translation. locale: 'en' key: 'test_trans3' text: 'Welcome {0 to the {1}'"
+	err = uni.Import(FormatJSON, filename)
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// test missing locale basic translation
+	filename = "testdata/bad-translation3.json"
+	expected = "error: locale 'nl' not registered."
+	err = uni.Import(FormatJSON, filename)
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// test bad plural definition
+	filename = "testdata/bad-translation4.json"
+	expected = "error: bad plural definition 'ut.translation{Locale:\"en\", Key:\"cardinal_test\", Translation:\"You have {0} day left.\", PluralType:\"NotAPluralType\", PluralRule:\"One\", OverrideExisting:false}'"
+	err = uni.Import(FormatJSON, filename)
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// test bad plural rule for locale
+	filename = "testdata/bad-translation5.json"
+	expected = "error: cardinal plural rule 'Many' does not exist for locale 'en' key: 'cardinal_test' text: 'You have {0} day left.'"
+	err = uni.Import(FormatJSON, filename)
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// test invalid JSON
+	filename = "testdata/bad-translation6.json"
+	expected = "invalid character ']' after object key:value pair"
+	err = uni.Import(FormatJSON, filename)
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// test bad io.Reader
+	f, err := os.Open(filename)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
+	f.Close()
 
-	err = uni.VerifyTranslations()
+	expected = "read testdata/bad-translation6.json: bad file descriptor"
+	err = uni.ImportByReader(FormatJSON, f)
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+}
+
+func TestBadExport(t *testing.T) {
+
+	// test readonly directory
+	e := en.New()
+	uni := New(e, e)
+
+	en, found := uni.GetTranslator("en") // or fallback if fails to find 'en'
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
+
+	dirname := "testdata/readonly"
+	err := os.Mkdir(dirname, 0444)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+	defer os.RemoveAll(dirname)
+
+	en.Add("day", "this is a day", false)
+
+	expected := "open testdata/readonly/en.json: permission denied"
+	err = uni.Export(FormatJSON, dirname)
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// test exporting into directory inside readonly directory
+	expected = "stat testdata/readonly/inner: permission denied"
+	err = uni.Export(FormatJSON, filepath.Join(dirname, "inner"))
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
 }
