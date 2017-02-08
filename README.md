@@ -76,8 +76,8 @@ NOTE: not all fields are needed for all translation types, see [examples](https:
 |locale|The locale for which the translation is for.|
 |key|The translation key that will be used to store and lookup each translation; normally it is a string or integer.|
 |trans|The actual translation text.|
-|type|The type of translation Cardinal, Ordinal, Range or "" for a plain substitution(not required to be defined in plain used)|
-|rule|The plural rule for which the translation is for eg. One, Two, Few, Many or Other.(not required to be defined in plain used)|
+|type|The type of translation Cardinal, Ordinal, Range or "" for a plain substitution(not required to be defined if plain used)|
+|rule|The plural rule for which the translation is for eg. One, Two, Few, Many or Other.(not required to be defined if plain used)|
 |override|If you wish to override an existing translation that has already been registered, set this to 'true'. 99% of the time there is no need to define it.|
 
 Help With Tests
