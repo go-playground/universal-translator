@@ -26,7 +26,7 @@ Features
 - [x] Contains Number, Currency, Accounting and Percent formatting functions
 - [x] Supports the "Gregorian" calendar only ( my time isn't unlimited, had to draw the line somewhere )
 - [x] Support loading translations from files
-- [x] Exporting translations to file, mainly for getting them professionally translated
+- [x] Exporting translations to file(s), mainly for getting them professionally translated
 - [ ] Code Generation for translation files -> Go code.. i.e. after it has been professionally translated
 - [ ] Tests for all languages, I need help with this, please see [here](https://github.com/go-playground/locales/issues/1)
 
@@ -49,6 +49,36 @@ Please see https://godoc.org/github.com/go-playground/universal-translator for u
 - [Basic](https://github.com/go-playground/universal-translator/tree/master/examples/basic)
 - [Full - no files](https://github.com/go-playground/universal-translator/tree/master/examples/full-no-files)
 - [Full - with files](https://github.com/go-playground/universal-translator/tree/master/examples/full-with-files)
+
+File formatting
+--------------
+All types, Plain substitution, Cardinal, Ordinal and Range translations can all be contained withing the same file(s);
+they are only separated for easy viewing.
+
+##### Examples:
+
+- [Formats](https://github.com/go-playground/universal-translator/tree/master/examples/file-formats)
+
+##### Basic Makeup
+NOTE: not all fields are needed for all translation type, see [examples](https://github.com/go-playground/universal-translator/tree/master/examples/file-formats)
+```json
+{
+    "locale": "en",
+    "key": "days-left",
+    "trans": "You have {0} day left.",
+    "type": "Cardinal",
+    "rule": "One",
+    "override": false
+}
+```
+|Field|Description|
+|---|---|
+|locale|The locale for which the translation is for.|
+|key|The translation key that will be used to store and lookup each translation; normally it is a string or integer.|
+|trans|The actual translation text.|
+|type|The type of translation Cardinal, Ordinal, Range or "" for a plain substitution(not required to be defined in plain used)|
+|rule|The plural rule for which the translation is for eg. One, Two, Few, Many or Other.(not required to be defined in plain used)|
+|override|If you wish to override an existing translation that has already been registered, set this to 'true'. 99% of the time there is no need to define it.|
 
 Help With Tests
 ---------------
