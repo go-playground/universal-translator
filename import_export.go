@@ -2,6 +2,7 @@ package ut
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -37,10 +38,25 @@ const (
 // Export writes the translations out to a file on disk.
 //
 // NOTE: this currently only works with string or int translations keys.
-func (t *UniversalTranslator) Export(format ExportFormat, filename string) error {
+func (t *UniversalTranslator) Export(format ExportFormat, dirname string) error {
+
+	_, err := os.Stat(dirname)
+	fmt.Println(dirname, err, os.IsNotExist(err))
+	if err != nil {
+
+		if !os.IsNotExist(err) {
+			return err
+		}
+
+		if err = os.MkdirAll(dirname, 0744); err != nil {
+			return err
+		}
+	}
 
 	// build up translations
 	var trans []translation
+	var b []byte
+	var ext string
 
 	for _, locale := range t.translators {
 
@@ -111,21 +127,26 @@ func (t *UniversalTranslator) Export(format ExportFormat, filename string) error
 				})
 			}
 		}
+
+		switch format {
+		case JSON:
+			b, err = json.MarshalIndent(trans, "", "    ")
+			ext = ".json"
+		}
+
+		if err != nil {
+			return err
+		}
+
+		err = ioutil.WriteFile(filepath.Join(dirname, fmt.Sprintf("%s%s", locale.Locale(), ext)), b, 0644)
+		if err != nil {
+			return err
+		}
+
+		trans = trans[0:0]
 	}
 
-	var b []byte
-	var err error
-
-	switch format {
-	case JSON:
-		b, err = json.MarshalIndent(trans, "", "    ")
-	}
-
-	if err != nil {
-		return err
-	}
-
-	return ioutil.WriteFile(filename, b, 0644)
+	return nil
 }
 
 // Import reads the translations out of a file or directory on disk.

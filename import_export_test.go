@@ -2,6 +2,7 @@ package ut
 
 import (
 	"fmt"
+	"path/filepath"
 	"testing"
 
 	"os"
@@ -97,13 +98,17 @@ func TestExportImportBasic(t *testing.T) {
 		}
 	}
 
-	filename := "testdata/basic-export-test.json"
+	dirname := "testdata/translations"
+	defer os.RemoveAll(dirname)
 
-	uni.Export(JSON, filename)
+	err := uni.Export(JSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
 
 	uni = New(e, e)
 
-	err := uni.Import(JSON, filename)
+	err = uni.Import(JSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
@@ -222,13 +227,17 @@ func TestExportImportCardinal(t *testing.T) {
 		}
 	}
 
-	filename := "testdata/cardinal-export-test.json"
+	dirname := "testdata/translations"
+	defer os.RemoveAll(dirname)
 
-	uni.Export(JSON, filename)
+	err := uni.Export(JSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
 
 	uni = New(e, e)
 
-	err := uni.Import(JSON, filename)
+	err = uni.Import(JSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
@@ -355,13 +364,17 @@ func TestExportImportOrdinal(t *testing.T) {
 		}
 	}
 
-	filename := "testdata/ordinal-export-test.json"
+	dirname := "testdata/translations"
+	defer os.RemoveAll(dirname)
 
-	uni.Export(JSON, filename)
+	err := uni.Export(JSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
 
 	uni = New(e, e)
 
-	err := uni.Import(JSON, filename)
+	err = uni.Import(JSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
@@ -514,13 +527,17 @@ func TestExportImportRange(t *testing.T) {
 		}
 	}
 
-	filename := "testdata/range-export-test.json"
+	dirname := "testdata/translations"
+	defer os.RemoveAll(dirname)
 
-	uni.Export(JSON, filename)
+	err := uni.Export(JSON, dirname)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
 
 	uni = New(n, n)
 
-	err := uni.Import(JSON, filename)
+	err = uni.Import(JSON, dirname)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
@@ -732,6 +749,40 @@ func TestBadImport(t *testing.T) {
 
 	expected = "read testdata/bad-translation6.json: bad file descriptor"
 	err = uni.ImportByReader(JSON, f)
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+}
+
+func TestBadExport(t *testing.T) {
+
+	// test readonly directory
+	e := en.New()
+	uni := New(e, e)
+
+	en, found := uni.GetTranslator("en") // or fallback if fails to find 'en'
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
+
+	dirname := "testdata/readonly"
+	err := os.Mkdir(dirname, 0444)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+	defer os.RemoveAll(dirname)
+
+	en.Add("day", "this is a day", false)
+
+	expected := "open testdata/readonly/en.json: permission denied"
+	err = uni.Export(JSON, dirname)
+	if err == nil || err.Error() != expected {
+		t.Fatalf("Expected '%s' Got '%s'", expected, err)
+	}
+
+	// test exporting into directory inside readonly directory
+	expected = "stat testdata/readonly/inner: permission denied"
+	err = uni.Export(JSON, filepath.Join(dirname, "inner"))
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}

@@ -203,7 +203,7 @@ func setup() {
 	fr.AddCardinal("days-left", "Il reste {0} jour", locales.PluralRuleOne, false)
 	fr.AddCardinal("days-left", "Il reste {0} jours", locales.PluralRuleOther, false)
 
-	err = utrans.VerifyTranslations()
+	err := utrans.VerifyTranslations()
 	if err != nil {
 		log.Fatal(err)
 	}
