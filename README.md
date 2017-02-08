@@ -60,7 +60,7 @@ they are only separated for easy viewing.
 - [Formats](https://github.com/go-playground/universal-translator/tree/master/examples/file-formats)
 
 ##### Basic Makeup
-NOTE: not all fields are needed for all translation type, see [examples](https://github.com/go-playground/universal-translator/tree/master/examples/file-formats)
+NOTE: not all fields are needed for all translation types, see [examples](https://github.com/go-playground/universal-translator/tree/master/examples/file-formats)
 ```json
 {
     "locale": "en",
