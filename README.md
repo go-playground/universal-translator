@@ -1,6 +1,6 @@
 ## universal-translator
 <img align="right" src="https://raw.githubusercontent.com/go-playground/universal-translator/master/logo.png">
-![Project status](https://img.shields.io/badge/version-0.15.0-green.svg)
+![Project status](https://img.shields.io/badge/version-0.16.0-green.svg)
 [![Build Status](https://semaphoreci.com/api/v1/joeybloggs/universal-translator/branches/master/badge.svg)](https://semaphoreci.com/joeybloggs/universal-translator)
 [![Coverage Status](https://coveralls.io/repos/github/go-playground/universal-translator/badge.svg)](https://coveralls.io/github/go-playground/universal-translator)
 [![Go Report Card](https://goreportcard.com/badge/github.com/go-playground/universal-translator)](https://goreportcard.com/report/github.com/go-playground/universal-translator)
@@ -19,7 +19,7 @@ use in your applications.
 
 Features
 --------
-- [x] Rules generated from the latest [CLDR](http://cldr.unicode.org/index/downloads) data, v29
+- [x] Rules generated from the [CLDR](http://cldr.unicode.org/index/downloads) data, v30.0.3
 - [x] Contains Cardinal, Ordinal and Range Plural Rules
 - [x] Contains Month, Weekday and Timezone translations built in
 - [x] Contains Date & Time formatting functions
