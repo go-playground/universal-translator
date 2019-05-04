@@ -12,7 +12,7 @@ import (
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/fr"
 	"github.com/go-playground/pure"
-	"github.com/go-playground/pure/examples/middleware/logging-recovery"
+	"github.com/go-playground/pure/_examples/middleware/logging-recovery"
 	"github.com/go-playground/universal-translator"
 )
 
