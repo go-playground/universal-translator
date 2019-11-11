@@ -23,4 +23,5 @@ script:
   - go test -v -race -covermode=atomic -coverprofile=coverage.coverprofile ./...
 
 after_success: |
+  [ $TRAVIS_GO_VERSION = 1.13.4 ] &&
   goveralls -coverprofile=coverage.coverprofile -service travis-ci -repotoken $COVERALLS_TOKEN
