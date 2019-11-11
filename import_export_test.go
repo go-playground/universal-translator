@@ -747,7 +747,7 @@ func TestBadImport(t *testing.T) {
 	}
 	f.Close()
 
-	expected = "read testdata/bad-translation6.json: bad file descriptor"
+	expected = "read testdata/bad-translation6.json: file already closed"
 	err = uni.ImportByReader(FormatJSON, f)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
