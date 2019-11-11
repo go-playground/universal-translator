@@ -11,8 +11,8 @@ import (
 	"github.com/go-playground/locales/currency"
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/fr"
-	"github.com/go-playground/pure"
-	"github.com/go-playground/pure/examples/middleware/logging-recovery"
+	"github.com/go-playground/pure/v5"
+	"github.com/go-playground/pure/v5/_examples/middleware/logging-recovery"
 	"github.com/go-playground/universal-translator"
 )
 
