@@ -2,6 +2,7 @@ package ut
 
 import (
 	"fmt"
+	"io/ioutil"
 	"path/filepath"
 	"testing"
 
@@ -98,8 +99,7 @@ func TestExportImportBasic(t *testing.T) {
 		}
 	}
 
-	dirname := "testdata/translations"
-	defer os.RemoveAll(dirname)
+	dirname := tempDir(t)
 
 	err := uni.Export(FormatJSON, dirname)
 	if err != nil {
@@ -227,8 +227,7 @@ func TestExportImportCardinal(t *testing.T) {
 		}
 	}
 
-	dirname := "testdata/translations"
-	defer os.RemoveAll(dirname)
+	dirname := tempDir(t)
 
 	err := uni.Export(FormatJSON, dirname)
 	if err != nil {
@@ -364,8 +363,7 @@ func TestExportImportOrdinal(t *testing.T) {
 		}
 	}
 
-	dirname := "testdata/translations"
-	defer os.RemoveAll(dirname)
+	dirname := tempDir(t)
 
 	err := uni.Export(FormatJSON, dirname)
 	if err != nil {
@@ -527,8 +525,7 @@ func TestExportImportRange(t *testing.T) {
 		}
 	}
 
-	dirname := "testdata/translations"
-	defer os.RemoveAll(dirname)
+	dirname := tempDir(t)
 
 	err := uni.Export(FormatJSON, dirname)
 	if err != nil {
@@ -765,25 +762,41 @@ func TestBadExport(t *testing.T) {
 		t.Fatalf("Expected '%t' Got '%t'", true, found)
 	}
 
-	dirname := "testdata/readonly"
-	err := os.Mkdir(dirname, 0444)
+	dirname := tempDir(t)
+	readonly := os.FileMode(0444)
+	err := os.Chmod(dirname, readonly)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
-	defer os.RemoveAll(dirname)
 
 	en.Add("day", "this is a day", false)
 
-	expected := "open testdata/readonly/en.json: permission denied"
+	expected := "open " + dirname + "/en.json: permission denied"
 	err = uni.Export(FormatJSON, dirname)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
 
 	// test exporting into directory inside readonly directory
-	expected = "stat testdata/readonly/inner: permission denied"
+	expected = "stat " + dirname + "/inner: permission denied"
 	err = uni.Export(FormatJSON, filepath.Join(dirname, "inner"))
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
+}
+
+func tempDir(t *testing.T) string {
+	t.Helper()
+
+	result, err := ioutil.TempDir("", "translations-")
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() {
+		if err := os.RemoveAll(result); err != nil {
+			t.Errorf("tempdir cleanup: %v", err)
+		}
+	})
+
+	return result
 }
