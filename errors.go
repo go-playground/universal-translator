@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	// ErrUnknowTranslation indicates the translation could not be found
-	ErrUnknowTranslation = errors.New("Unknown Translation")
+	// ErrUnknownTranslation indicates the translation could not be found
+	ErrUnknownTranslation = errors.New("Unknown Translation")
 )
 
 var _ error = new(ErrConflictingTranslation)
