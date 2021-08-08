@@ -772,7 +772,10 @@ func TestBadExport(t *testing.T) {
 	}
 	defer os.RemoveAll(dirname)
 
-	en.Add("day", "this is a day", false)
+	err = en.Add("day", "this is a day", false)
+	if err != nil {
+		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
 
 	expected := "open testdata/readonly/en.json: permission denied"
 	err = uni.Export(FormatJSON, dirname)
