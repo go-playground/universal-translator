@@ -96,8 +96,12 @@ func newTranslator(trans locales.Translator) Translator {
 // {#} is the only replacement type accepted and are ad infinitum
 // eg. one: '{0} day left' other: '{0} days left'
 func (t *translator) Add(key interface{}, text string, override bool) error {
-
-	if _, ok := t.translations[key]; ok && !override {
+	var mutex = sync.Mutex{}
+	//fatal error: concurrent map read and map write
+	mutex.Lock()
+	_, okGet := t.translations[key]
+	mutex.Unlock()
+	if okGet && !override {
 		return &ErrConflictingTranslation{locale: t.Locale(), key: key, text: text}
 	}
 
@@ -124,8 +128,10 @@ func (t *translator) Add(key interface{}, text string, override bool) error {
 		trans.indexes = append(trans.indexes, idx)
 		trans.indexes = append(trans.indexes, idx+len(s))
 	}
-
+	//fatal error: concurrent map read and map write
+	mutex.Lock()
 	t.translations[key] = trans
+	mutex.Unlock()
 
 	return nil
 }
