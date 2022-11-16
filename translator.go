@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-
+	"sync"
 	"github.com/go-playground/locales"
 )
 
@@ -70,11 +70,26 @@ var _ Translator = new(translator)
 var _ locales.Translator = new(translator)
 
 type translator struct {
+	sync.RWMutex
 	locales.Translator
 	translations        map[interface{}]*transText
 	cardinalTanslations map[interface{}][]*transText // array index is mapped to locales.PluralRule index + the locales.PluralRuleUnknown
 	ordinalTanslations  map[interface{}][]*transText
 	rangeTanslations    map[interface{}][]*transText
+}
+
+func (sn *translator) SetTranslations(key interface{}, val *transText) {
+	sn.Lock()
+	defer sn.Unlock()
+	sn.translations[key] = val
+}
+func (sn *translator) GetTranslations(key interface{}) (*transText, bool) {
+	sn.Lock()
+	defer sn.Unlock()
+	if val, ok := sn.translations[key]; ok {
+		return val, true
+	}
+	return nil, false
 }
 
 type transText struct {
@@ -96,12 +111,8 @@ func newTranslator(trans locales.Translator) Translator {
 // {#} is the only replacement type accepted and are ad infinitum
 // eg. one: '{0} day left' other: '{0} days left'
 func (t *translator) Add(key interface{}, text string, override bool) error {
-	var mutex = sync.Mutex{}
-	//fatal error: concurrent map read and map write
-	mutex.Lock()
-	_, okGet := t.translations[key]
-	mutex.Unlock()
-	if okGet && !override {
+	
+	if _, ok := t.GetTranslations(key); ok && !override {
 		return &ErrConflictingTranslation{locale: t.Locale(), key: key, text: text}
 	}
 
@@ -129,9 +140,7 @@ func (t *translator) Add(key interface{}, text string, override bool) error {
 		trans.indexes = append(trans.indexes, idx+len(s))
 	}
 	//fatal error: concurrent map read and map write
-	mutex.Lock()
-	t.translations[key] = trans
-	mutex.Unlock()
+	t.SetTranslations(key, trans)
 
 	return nil
 }
