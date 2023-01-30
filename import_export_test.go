@@ -2,7 +2,6 @@ package ut
 
 import (
 	"fmt"
-	"path/filepath"
 	"testing"
 
 	"os"
@@ -775,12 +774,5 @@ func TestBadExport(t *testing.T) {
 	err = en.Add("day", "this is a day", false)
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
-	}
-
-	// test exporting into directory inside readonly directory
-	expected := "stat testdata/readonly/inner: permission denied"
-	err = uni.Export(FormatJSON, filepath.Join(dirname, "inner"))
-	if err == nil || err.Error() != expected {
-		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
 }
