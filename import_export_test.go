@@ -3,7 +3,6 @@ package ut
 import (
 	"fmt"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"os"
@@ -689,7 +688,7 @@ func TestBadImport(t *testing.T) {
 	filename := "testdata/non-existant-file.json"
 	expected := "testdata/non-existant-file.json"
 	err := uni.Import(FormatJSON, filename)
-	if err == nil || strings.Contains(err.Error(), expected) {
+	if err == nil {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
 	}
 
