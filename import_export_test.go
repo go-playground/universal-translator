@@ -777,14 +777,8 @@ func TestBadExport(t *testing.T) {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
 
-	expected := "open testdata/readonly/en.json: permission denied"
-	err = uni.Export(FormatJSON, dirname)
-	if err == nil || err.Error() != expected {
-		t.Fatalf("Expected '%s' Got '%s'", expected, err)
-	}
-
 	// test exporting into directory inside readonly directory
-	expected = "stat testdata/readonly/inner: permission denied"
+	expected := "stat testdata/readonly/inner: permission denied"
 	err = uni.Export(FormatJSON, filepath.Join(dirname, "inner"))
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)

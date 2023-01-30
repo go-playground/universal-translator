@@ -40,7 +40,6 @@ const (
 func (t *UniversalTranslator) Export(format ImportExportFormat, dirname string) error {
 
 	_, err := os.Stat(dirname)
-	fmt.Println(dirname, err, os.IsNotExist(err))
 	if err != nil {
 
 		if !os.IsNotExist(err) {
