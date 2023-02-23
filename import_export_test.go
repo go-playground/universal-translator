@@ -156,7 +156,7 @@ func TestExportImportBasic(t *testing.T) {
 
 		s, err := en.T(tt.key, tt.params...)
 		if s != tt.expected {
-			if !tt.expectedError || (tt.expectedError && err != ErrUnknowTranslation) {
+			if !tt.expectedError || (tt.expectedError && err != ErrUnknownTranslation) {
 				t.Errorf("Expected '%s' Got '%s'", tt.expected, s)
 			}
 		}
@@ -276,7 +276,7 @@ func TestExportImportCardinal(t *testing.T) {
 
 		s, err := en.C(tt.key, tt.num, tt.digits, tt.param)
 		if err != nil {
-			if !tt.expectedError && err != ErrUnknowTranslation {
+			if !tt.expectedError && err != ErrUnknownTranslation {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
 			}
 		}
@@ -441,7 +441,7 @@ func TestExportImportOrdinal(t *testing.T) {
 
 		s, err := en.O(tt.key, tt.num, tt.digits, tt.param)
 		if err != nil {
-			if !tt.expectedError && err != ErrUnknowTranslation {
+			if !tt.expectedError && err != ErrUnknownTranslation {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
 			}
 		}
@@ -605,7 +605,7 @@ func TestExportImportRange(t *testing.T) {
 
 		s, err := nl.R(tt.key, tt.num1, tt.digits1, tt.num2, tt.digits2, tt.param1, tt.param2)
 		if err != nil {
-			if !tt.expectedError && err != ErrUnknowTranslation {
+			if !tt.expectedError && err != ErrUnknownTranslation {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
 			}
 		}
@@ -671,7 +671,7 @@ func TestImportRecursive(t *testing.T) {
 
 		s, err := en.T(tt.key, tt.params...)
 		if s != tt.expected {
-			if !tt.expectedError || (tt.expectedError && err != ErrUnknowTranslation) {
+			if !tt.expectedError || (tt.expectedError && err != ErrUnknownTranslation) {
 				t.Errorf("Expected '%s' Got '%s'", tt.expected, s)
 			}
 		}
