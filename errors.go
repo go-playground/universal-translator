@@ -32,7 +32,7 @@ func (e *ErrExistingTranslator) Error() string {
 // ErrConflictingTranslation is the error representing a conflicting translation
 type ErrConflictingTranslation struct {
 	locale string
-	key    interface{}
+	key    any
 	rule   locales.PluralRule
 	text   string
 }
@@ -81,7 +81,7 @@ func (e *ErrCardinalTranslation) Error() string {
 // the locales plural rules.
 type ErrMissingPluralTranslation struct {
 	locale          string
-	key             interface{}
+	key             any
 	rule            locales.PluralRule
 	translationType string
 }
@@ -100,7 +100,7 @@ func (e *ErrMissingPluralTranslation) Error() string {
 // eg. This is a {0 <-- missing ending '}'
 type ErrMissingBracket struct {
 	locale string
-	key    interface{}
+	key    any
 	text   string
 }
 
@@ -114,7 +114,7 @@ func (e *ErrMissingBracket) Error() string {
 type ErrBadParamSyntax struct {
 	locale string
 	param  string
-	key    interface{}
+	key    any
 	text   string
 }
 

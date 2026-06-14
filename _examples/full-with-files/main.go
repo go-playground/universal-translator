@@ -34,22 +34,22 @@ type Translator interface {
 
 	// creates the translation for the locale given the 'key' and params passed in.
 	// wraps ut.Translator.T to handle errors
-	T(key interface{}, params ...string) string
+	T(key any, params ...string) string
 
 	// creates the cardinal translation for the locale given the 'key', 'num' and 'digit' arguments
 	//  and param passed in.
 	// wraps ut.Translator.C to handle errors
-	C(key interface{}, num float64, digits uint64, param string) string
+	C(key any, num float64, digits uint64, param string) string
 
 	// creates the ordinal translation for the locale given the 'key', 'num' and 'digit' arguments
 	// and param passed in.
 	// wraps ut.Translator.O to handle errors
-	O(key interface{}, num float64, digits uint64, param string) string
+	O(key any, num float64, digits uint64, param string) string
 
 	//  creates the range translation for the locale given the 'key', 'num1', 'digit1', 'num2' and
 	//  'digit2' arguments and 'param1' and 'param2' passed in
 	// wraps ut.Translator.R to handle errors
-	R(key interface{}, num1 float64, digits1 uint64, num2 float64, digits2 uint64, param1, param2 string) string
+	R(key any, num1 float64, digits1 uint64, num2 float64, digits2 uint64, param1, param2 string) string
 
 	// Currency returns the type used by the given locale.
 	Currency() currency.Type
@@ -63,7 +63,7 @@ type translator struct {
 
 var _ Translator = (*translator)(nil)
 
-func (t *translator) T(key interface{}, params ...string) string {
+func (t *translator) T(key any, params ...string) string {
 
 	s, err := t.trans.T(key, params...)
 	if err != nil {
@@ -73,7 +73,7 @@ func (t *translator) T(key interface{}, params ...string) string {
 	return s
 }
 
-func (t *translator) C(key interface{}, num float64, digits uint64, param string) string {
+func (t *translator) C(key any, num float64, digits uint64, param string) string {
 
 	s, err := t.trans.C(key, num, digits, param)
 	if err != nil {
@@ -83,7 +83,7 @@ func (t *translator) C(key interface{}, num float64, digits uint64, param string
 	return s
 }
 
-func (t *translator) O(key interface{}, num float64, digits uint64, param string) string {
+func (t *translator) O(key any, num float64, digits uint64, param string) string {
 
 	s, err := t.trans.C(key, num, digits, param)
 	if err != nil {
@@ -93,7 +93,7 @@ func (t *translator) O(key interface{}, num float64, digits uint64, param string
 	return s
 }
 
-func (t *translator) R(key interface{}, num1 float64, digits1 uint64, num2 float64, digits2 uint64, param1, param2 string) string {
+func (t *translator) R(key any, num1 float64, digits1 uint64, num2 float64, digits2 uint64, param1, param2 string) string {
 
 	s, err := t.trans.R(key, num1, digits1, num2, digits2, param1, param2)
 	if err != nil {

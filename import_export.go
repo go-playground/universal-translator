@@ -13,7 +13,7 @@ import (
 
 type translation struct {
 	Locale           string      `json:"locale"`
-	Key              interface{} `json:"key"` // either string or integer
+	Key              any `json:"key"` // either string or integer
 	Translation      string      `json:"trans"`
 	PluralType       string      `json:"type,omitempty"`
 	PluralRule       string      `json:"rule,omitempty"`

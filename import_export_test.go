@@ -32,7 +32,7 @@ func TestExportImportBasic(t *testing.T) {
 	}
 
 	translations := []struct {
-		key           interface{}
+		key           any
 		trans         string
 		expected      error
 		expectedError bool
@@ -118,7 +118,7 @@ func TestExportImportBasic(t *testing.T) {
 	}
 
 	tests := []struct {
-		key           interface{}
+		key           any
 		params        []string
 		expected      string
 		expectedError bool
@@ -173,7 +173,7 @@ func TestExportImportCardinal(t *testing.T) {
 	}
 
 	translations := []struct {
-		key           interface{}
+		key           any
 		trans         string
 		rule          locales.PluralRule
 		expected      error
@@ -247,7 +247,7 @@ func TestExportImportCardinal(t *testing.T) {
 	}
 
 	tests := []struct {
-		key           interface{}
+		key           any
 		num           float64
 		digits        uint64
 		param         string
@@ -297,7 +297,7 @@ func TestExportImportOrdinal(t *testing.T) {
 	}
 
 	translations := []struct {
-		key           interface{}
+		key           any
 		trans         string
 		rule          locales.PluralRule
 		expected      error
@@ -384,7 +384,7 @@ func TestExportImportOrdinal(t *testing.T) {
 	}
 
 	tests := []struct {
-		key           interface{}
+		key           any
 		num           float64
 		digits        uint64
 		param         string
@@ -464,7 +464,7 @@ func TestExportImportRange(t *testing.T) {
 	}
 
 	translations := []struct {
-		key           interface{}
+		key           any
 		trans         string
 		rule          locales.PluralRule
 		expected      error
@@ -547,7 +547,7 @@ func TestExportImportRange(t *testing.T) {
 	}
 
 	tests := []struct {
-		key           interface{}
+		key           any
 		num1          float64
 		digits1       uint64
 		num2          float64
@@ -633,7 +633,7 @@ func TestImportRecursive(t *testing.T) {
 	}
 
 	tests := []struct {
-		key           interface{}
+		key           any
 		params        []string
 		expected      string
 		expectedError bool
