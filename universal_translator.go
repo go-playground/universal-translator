@@ -43,7 +43,10 @@ func New(fallback locales.Translator, supportedLocales ...locales.Translator) *U
 func (t *UniversalTranslator) FindTranslator(locales ...string) (trans Translator, found bool) {
 
 	for _, locale := range locales {
-
+		locale = strings.TrimSpace(locale)
+		if locale == "" {
+			continue
+		}
 		if trans, found = t.translators[strings.ToLower(locale)]; found {
 			return
 		}
@@ -55,7 +58,10 @@ func (t *UniversalTranslator) FindTranslator(locales ...string) (trans Translato
 // GetTranslator returns the specified translator for the given locale,
 // or fallback if not found
 func (t *UniversalTranslator) GetTranslator(locale string) (trans Translator, found bool) {
-
+	locale = strings.TrimSpace(locale)
+	if locale == "" {
+		return t.fallback, false
+	}
 	if trans, found = t.translators[strings.ToLower(locale)]; found {
 		return
 	}
