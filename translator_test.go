@@ -856,3 +856,41 @@ func TestVerifyUTTranslations(t *testing.T) {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
 	}
 }
+
+func TestAddTranslatorNilFallback(t *testing.T) {
+	uni := New(nil)
+	if uni.GetFallback() != nil {
+		t.Fatalf("Expected nil fallback, got %v", uni.GetFallback())
+	}
+
+	e := en.New()
+	err := uni.AddTranslator(e, false)
+	if err != nil {
+		t.Fatalf("Expected nil error, got %v", err)
+	}
+
+	trans, found := uni.GetTranslator("en")
+	if !found || trans == nil {
+		t.Fatalf("Expected translator for 'en' to be found")
+	}
+}
+
+func TestFindTranslator(t *testing.T) {
+	e := en.New()
+	nlLocale := nl.New()
+	uni := New(e, e, nlLocale)
+
+	trans, found := uni.FindTranslator("fr", "nl", "en")
+	if !found || trans.Locale() != "nl" {
+		t.Fatalf("Expected 'nl' translator, got %v (found=%v)", trans, found)
+	}
+
+	trans, found = uni.FindTranslator("de", "it")
+	if found {
+		t.Fatalf("Expected found=false for missing locales")
+	}
+	if trans == nil || trans.Locale() != "en" {
+		t.Fatalf("Expected fallback translator 'en', got %v", trans)
+	}
+}
+
