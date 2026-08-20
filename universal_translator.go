@@ -37,7 +37,7 @@ func New(fallback locales.Translator, supportedLocales ...locales.Translator) *U
 	return t
 }
 
-// FindTranslator trys to find a Translator based on an array of locales
+// FindTranslator tries to find a Translator based on an array of locales
 // and returns the first one it can find, otherwise returns the
 // fallback translator.
 func (t *UniversalTranslator) FindTranslator(locales ...string) (trans Translator, found bool) {
@@ -82,7 +82,7 @@ func (t *UniversalTranslator) AddTranslator(translator locales.Translator, overr
 
 	trans := newTranslator(translator)
 
-	if t.fallback.Locale() == translator.Locale() {
+	if t.fallback != nil && t.fallback.Locale() == translator.Locale() {
 
 		// because it's optional to have a fallback, I don't impose that limitation
 		// don't know why you wouldn't but...
