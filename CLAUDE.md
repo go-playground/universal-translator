@@ -29,7 +29,7 @@ Flat package `ut` at the repo root — no sub-packages.
 - **`universal_translator.go`** — `UniversalTranslator` struct: holds a `map[string]Translator` (keyed by lowercased locale) plus a fallback. Constructor: `New(fallback, ...supportedLocales)`. Methods: `FindTranslator`, `GetTranslator`, `AddTranslator`, `VerifyTranslations`.
 - **`translator.go`** — `Translator` interface (embeds `locales.Translator`) and private `translator` impl. Registration: `Add`, `AddCardinal`, `AddOrdinal`, `AddRange`. Resolution: `T`, `C`, `O`, `R`. Each translation key is `interface{}` (string or int). Parameter substitution indexes are precomputed at registration time via `transText`.
 - **`import_export.go`** — JSON import/export. `Export` writes per-locale JSON files. `Import` reads them (supports recursive directory traversal). `ImportByReader` for streaming.
-- **`errors.go`** — Typed error structs: `ErrUnknowTranslation`, `ErrExistingTranslator`, `ErrConflictingTranslation`, `ErrRangeTranslation`, `ErrOrdinalTranslation`, `ErrCardinalTranslation`, `ErrMissingPluralTranslation`, `ErrMissingBracket`, `ErrBadParamSyntax`, `ErrMissingLocale`, `ErrBadPluralDefinition`.
+- **`errors.go`** — Typed error structs: `ErrUnknownTranslation`, `ErrExistingTranslator`, `ErrConflictingTranslation`, `ErrRangeTranslation`, `ErrOrdinalTranslation`, `ErrCardinalTranslation`, `ErrMissingPluralTranslation`, `ErrMissingBracket`, `ErrBadParamSyntax`, `ErrMissingLocale`, `ErrBadPluralDefinition`.
 
 Note: the private field names `cardinalTanslations`, `ordinalTanslations`, `rangeTanslations` are historical typos — do not "fix" them as it would break serialization/deserialization compatibility.
 

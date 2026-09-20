@@ -350,7 +350,7 @@ func (t *translator) T(key interface{}, params ...string) (string, error) {
 
 	trans, ok := t.translations[key]
 	if !ok {
-		return unknownTranslation, ErrUnknowTranslation
+		return unknownTranslation, ErrUnknownTranslation
 	}
 
 	b := make([]byte, 0, 64)
@@ -374,7 +374,7 @@ func (t *translator) C(key interface{}, num float64, digits uint64, param string
 
 	tarr, ok := t.cardinalTanslations[key]
 	if !ok {
-		return unknownTranslation, ErrUnknowTranslation
+		return unknownTranslation, ErrUnknownTranslation
 	}
 
 	rule := t.CardinalPluralRule(num, digits)
@@ -394,7 +394,7 @@ func (t *translator) O(key interface{}, num float64, digits uint64, param string
 
 	tarr, ok := t.ordinalTanslations[key]
 	if !ok {
-		return unknownTranslation, ErrUnknowTranslation
+		return unknownTranslation, ErrUnknownTranslation
 	}
 
 	rule := t.OrdinalPluralRule(num, digits)
@@ -415,7 +415,7 @@ func (t *translator) R(key interface{}, num1 float64, digits1 uint64, num2 float
 
 	tarr, ok := t.rangeTanslations[key]
 	if !ok {
-		return unknownTranslation, ErrUnknowTranslation
+		return unknownTranslation, ErrUnknownTranslation
 	}
 
 	rule := t.RangePluralRule(num1, digits1, num2, digits2)
