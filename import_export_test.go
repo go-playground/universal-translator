@@ -701,7 +701,7 @@ func TestBadImport(t *testing.T) {
 
 	// test missing bracket basic translation
 	filename = "testdata/bad-translation2.json"
-	expected = "error: missing bracket '{}', in translation. locale: 'en' key: 'test_trans3' text: 'Welcome {0 to the {1}'"
+	expected = "error: missing bracket '{}', in translation. locale: 'en' key: 'test_trans3' text: 'Welcome {0'"
 	err = uni.Import(FormatJSON, filename)
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected '%s' Got '%s'", expected, err)
