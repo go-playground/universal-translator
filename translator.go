@@ -101,33 +101,70 @@ func (t *translator) Add(key interface{}, text string, override bool) error {
 		return &ErrConflictingTranslation{locale: t.Locale(), key: key, text: text}
 	}
 
-	lb := strings.Count(text, "{")
-	rb := strings.Count(text, "}")
-
-	if lb != rb {
+	indexes, missing, incomplete := scanParamPlaceholders(text)
+	if incomplete {
 		return &ErrMissingBracket{locale: t.Locale(), key: key, text: text}
 	}
-
-	trans := &transText{
-		text: text,
+	if missing != "" {
+		return &ErrBadParamSyntax{locale: t.Locale(), param: missing, key: key, text: text}
 	}
 
-	var idx int
-
-	for i := 0; i < lb; i++ {
-		s := "{" + strconv.Itoa(i) + "}"
-		idx = strings.Index(text, s)
-		if idx == -1 {
-			return &ErrBadParamSyntax{locale: t.Locale(), param: s, key: key, text: text}
-		}
-
-		trans.indexes = append(trans.indexes, idx)
-		trans.indexes = append(trans.indexes, idx+len(s))
+	t.translations[key] = &transText{
+		text:    text,
+		indexes: indexes,
 	}
-
-	t.translations[key] = trans
 
 	return nil
+}
+
+// scanParamPlaceholders records byte offsets of consecutive {0}..{n}
+// placeholders. Braces that are not {digits} stay literal so messages can
+// contain charset text such as "{}" (see #27). An opening brace followed by
+// digits but no closing brace is still ErrMissingBracket.
+func scanParamPlaceholders(text string) (indexes []int, missing string, incomplete bool) {
+	found := make(map[int]int)
+	for i := 0; i < len(text); i++ {
+		if text[i] != '{' {
+			continue
+		}
+		j := i + 1
+		if j >= len(text) || text[j] < '0' || text[j] > '9' {
+			continue
+		}
+		for j < len(text) && text[j] >= '0' && text[j] <= '9' {
+			j++
+		}
+		if j >= len(text) || text[j] != '}' {
+			return nil, "", true
+		}
+		n, err := strconv.Atoi(text[i+1 : j])
+		if err != nil {
+			return nil, "", true
+		}
+		if _, ok := found[n]; !ok {
+			found[n] = i
+		}
+		i = j
+	}
+	if len(found) == 0 {
+		return nil, "", false
+	}
+	max := 0
+	for n := range found {
+		if n > max {
+			max = n
+		}
+	}
+	indexes = make([]int, 0, (max+1)*2)
+	for n := 0; n <= max; n++ {
+		idx, ok := found[n]
+		if !ok {
+			return nil, "{" + strconv.Itoa(n) + "}", false
+		}
+		s := "{" + strconv.Itoa(n) + "}"
+		indexes = append(indexes, idx, idx+len(s))
+	}
+	return indexes, "", false
 }
 
 // AddCardinal adds a cardinal plural translation for a particular language/locale

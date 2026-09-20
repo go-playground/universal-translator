@@ -141,6 +141,53 @@ func TestBasicTranslation(t *testing.T) {
 	}
 }
 
+func TestAddLiteralBraces(t *testing.T) {
+	e := en.New()
+	uni := New(e, e)
+	tr, found := uni.GetTranslator("en")
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
+
+	// Issue #27: literal braces in the message must not be treated as params.
+	if err := tr.Add("pw", "password may contain a-zA-Z0-9 and ~!@#$%^&*()[]{}|/?,.<>", false); err != nil {
+		t.Fatalf("literal braces in charset: %v", err)
+	}
+	got, err := tr.T("pw")
+	if err != nil {
+		t.Fatalf("T: %v", err)
+	}
+	want := "password may contain a-zA-Z0-9 and ~!@#$%^&*()[]{}|/?,.<>"
+	if got != want {
+		t.Errorf("got %q want %q", got, want)
+	}
+
+	if err := tr.Add("pw0", "{0} must not contain {}", false); err != nil {
+		t.Fatalf("param plus literal braces: %v", err)
+	}
+	got, err = tr.T("pw0", "password")
+	if err != nil {
+		t.Fatalf("T: %v", err)
+	}
+	if got != "password must not contain {}" {
+		t.Errorf("got %q", got)
+	}
+
+	if err := tr.Add("bare", "foo { bar", false); err != nil {
+		t.Fatalf("unmatched literal brace: %v", err)
+	}
+
+	err = tr.Add("incomplete", "Welcome {0 to the {1}", false)
+	if _, ok := err.(*ErrMissingBracket); !ok {
+		t.Fatalf("incomplete {0 expected ErrMissingBracket, got %v", err)
+	}
+
+	err = tr.Add("skip0", "Welcome {lettersnotpermitted} to the {1}", false)
+	if _, ok := err.(*ErrBadParamSyntax); !ok {
+		t.Fatalf("missing {0} expected ErrBadParamSyntax, got %v", err)
+	}
+}
+
 func TestCardinalTranslation(t *testing.T) {
 
 	e := en.New()
