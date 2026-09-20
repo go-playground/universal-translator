@@ -134,7 +134,7 @@ func TestBasicTranslation(t *testing.T) {
 	for _, tt := range tests {
 		s, err := en.T(tt.key, tt.params...)
 		if s != tt.expected {
-			if !tt.expectedError && err != ErrUnknowTranslation {
+			if !tt.expectedError && err != ErrUnknownTranslation {
 				t.Errorf("Expected '%s' Got '%s'", tt.expected, s)
 			}
 		}
@@ -242,7 +242,7 @@ func TestCardinalTranslation(t *testing.T) {
 
 		s, err := en.C(tt.key, tt.num, tt.digits, tt.param)
 		if err != nil {
-			if !tt.expectedError && err != ErrUnknowTranslation {
+			if !tt.expectedError && err != ErrUnknownTranslation {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
 			}
 		}
@@ -395,7 +395,7 @@ func TestOrdinalTranslation(t *testing.T) {
 
 		s, err := en.O(tt.key, tt.num, tt.digits, tt.param)
 		if err != nil {
-			if !tt.expectedError && err != ErrUnknowTranslation {
+			if !tt.expectedError && err != ErrUnknownTranslation {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
 			}
 		}
@@ -547,7 +547,7 @@ func TestRangeTranslation(t *testing.T) {
 
 		s, err := nl.R(tt.key, tt.num1, tt.digits1, tt.num2, tt.digits2, tt.param1, tt.param2)
 		if err != nil {
-			if !tt.expectedError && err != ErrUnknowTranslation {
+			if !tt.expectedError && err != ErrUnknownTranslation {
 				t.Errorf("Expected '<nil>' Got '%s'", err)
 			}
 		}
@@ -854,5 +854,146 @@ func TestVerifyUTTranslations(t *testing.T) {
 	err = uni.VerifyTranslations()
 	if err != nil {
 		t.Fatalf("Expected '%v' Got '%s'", nil, err)
+	}
+}
+
+func TestLiteralBraces(t *testing.T) {
+
+	e := en.New()
+	uni := New(e, e)
+	en, found := uni.GetTranslator("en")
+	if !found {
+		t.Fatalf("Expected '%t' Got '%t'", true, found)
+	}
+
+	addTests := []struct {
+		key           string
+		trans         string
+		expected      error
+		expectedError bool
+	}{
+		{
+			key:   "charset",
+			trans: "password may contain ~!@#$%^&*()[]{}|/?,.<>",
+		},
+		{
+			key:   "mixed",
+			trans: "use {0} with literal {}",
+		},
+		{
+			key:   "dup_param",
+			trans: "{0} and {0} again",
+		},
+		{
+			key:   "out_of_order",
+			trans: "{1} before {0}",
+		},
+		{
+			key:   "leading_zero",
+			trans: "literal {01} and {0}",
+		},
+		{
+			key:   "lone_open",
+			trans: "only literal { here",
+		},
+		{
+			key:   "non_digit_braces",
+			trans: "value: {abc} and {0}",
+		},
+		{
+			key:   "empty_braces",
+			trans: "just {} empty",
+		},
+		{
+			key:   "digits_no_close",
+			trans: "{0abc} and {0}",
+		},
+		{
+			key:   "huge_index",
+			trans: "{1234567890} and {0}",
+		},
+		{
+			key:           "missing_close",
+			trans:         "hello {0",
+			expected:      &ErrMissingBracket{locale: en.Locale(), key: "missing_close", text: "hello {0"},
+			expectedError: true,
+		},
+		{
+			key:           "gap",
+			trans:         "{0} and {2}",
+			expected:      &ErrBadParamSyntax{locale: en.Locale(), param: "{1}", key: "gap", text: "{0} and {2}"},
+			expectedError: true,
+		},
+	}
+
+	for _, tt := range addTests {
+		err := en.Add(tt.key, tt.trans, false)
+		if err != tt.expected {
+			if !tt.expectedError {
+				t.Errorf("Add(%q): Expected '<nil>' Got '%s'", tt.key, err)
+			} else if err == nil || err.Error() != tt.expected.Error() {
+				t.Errorf("Add(%q): Expected '%s' Got '%s'", tt.key, tt.expected, err)
+			}
+		}
+	}
+
+	tTests := []struct {
+		key      string
+		params   []string
+		expected string
+	}{
+		{
+			key:      "charset",
+			expected: "password may contain ~!@#$%^&*()[]{}|/?,.<>",
+		},
+		{
+			key:      "mixed",
+			params:   []string{"X"},
+			expected: "use X with literal {}",
+		},
+		{
+			key:      "dup_param",
+			params:   []string{"hello"},
+			expected: "hello and hello again",
+		},
+		{
+			key:      "out_of_order",
+			params:   []string{"A", "B"},
+			expected: "B before A",
+		},
+		{
+			key:      "leading_zero",
+			params:   []string{"val"},
+			expected: "literal {01} and val",
+		},
+		{
+			key:      "non_digit_braces",
+			params:   []string{"Y"},
+			expected: "value: {abc} and Y",
+		},
+		{
+			key:      "empty_braces",
+			expected: "just {} empty",
+		},
+		{
+			key:      "digits_no_close",
+			params:   []string{"Z"},
+			expected: "{0abc} and Z",
+		},
+		{
+			key:      "huge_index",
+			params:   []string{"Z"},
+			expected: "{1234567890} and Z",
+		},
+	}
+
+	for _, tt := range tTests {
+		s, err := en.T(tt.key, tt.params...)
+		if err != nil {
+			t.Errorf("T(%q): unexpected error: %s", tt.key, err)
+		}
+		if s != tt.expected {
+			t.Errorf("T(%q): Expected '%s' Got '%s'", tt.key, tt.expected, s)
+		}
 	}
 }
