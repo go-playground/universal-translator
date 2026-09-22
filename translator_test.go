@@ -31,7 +31,7 @@ func TestBasicTranslation(t *testing.T) {
 	}
 
 	translations := []struct {
-		key           interface{}
+		key           any
 		trans         string
 		expected      error
 		expectedError bool
@@ -97,7 +97,7 @@ func TestBasicTranslation(t *testing.T) {
 	}
 
 	tests := []struct {
-		key           interface{}
+		key           any
 		params        []string
 		expected      string
 		expectedError bool
@@ -151,7 +151,7 @@ func TestCardinalTranslation(t *testing.T) {
 	}
 
 	translations := []struct {
-		key           interface{}
+		key           any
 		trans         string
 		rule          locales.PluralRule
 		expected      error
@@ -213,7 +213,7 @@ func TestCardinalTranslation(t *testing.T) {
 	}
 
 	tests := []struct {
-		key           interface{}
+		key           any
 		num           float64
 		digits        uint64
 		param         string
@@ -263,7 +263,7 @@ func TestOrdinalTranslation(t *testing.T) {
 	}
 
 	translations := []struct {
-		key           interface{}
+		key           any
 		trans         string
 		rule          locales.PluralRule
 		expected      error
@@ -338,7 +338,7 @@ func TestOrdinalTranslation(t *testing.T) {
 	}
 
 	tests := []struct {
-		key           interface{}
+		key           any
 		num           float64
 		digits        uint64
 		param         string
@@ -418,7 +418,7 @@ func TestRangeTranslation(t *testing.T) {
 	}
 
 	translations := []struct {
-		key           interface{}
+		key           any
 		trans         string
 		rule          locales.PluralRule
 		expected      error
@@ -489,7 +489,7 @@ func TestRangeTranslation(t *testing.T) {
 	}
 
 	tests := []struct {
-		key           interface{}
+		key           any
 		num1          float64
 		digits1       uint64
 		num2          float64
@@ -796,7 +796,7 @@ func TestVerifyUTTranslations(t *testing.T) {
 	}
 
 	translations := []struct {
-		key           interface{}
+		key           any
 		trans         string
 		rule          locales.PluralRule
 		expected      error

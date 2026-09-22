@@ -16,7 +16,7 @@ func BenchmarkBasicTranslation(b *testing.B) {
 	}
 
 	translations := []struct {
-		key      interface{}
+		key      any
 		trans    string
 		expected error
 		override bool
